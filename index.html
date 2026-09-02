@@ -46,9 +46,15 @@
             margin-bottom: 30px;
         }
 
+        /* Screen Control */
+        .screen {
+            display: none;
+        }
+
         /* Screen 1: Language Selection */
         #screen-1 {
             text-align: center;
+            display: block;
         }
 
         .language-grid {
@@ -75,11 +81,6 @@
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(2, 132, 199, 0.2);
-        }
-
-        /* Screen Control */
-        .screen {
-            display: none;
         }
 
         .header-row {
@@ -239,7 +240,7 @@
 
     <div class="container">
         <!-- SCREEN 1: Language Selection -->
-        <div id="screen-1" class="screen" style="display: block;">
+        <div id="screen-1" class="screen">
             <h1>Medical Translator</h1>
             <p class="subtitle">Please select your preferred language / Por favor seleccione su idioma</p>
             <div class="language-grid" id="lang-grid"></div>
@@ -312,7 +313,6 @@
             { code: 'id', name: 'Bahasa Indonesia (Indonesian)' }
         ];
 
-        // The 6 requested categories mapped with translations and tailored medical response options
         const categoriesData = [
             {
                 id: 'symptoms',
@@ -327,7 +327,7 @@
                     bn: 'আজ আপনার কী কী নির্দিষ্ট লক্ষণ দেখা দিচ্ছে?',
                     pt: 'Quais sintomas específicos você está sentindo hoje?',
                     ru: 'Какие конкретные симптомы вы испытываете сегодня?',
-                    ur: 'آج آپ کو کون سی مخصوص علامات محسوس ہو رہی ہیں؟',
+                    ur: 'آج آپ کو کون سی مخصوص علامات محسوس ہو رہی ہیں?',
                     id: 'Gejala spesifik apa yang Anda alami hari ini?'
                 },
                 responses: [
@@ -425,7 +425,7 @@
                 responses: [
                     { en: "Less than 2 hours ago", trans: { es: "Hace menos de 2 horas", zh: "不到2小时前", hi: "2 घंटे से कम समय पहले", ar: "منذ أقل من ساعتين", fr: "Il y a moins de 2 heures", bn: "২ ঘণ্টার কম সময় আগে", pt: "Há menos de 2 horas", ru: "Менее 2 часов назад", ur: "2 گھنٹے سے کم وقت پہلے", id: "Kurang dari 2 jam lalu" } },
                     { en: "2 to 6 hours ago", trans: { es: "Hace 2 a 6 horas", zh: "2到6小时前", hi: "2 से 6 घंटे पहले", ar: "منذ ساعتين إلى 6 ساعات", fr: "Il y a 2 à 6 heures", bn: "২ থেকে ৬ ঘণ্টা আগে", pt: "Há 2 a 6 horas", ru: "От 2 до 6 часов назад", ur: "2 سے 6 گھنٹے پہلے", id: "2 sampai 6 jam lalu" } },
-                    { en: "More than 6 hours ago / Fasting", trans: { es: "Hace más de 6 horas / Ayunando", zh: "6个多小时前 / 禁食中", hi: "6 घंटे से अधिक समय पहले / उपवास", ar: صائم / أكثر من 6 ساعات, fr: "Il y a plus de 6 heures / À jeun", bn: "৬ ঘণ্টার বেশি সময় আগে", pt: "Há mais de 6 horas / Em jejum", ru: "Более 6 часов назад / Натощак", ur: "6 گھنٹے سے زیادہ وقت پہلے", id: "Lebih dari 6 jam lalu / Berpuasa" } }
+                    { en: "More than 6 hours ago / Fasting", trans: { es: "Hace más de 6 horas / Ayunando", zh: "6个多小时前 / 禁食中", hi: "6 घंटे से अधिक समय पहले / उपवास", ar: "أكثر من 6 ساعات / صائم", fr: "Il y a plus de 6 heures / À jeun", bn: "৬ ঘণ্টার বেশি সময় আগে", pt: "Há mais de 6 horas / Em jejum", ru: "Более 6 часов назад / Натощак", ur: "6 گھنٹے سے زیادہ وقت پہلے", id: "Lebih dari 6 jam lalu / Berpuasa" } }
                 ]
             },
             {
@@ -456,7 +456,7 @@
         let selectedLangCode = '';
         let selectedLangName = '';
 
-        // Render Screen 1 Language Buttons
+        // Render Screen 1 Language Buttons on load
         const grid = document.getElementById('lang-grid');
         languages.forEach(lang => {
             const btn = document.createElement('button');
@@ -490,7 +490,6 @@
             dataArray.forEach(cat => {
                 const targetText = cat.translations[selectedLangCode] || cat.english;
 
-                // English Column Card
                 const engDiv = document.createElement('div');
                 engDiv.className = 'sample-item';
                 engDiv.onclick = () => openCategoryScreen(cat);
@@ -500,7 +499,6 @@
                 `;
                 engContainer.appendChild(engDiv);
 
-                // Translated Column Card
                 const transDiv = document.createElement('div');
                 transDiv.className = 'sample-item';
                 transDiv.onclick = () => openCategoryScreen(cat);
@@ -512,7 +510,6 @@
             });
         }
 
-        // Live text search bar filtering
         function filterHistory(query) {
             const q = query.toLowerCase();
             const filtered = categoriesData.filter(item => 
@@ -529,10 +526,8 @@
             document.getElementById('cat-trans-q').innerText = cat.translations[selectedLangCode] || cat.english;
             document.getElementById('cat-lang-label').innerText = selectedLangName.split(' ')[0];
 
-            // Hide previous results box until clicked
             document.getElementById('response-result').style.display = 'none';
 
-            // Populate category answers container
             const optionsContainer = document.getElementById('category-buttons-container');
             optionsContainer.innerHTML = '';
 
