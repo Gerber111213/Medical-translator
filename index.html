@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Medical Translator</title>
+    <style>
+        :root {
+            --primary-color: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        /* Screen 1: Language Selection */
+        #screen-1 {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        p.subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .lang-btn {
+            background-color: #ffffff;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(2, 132, 199, 0.2);
+        }
+
+        /* Screen 2: Translation View */
+        #screen-2 {
+            display: none;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .back-btn {
+            background-color: #64748b;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #475569;
+        }
+
+        .translation-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .translation-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .column {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .column h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+        .sample-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .sample-item label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .sample-item p {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- SCREEN 1: Language Selection -->
+        <div id="screen-1">
+            <h1>Medical Translator</h1>
+            <p class="subtitle">Please select your preferred language / Por favor seleccione su idioma</p>
+            <div class="language-grid" id="lang-grid">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+
+        <!-- SCREEN 2: Dual Column Translation -->
+        <div id="screen-2">
+            <div class="header-row">
+                <button class="back-btn" onclick="goBack()">← Back to Languages</button>
+                <h2 id="current-lang-title" style="margin:0;">Language</h2>
+            </div>
+
+            <div class="translation-container">
+                <!-- English Column -->
+                <div class="column">
+                    <h3>English</h3>
+                    <div id="english-content"></div>
+                </div>
+
+                <!-- Translated Column -->
+                <div class="column">
+                    <h3 id="target-col-title">Translated Language</h3>
+                    <div id="translated-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ten most prevalent languages globally/clinically
+        const languages = [
+            { code: 'es', name: 'Español (Spanish)' },
+            { code: 'zh', name: '中文 (Mandarin Chinese)' },
+            { code: 'hi', name: 'हिन्दी (Hindi)' },
+            { code: 'ar', name: 'العربية (Arabic)' },
+            { code: 'fr', name: 'Français (French)' },
+            { code: 'bn', name: 'বাংলা (Bengali)' },
+            { code: 'pt', name: 'Português (Portuguese)' },
+            { code: 'ru', name: 'Русский (Russian)' },
+            { code: 'ur', name: 'اردو (Urdu)' },
+            { code: 'id', name: 'Bahasa Indonesia (Indonesian)' }
+        ];
+
+        // Sample medical history data templates (English + Translations map)
+        const sampleHistory = {
+            english: [
+                { label: "Chief Complaint", text: "What brings you to the clinic today?" },
+                { label: "Duration", text: "How long have you been experiencing these symptoms?" },
+                { label: "Pain Scale", text: "On a scale of 1 to 10, how severe is your pain?" },
+                { label: "Allergies", text: "Do you have any known drug or food allergies?" },
+                { label: "Current Medications", text: "Are you currently taking any prescription or over-the-counter medications?" }
+            ],
+            translations: {
+                es: [
+                    { label: "Motivo de consulta", text: "¿Qué le trae a la clínica hoy?" },
+                    { label: "Duración", text: "¿Cuánto tiempo lleva experimentando estos síntomas?" },
+                    { label: "Escala de dolor", text: "En una escala del 1 al 10, ¿qué tan fuerte es su dolor?" },
+                    { label: "Alergias", text: "¿Tiene alguna alergia conocida a medicamentos o alimentos?" },
+                    { label: "Medicamentos actuales", text: "¿Está tomando actualmente algún medicamento recetado o de venta libre?" }
+                ],
+                zh: [
+                    { label: "主诉", text: "您今天来诊所是哪里不舒服？" },
+                    { label: "持续时间", text: "您出现这些症状有多久了？" },
+                    { label: "疼痛分级", text: "如果按1到10分计算，您的疼痛程度有多重？" },
+                    { label: "过敏史", text: "您是否有任何已知的药物或食物过敏？" },
+                    { label: "当前用药", text: "您目前正在服用任何处方药或非处方药吗？" }
+                ],
+                hi: [
+                    { label: "मुख्य शिकायत", text: "आज आप यहाँ क्लिनिक क्यों आए हैं?" },
+                    { label: "अवधि", text: "आपको ये लक्षण कितने समय से महसूस हो रहे हैं?" },
+                    { label: "दर्द का पैमाना", text: "1 से 10 के पैमाने पर, आपका दर्द कितना गंभीर है?" },
+                    { label: "एलर्जी", text: "क्या आपको किसी दवा या भोजन से एलर्जी है?" },
+                    { label: "वर्तमान दवाएं", text: "क्या आप वर्तमान में कोई प्रिस्क्रिप्शन या ओवर-द-काउंटर दवा ले रहे हैं?" }
+                ],
+                ar: [
+                    { label: "الشكوى الرئيسية", text: "ما الذي أتى بك إلى العيادة اليوم؟" },
+                    { label: "المدة", text: "منذ متى وأنت تشعر بهذه الأعراض؟" },
+                    { label: "مقياس الألم", text: "على مقياس من 1 إلى 10، ما مدى شدة ألمك؟" },
+                    { label: "الحساسية", text: "هل تعاني من أي حساسيات معروفة للأدوية أو الأطعمة؟" },
+                    { label: "الأدوية الحالية", text: "هل تتناول حالياً أي أدوية موصوفة أو أدوية بدون وصفة طبية؟" }
+                ],
+                fr: [
+                    { label: "Motif de consultation", text: "Qu'est-ce qui vous amène à la clinique aujourd'hui ?" },
+                    { label: "Durée", text: "Depuis combien de temps ressentez-vous ces symptômes ?" },
+                    { label: "Échelle de douleur", text: "Sur une échelle de 1 à 10, quelle est l'intensité de votre douleur ?" },
+                    { label: "Allergies", text: "Avez-vous des allergies connues aux médicaments ou aux aliments ?" },
+                    { label: "Médicaments actuels", text: "Prenez-vous actuellement des médicaments sur ordonnance ou en vente libre ?" }
+                ],
+                bn: [
+                    { label: "প্রধান সমস্যা", text: "আজ আপনি কেন ক্লিনিকে এসেছেন?" },
+                    { label: "সময়কাল", text: "কতদিন ধরে আপনার এই লক্ষণগুলো দেখা দিচ্ছে?" },
+                    { label: "ব্যথার মাত্রা", text: "১ থেকে ১০ এর মধ্যে আপনার ব্যথার তীব্রতা কত?" },
+                    { label: "অ্যালার্জি", text: "আপনার কি কোনো ওষুধ বা খাবারের অ্যালার্জি আছে?" },
+                    { label: "বর্তমান ওষুধ", text: "আপনি কি বর্তমানে কোনো প্রেসক্রিপশন বা ওভার-the-काउंटার ওষুধ খাচ্ছেন?" }
+                ],
+                pt: [
+                    { label: "Queixa principal", text: "O que o traz à clínica hoje?" },
+                    { label: "Duração", text: "Há quanto tempo você está sentindo esses sintomas?" },
+                    { label: "Escala de dor", text: "Numa escala de 1 a 10, qual é a intensidade da sua dor?" },
+                    { label: "Alergias", text: "Você tem alguma alergia conhecida a medicamentos ou alimentos?" },
+                    { label: "Medicamentos atuais", text: "Você está tomando atualmente algum medicamento prescrito ou de venda livre?" }
+                ],
+                ru: [
+                    { label: "Основная жалоба", text: "Что привело вас в клинику сегодня?" },
+                    { label: "Продолжительность", text: "Как давно вы испытываете эти симптомы?" },
+                    { label: "Шкала боли", text: "По шкале от 1 до 10 насколько сильна ваша боль?" },
+                    { label: "Аллергии", text: "Есть ли у вас известная аллергия на лекарства или еду?" },
+                    { label: "Текущие лекарства", text: "Принимаете ли вы в настоящее время какие-либо лекарства?" }
+                ],
+                ur: [
+                    { label: "اصل شکایت", text: "آج آپ کلینک کیوں تشریف لائے ہیں؟" },
+                    { label: "دورانیہ", text: "آپ کو یہ علامات کتنے عرصے سے محسوس ہو رہی ہیں؟" },
+                    { label: "درد کا پیمانہ", text: "1 سے 10 کے پیمانے پر آپ کا درد کتنا شدید ہے؟" },
+                    { label: "الرجی", text: "کیا آپ کو کسی دوا یا خوراک سے الرجی ہے؟" },
+                    { label: "موجودہ ادویات", text: "کیا آپ اس وقت کوئی نسخے والی یا عام دوا لے رہے ہیں؟" }
+                ],
+                id: [
+                    { label: "Keluhan Utama", text: "Apa yang membawa Anda ke klinik hari ini?" },
+                    { label: "Durasi", text: "Sudah berapa lama Anda mengalami gejala-gejala ini?" },
+                    { label: "Skala Nyeri", text: "Pada skala 1 sampai 10, seberapa parah rasa sakit Anda?" },
+                    { label: "Alergi", text: "Apakah Anda memiliki alergi obat atau makanan yang diketahui?" },
+                    { label: "Obat Saat Ini", text: "Apakah Anda sedang mengonsumsi obat resep atau obat bebas?" }
+                ]
+            }
+        };
+
+        // Render buttons on Screen 1
+        const grid = document.getElementById('lang-grid');
+        languages.forEach(lang => {
+            const btn = document.createElement('button');
+            btn.className = 'lang-btn';
+            btn.innerText = lang.name;
+            btn.onclick = () => selectLanguage(lang.code, lang.name);
+            grid.appendChild(btn);
+        });
+
+        function selectLanguage(code, fullName) {
+            document.getElementById('screen-1').style.display = 'none';
+            document.getElementById('screen-2').style.display = 'block';
+            document.getElementById('current-lang-title').innerText = fullName;
+            document.getElementById('target-col-title').innerText = fullName.split(' ')[0]; // Quick short title
+
+            // Populate English column
+            const engContainer = document.getElementById('english-content');
+            engContainer.innerHTML = '';
+            sampleHistory.english.forEach(item => {
+                engContainer.innerHTML += `
+                    <div class="sample-item">
+                        <label>${item.label}</label>
+                        <p>${item.text}</p>
+                    </div>
+                `;
+            });
+
+            // Populate Translated column
+            const transContainer = document.getElementById('translated-content');
+            transContainer.innerHTML = '';
+            const targetTranslations = sampleHistory.translations[code] || sampleHistory.english;
+            targetTranslations.forEach(item => {
+                transContainer.innerHTML += `
+                    <div class="sample-item">
+                        <label>${item.label}</label>
+                        <p>${item.text}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function goBack() {
+            document.getElementById('screen-2').style.display = 'none';
+            document.getElementById('screen-1').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
