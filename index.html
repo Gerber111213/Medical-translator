@@ -339,3 +339,551 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Medical Translator</title>
+    <style>
+        :root {
+            --primary-color: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        p.subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        /* Screen 1: Language Selection */
+        #screen-1 {
+            text-align: center;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .lang-btn {
+            background-color: #ffffff;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(2, 132, 199, 0.2);
+        }
+
+        /* Screen 2: Translation View */
+        #screen-2, #screen-3 {
+            display: none;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .back-btn {
+            background-color: #64748b;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #475569;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .translation-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .translation-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .column {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .column h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+        .sample-item {
+            background: white;
+            padding: 14px 16px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .sample-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .sample-item label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .sample-item p {
+            margin: 0;
+            font-size: 1.05rem;
+            color: #0f172a;
+        }
+
+        /* Screen 3: Response Drill-down View */
+        .drilldown-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .drilldown-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .selection-display {
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .selection-display h4 {
+            margin-top: 0;
+            color: #0369a1;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .response-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .response-btn {
+            background: white;
+            border: 2px solid var(--border-color);
+            padding: 16px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+        }
+
+        .response-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .response-result-box {
+            margin-top: 20px;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px dashed #0284c7;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- SCREEN 1: Language Selection -->
+        <div id="screen-1">
+            <h1>Medical Translator</h1>
+            <p class="subtitle">Please select your preferred language / Por favor seleccione su idioma</p>
+            <div class="language-grid" id="lang-grid"></div>
+        </div>
+
+        <!-- SCREEN 2: Dual Column Translation + Input -->
+        <div id="screen-2">
+            <div class="header-row">
+                <button class="back-btn" onclick="goBackToLanguages()">← Back to Languages</button>
+                <h2 id="current-lang-title" style="margin:0;">Language</h2>
+            </div>
+
+            <!-- Free Text Input for English -->
+            <input type="text" id="custom-english-input" class="search-box" placeholder="Type custom medical question or phrase in English..." oninput="filterHistory(this.value)">
+
+            <div class="translation-container">
+                <div class="column">
+                    <h3>English (Click a question to view options)</h3>
+                    <div id="english-content"></div>
+                </div>
+                <div class="column">
+                    <h3 id="target-col-title">Translated Language</h3>
+                    <div id="translated-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Drill-Down Question Response Options -->
+        <div id="screen-3">
+            <div class="header-row">
+                <button class="back-btn" onclick="goBackToTranslation()">← Back to Questions</button>
+                <h2 id="drilldown-lang-title" style="margin:0;">Response Mode</h2>
+            </div>
+
+            <div class="drilldown-layout">
+                <!-- Left: Question selected in English -->
+                <div class="selection-display">
+                    <h4>Selected Question (English)</h4>
+                    <p id="drilldown-eng-q" style="font-size: 1.15rem; font-weight: 600; color: #0c4a6e; margin-bottom: 12px;"></p>
+                    <hr style="border: 0; border-top: 1px solid #bae6fd; margin: 15px 0;">
+                    <h4>Selected Question (<span id="drilldown-lang-label">Target</span>)</h4>
+                    <p id="drilldown-trans-q" style="font-size: 1.1rem; color: #334155;"></p>
+
+                    <div id="response-result" class="response-result-box">
+                        <span style="font-size:0.75rem; text-transform:uppercase; color:#0284c7; font-weight:bold; display:block; margin-bottom:4px;">Captured Patient Response:</span>
+                        <p id="result-text-en" style="font-weight:600; margin:0 0 4px 0;"></p>
+                        <p id="result-text-trans" style="font-size:0.95rem; color:#64748b; margin:0;"></p>
+                    </div>
+                </div>
+
+                <!-- Right: Answer Options in Target Language -->
+                <div>
+                    <h3 style="margin-top:0; color: var(--primary-dark);">Select Patient Response</h3>
+                    <div class="response-options" id="response-buttons-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const languages = [
+            { code: 'es', name: 'Español (Spanish)' },
+            { code: 'zh', name: '中文 (Mandarin Chinese)' },
+            { code: 'hi', name: 'हिन्दी (Hindi)' },
+            { code: 'ar', name: 'العربية (Arabic)' },
+            { code: 'fr', name: 'Français (French)' },
+            { code: 'bn', name: 'বাংলা (Bengali)' },
+            { code: 'pt', name: 'Português (Portuguese)' },
+            { code: 'ru', name: 'Русский (Russian)' },
+            { code: 'ur', name: 'اردو (Urdu)' },
+            { code: 'id', name: 'Bahasa Indonesia (Indonesian)' }
+        ];
+
+        // Medical History data paired with custom response options tailored per question
+        const sampleHistory = [
+            {
+                id: 'chief_complaint',
+                label: 'Chief Complaint',
+                english: 'What brings you to the clinic today?',
+                translations: {
+                    es: '¿Qué le trae a la clínica hoy?',
+                    zh: '您今天来诊所是哪里不舒服？',
+                    hi: 'आज आप यहाँ क्लिनिक क्यों आए हैं?',
+                    ar: 'ما الذي أتى بك إلى العيادة اليوم؟',
+                    fr: "Qu'est-ce qui vous amène à la clinique aujourd'hui ?",
+                    bn: 'আজ আপনি কেন ক্লিনিকে এসেছেন?',
+                    pt: 'O que o traz à clínica hoje?',
+                    ru: 'Что привело вас в клинику сегодня?',
+                    ur: 'آج آپ کلینک کیوں تشریف لائے ہیں؟',
+                    id: 'Apa yang membawa Anda ke klinik hari ini?'
+                },
+                responses: [
+                    { en: "Routine check-up / Physical exam", trans: { es: "Chequeo de rutina / Examen físico", zh: "常规体检", hi: "नियमित जांच", ar: "فحص روتيني", fr: "Contrôle de routine", bn: "রুটিন চেক-আপ", pt: "Check-up de rotina", ru: "Плановый осмотр", ur: "معمعمول کا معائنہ", id: "Pemeriksaan rutin" } },
+                    { en: "Fever and cold symptoms", trans: { es: "Fiebre y síntomas de resfriado", zh: "发烧和感冒症状", hi: "बुखार और सर्दी के लक्षण", ar: "حمى وأعراض البرد", fr: "Fièvre et symptômes de rhume", bn: "জ্বর এবং সর্দি-কাশি", pt: "Febre e sintomas de resfriado", ru: "Лихорадка и симптомы простуды", ur: "بخار اور سردی کی علامات", id: "Demam dan gejala pilek" } },
+                    { en: "Sudden sharp pain", trans: { es: "Dolor agudo repentino", zh: "突发剧痛", hi: "अचानक तेज दर्द", ar: "ألم حاد مفاجئ", fr: "Douleur aiguë soudaine", bn: "হঠাৎ তীব্র ব্যথা", pt: "Dor aguda repentina", ru: "Внезапная острая боль", ur: "اچانک تیز درد", id: "Nyeri tajam mendadak" } },
+                    { en: "Follow-up on chronic condition", trans: { es: "Seguimiento de condición crónica", zh: "慢性病随访", hi: "पुरानी बीमारी का फॉलो-अप", ar: "متابعة حالة مزمنة", fr: "Suivi d'une affection chronique", bn: "দীর্ঘস্থায়ী অসুস্থতার ফলো-আপ", pt: "Acompanhamento de condição crônica", ru: "Наблюдение хронического заболевания", ur: "پرانی بیماری کا فالو اپ", id: "Tindak lanjut kondisi kronis" } }
+                ]
+            },
+            {
+                id: 'duration',
+                label: 'Duration',
+                english: 'How long have you been experiencing these symptoms?',
+                translations: {
+                    es: '¿Cuánto tiempo lleva experimentando estos síntomas?',
+                    zh: '您出现这些症状有多久了？',
+                    hi: 'आपको ये लक्षण कितने समय से महसूस हो रहे हैं?',
+                    ar: 'منذ متى وأنت تشعر بهذه الأعراض؟',
+                    fr: 'Depuis combien de temps ressentez-vous ces symptômes ?',
+                    bn: 'কতদিন ধরে আপনার এই লক্ষণগুলো দেখা দিচ্ছে?',
+                    pt: 'Há quanto tempo você está sentindo esses sintomas?',
+                    ru: 'Как давно вы испытываете эти симптомы?',
+                    ur: 'آپ کو یہ علامات کتنے عرصے سے محسوس ہو رہی ہیں?',
+                    id: 'Sudah berapa lama Anda mengalami gejala-gejala ini?'
+                },
+                responses: [
+                    { en: "Started today / Less than 24 hours", trans: { es: "Comenzó hoy / Menos de 24 horas", zh: "今天开始 / 不到24小时", hi: "आज शुरू हुआ / 24 घंटे से कम", ar: "بدأ اليوم / أقل من 24 ساعة", fr: "A commencé aujourd'hui / Moins de 24 heures", bn: "আজ শুরু হয়েছে / ২৪ ঘণ্টার কম", pt: "Começou hoje / Menos de 24 horas", ru: "Началось сегодня / Менее 24 часов", ur: "آج شروع ہوا / 24 گھنٹے سے کم", id: "Mulai hari ini / Kurang dari 24 jam" } },
+                    { en: "A few days (2 to 5 days)", trans: { es: "Unos días (2 a 5 días)", zh: "几天（2到5天）", hi: "कुछ दिन (2 से 5 दिन)", ar: "بضع أيام (2 إلى 5 أيام)", fr: "Quelques jours (2 à 5 jours)", bn: "কয়েক দিন (২ থেকে ৫ দিন)", pt: "Alguns dias (2 a 5 dias)", ru: "Несколько дней (от 2 до 5 дней)", ur: "کچھ دن (2 سے 5 دن)", id: "Beberapa hari (2 sampai 5 hari)" },
+                    { en: "About a week", trans: { es: "Alrededor de una semana", zh: "大约一周", hi: "लगभग एक सप्ताह", ar: "حوالي أسبوع", fr: "Environ une semaine", bn: "প্রায় এক সপ্তাহ", pt: "Cerca de uma semana", ru: "Около недели", ur: "लगभग ایک ہفتہ", id: "Sekitar seminggu" } },
+                    { en: "More than a month", trans: { es: "Más de un mes", zh: "一个多月", hi: "एक महीने से अधिक", ar: "أكثر من شهر", fr: "Plus d'un mois", bn: "এক মাসের বেশি", pt: "Mais de um mês", ru: "Больше месяца", ur: "ایک ماہ سے زیادہ", id: "Lebih dari sebulan" } }
+                ]
+            },
+            {
+                id: 'pain_scale',
+                label: 'Pain Scale',
+                english: 'On a scale of 1 to 10, how severe is your pain?',
+                translations: {
+                    es: 'En una escala del 1 al 10, ¿qué tan fuerte es su dolor?',
+                    zh: '如果按1到10分计算，您的疼痛程度有多重？',
+                    hi: '1 से 10 के पैमाने पर, आपका दर्द कितना गंभीर है?',
+                    ar: 'على مقياس من 1 إلى 10، ما مدى شدة ألمك؟',
+                    fr: "Sur une échelle de 1 à 10, quelle est l'intensité de votre douleur ?",
+                    bn: '১ থেকে ১০ এর মধ্যে আপনার ব্যথার তীব্রতা কত?',
+                    pt: 'Numa escala de 1 a 10, qual é a intensidade da sua dor?',
+                    ru: 'По шкале от 1 до 10 насколько сильна ваша боль?',
+                    ur: '1 سے 10 کے پیمانے پر آپ کا درد کتنا شدید ہے؟',
+                    id: 'Pada skala 1 sampai 10, seberapa parah rasa sakit Anda?'
+                },
+                responses: [
+                    { en: "0 - No Pain", trans: { es: "0 - Sin dolor", zh: "0 - 无痛", hi: "0 - कोई दर्द नहीं", ar: "0 - لا يوجد ألم", fr: "0 - Pas de douleur", bn: "০ - কোনো ব্যথা নেই", pt: "0 - Sem dor", ru: "0 - Нет боли", ur: "0 - کوئی درد نہیں", id: "0 - Tidak ada nyeri" } },
+                    { en: "1 to 3 - Mild Pain", trans: { es: "1 a 3 - Dolor leve", zh: "1至3 - 轻度疼痛", hi: "1 से 3 - हल्का दर्द", ar: "1 إلى 3 - ألم خفيف", fr: "1 à 3 - Douleur légère", bn: "১ থেকে ৩ - হালকা ব্যথা", pt: "1 a 3 - Dor leve", ru: "1–3 - Легкая боль", ur: "1 سے 3 - ہلکا درد", id: "1 sampai 3 - Nyeri ringan" } },
+                    { en: "4 to 6 - Moderate Pain", trans: { es: "4 a 6 - Dolor moderado", zh: "4至6 - 中度疼痛", hi: "4 से 6 - मध्यम दर्द", ar: "4 إلى 6 - ألم متوسط", fr: "4 à 6 - Douleur modérée", bn: "৪ থেকে ৬ - মাঝারি ব্যথা", pt: "4 a 6 - Dor moderada", ru: "4–6 - Умеренная боль", ur: "4 سے 6 - درمیانی درد", id: "4 sampai 6 - Nyeri sedang" } },
+                    { en: "7 to 10 - Severe / Worst Pain", trans: { es: "7 a 10 - Dolor severo / Peor dolor", zh: "7至10 - 剧烈 / 最严重的疼痛", hi: "7 से 10 - गंभीर / सबसे बुरा दर्द", ar: "7 إلى 10 - ألم شديد جداً", fr: "7 à 10 - Douleur sévère / Pire douleur", bn: "৭ থেকে ১০ - তীব্র ব্যথা", pt: "7 a 10 - Dor severa / Pior dor", ru: "7–10 - Сильная / Невыносимая боль", ur: "7 سے 10 - شدید درد", id: "7 sampai 10 - Nyeri parah / Terburuk" } }
+                ]
+            },
+            {
+                id: 'allergies',
+                label: 'Allergies',
+                english: 'Do you have any known drug or food allergies?',
+                translations: {
+                    es: '¿Tiene alguna alergia conocida a medicamentos o alimentos?',
+                    zh: '您是否有任何已知的药物或食物过敏？',
+                    hi: 'क्या आपको किसी दवा या भोजन से एलर्जी है?',
+                    ar: 'هل تعاني من أي حساسيات معروفة للأدوية أو الأطعمة؟',
+                    fr: 'Avez-vous des allergies connues aux médicaments ou aux aliments ?',
+                    bn: 'আপনার কি কোনো ওষুধ বা খাবারের অ্যালার্জি আছে?',
+                    pt: 'Você tem alguma alergia conhecida a medicamentos ou alimentos?',
+                    ru: 'Есть ли у вас известная аллергия на лекарства или еду?',
+                    ur: 'کیا آپ کو کسی دوا یا خوراک سے الرجی ہے؟',
+                    id: 'Apakah Anda memiliki alergi obat atau makanan yang diketahui?'
+                },
+                responses: [
+                    { en: "No known allergies (NKDA)", trans: { es: "Sin alergias conocidas", zh: "无已知过敏史", hi: "कोई ज्ञात एलर्जी नहीं", ar: "لا توجد حساسيات معروفة", fr: "Aucune allergie connue", bn: কোনো পরিচিত অ্যালার্জি নেই, pt: "Sem alergias conhecidas", ru: "Нет известных аллергий", ur: "کوئی معلوم الرجی نہیں", id: "Tidak ada alergi yang diketahui" } },
+                    { en: "Penicillin allergy", trans: { es: "Alergia a la penicilina", zh: "青霉素过敏", hi: "पेनिसिलिन से एलर्जी", ar: "حساسية البنسلين", fr: "Allergie à la pénicilline", bn: "পেনিসিলিন অ্যালার্জি", pt: "Alergia à penicilina", ru: "Аллергия на пенициллин", ur: "پینسلین الرجی", id: "Alergi penisilin" } },
+                    { en: "Sulfa drugs allergy", trans: { es: "Alergia a las sulfas", zh: "磺胺类药物过敏", hi: "सल्फा दवाओं से एलर्जी", ar: "حساسية أدوية السلفا", fr: "Allergie aux sulfa", bn: "সালফা ড্রাগ অ্যালার্জি", pt: "Alergia a sulfa", ru: "Аллергия на сульфаниламиды", ur: "سلفا ادویات سے الرجی", id: "Alergi obat sulfa" } },
+                    { en: "Food / Shellfish / Peanut allergy", trans: { es: "Alergia a alimentos / mariscos / maní", zh: "食物/海鲜/花生过敏", hi: "भोजन / शेलफिश / मूंगफली से एलर्जी", ar: "حساسية طعام / محار / فول سوداني", fr: "Allergie alimentaire / fruits de mer / cacahuètes", bn: "খাবার / সামুদ্রিক মাছ / বাদাম অ্যালার্জি", pt: "Alergia a alimentos / frutos do mar / amendoim", ru: "Пищевая аллергия / морепродукты / арахис", ur: "خوراک / مونگ پھلی سے الرجی", id: "Alergi makanan / kerang / kacang tanah" } }
+                ]
+            },
+            {
+                id: 'medications',
+                label: 'Current Medications',
+                english: 'Are you currently taking any prescription or over-the-counter medications?',
+                translations: {
+                    es: '¿Está tomando actualmente algún medicamento recetado o de venta libre?',
+                    zh: '您目前正在服用任何处方药或非处方药吗？',
+                    hi: 'क्या आप वर्तमान में कोई प्रिस्क्रिप्शन या ओवर-द-काउंटर दवा ले रहे हैं?',
+                    ar: 'هل تتناول حالياً أي أدوية موصوفة أو أدوية بدون وصفة طبية؟',
+                    fr: 'Prenez-vous actuellement des médicaments sur ordonnance ou en vente libre ?',
+                    bn: 'আপনি কি বর্তমানে কোনো প্রেসক্রিপশন বা ওভার-দ্য-কাউন্টার ওষুধ খাচ্ছেন?',
+                    pt: 'Você está tomando atualmente algum medicamento prescrito ou de venda livre?',
+                    ru: 'Принимаете ли вы в настоящее время какие-либо лекарства?',
+                    ur: 'کیا آپ اس وقت کوئی نسخے والی یا عام دوا لے رہے ہیں؟',
+                    id: 'Apakah Anda sedang mengonsumsi obat resep atau obat bebas?'
+                },
+                responses: [
+                    { en: "No, taking no medications", trans: { es: "No, no tomo ningún medicamento", zh: "没有，未服用任何药物", hi: "नहीं, कोई दवा नहीं ले रहे", ar: "لا، لا أتناول أي أدوية", fr: "Non, aucun médicament", bn: "না, কোনো ওষুধ খাচ্ছি না", pt: "Não, não tomo medicamentos", ru: "Нет, ничего не принимаю", ur: "نہیں، کوئی دوا نہیں لے رہا", id: "Tidak, tidak minum obat" } },
+                    { en: "Blood pressure / Heart medications", trans: { es: "Medicamentos para la presión / corazón", zh: "降压药 / 心脏药物", hi: "ब्लड प्रेशर / दिल की दवाएं", ar: "أدوية ضغط الدم / القلب", fr: "Médicaments pour la tension / cœur", bn: "রক্তচাপ / হৃদরোগের ওষুধ", pt: "Medicamentos para pressão / coração", ru: "Лекарства от давления / сердца", ur: "بلڈ پریشر / دل کی ادویات", id: "Obat tekanan darah / jantung" } },
+                    { en: "Diabetes medication / Insulin", trans: { es: "Medicamento para diabetes / Insulina", zh: "糖尿病药物 / 胰岛素", hi: "मधुमेह की दवा / इंसुलिन", ar: "أدوية السكري / الأنسولين", fr: "Médicament pour le diabète / Insuline", bn: "ডায়াবেটিসের ওষুধ / ইনসুলিন", pt: "Medicamento para diabetes / Insulina", ru: "Лекарства от диабета / Инсулин", ur: "ذیابیطس کی دوا / انسولین", id: "Obat diabetes / Insulin" } },
+                    { en: "Pain relievers / Ibuprofen / Aspirin", trans: { es: "Analgésicos / Ibuprofeno / Aspirina", zh: "止痛药 / 布洛芬 / 阿司匹林", hi: "दर्द निवारक / इबुप्रोफेन / एस्पिरिन", ar: "مسكنات الألم / إيبوبروفين / أسبرين", fr: "Analgésiques / Ibuprofène / Aspirine", bn: "ব্যথা উপশমকারী / আইবুপ্রোফেন", pt: "Analgésicos / Ibuprofeno / Aspirina", ru: "Обезболивающие / Ибупрофен / Аспирин", ur: "درد کش ادویات / آئبوপ্রোফেন", id: "Pereda nyeri / Ibuprofen / Aspirin" } }
+                ]
+            }
+        ];
+
+        let selectedLangCode = '';
+        let selectedLangName = '';
+
+        // Render buttons on Screen 1
+        const grid = document.getElementById('lang-grid');
+        languages.forEach(lang => {
+            const btn = document.createElement('button');
+            btn.className = 'lang-btn';
+            btn.innerText = lang.name;
+            btn.onclick = () => selectLanguage(lang.code, lang.name);
+            grid.appendChild(btn);
+        });
+
+        function selectLanguage(code, fullName) {
+            selectedLangCode = code;
+            selectedLangName = fullName;
+            document.getElementById('screen-1').style.display = 'none';
+            document.getElementById('screen-2').style.display = 'block';
+            document.getElementById('current-lang-title').innerText = fullName;
+            document.getElementById('target-col-title').innerText = fullName.split(' ')[0];
+            
+            renderHistoryLists(sampleHistory);
+        }
+
+        function renderHistoryLists(dataArray) {
+            const engContainer = document.getElementById('english-content');
+            const transContainer = document.getElementById('translated-content');
+            engContainer.innerHTML = '';
+            transContainer.innerHTML = '';
+
+            dataArray.forEach(item => {
+                const targetText = item.translations[selectedLangCode] || item.english;
+
+                // English Column Item (Clickable to Drill-down)
+                const engDiv = document.createElement('div');
+                engDiv.className = 'sample-item';
+                engDiv.onclick = () => openDrillDown(item);
+                engDiv.innerHTML = `
+                    <label>${item.label} (Click for options)</label>
+                    <p>${item.english}</p>
+                `;
+                engContainer.appendChild(engDiv);
+
+                // Translated Column Item (Clickable too)
+                const transDiv = document.createElement('div');
+                transDiv.className = 'sample-item';
+                transDiv.onclick = () => openDrillDown(item);
+                transDiv.innerHTML = `
+                    <label>${item.label}</label>
+                    <p>${targetText}</p>
+                `;
+                transContainer.appendChild(transDiv);
+            });
+        }
+
+        // Live filtering based on English search input
+        function filterHistory(query) {
+            const q = query.toLowerCase();
+            const filtered = sampleHistory.filter(item => 
+                item.english.toLowerCase().includes(q) || 
+                item.label.toLowerCase().includes(q)
+            );
+            renderHistoryLists(filtered);
+        }
+
+        function openDrillDown(item) {
+            document.getElementById('screen-2').style.display = 'none';
+            document.getElementById('screen-3').style.display = 'block';
+            document.getElementById('drilldown-lang-title').innerText = selectedLangName;
+            document.getElementById('drilldown-eng-q').innerText = item.english;
+            document.getElementById('drilldown-trans-q').innerText = item.translations[selectedLangCode] || item.english;
+            document.getElementById('drilldown-lang-label').innerText = selectedLangName.split(' ')[0];
+
+            // Reset result box
+            document.getElementById('response-result').style.display = 'none';
+
+            // Populate Response Buttons in Target Language
+            const respContainer = document.getElementById('response-buttons-container');
+            respContainer.innerHTML = '';
+
+            item.responses.forEach(resp => {
+                const btnText = (resp.trans && resp.trans[selectedLangCode]) ? resp.trans[selectedLangCode] : resp.en;
+                const btn = document.createElement('button');
+                btn.className = 'response-btn';
+                btn.innerText = btnText;
+                btn.onclick = () => {
+                    // Show selection back on the left side in english & target
+                    document.getElementById('result-text-en').innerText = resp.en;
+                    document.getElementById('result-text-trans').innerText = `(${btnText})`;
+                    document.getElementById('response-result').style.display = 'block';
+                };
+                respContainer.appendChild(btn);
+            });
+        }
+
+        function goBackToLanguages() {
+            document.getElementById('screen-2').style.display = 'none';
+            document.getElementById('screen-1').style.display = 'block';
+            document.getElementById('custom-english-input').value = '';
+        }
+
+        function goBackToTranslation() {
+            document.getElementById('screen-3').style.display = 'none';
+            document.getElementById('screen-2').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
