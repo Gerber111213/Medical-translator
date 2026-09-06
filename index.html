@@ -239,14 +239,12 @@
 <body>
 
     <div class="container">
-        <!-- SCREEN 1: Language Selection -->
         <div id="screen-1" class="screen">
             <h1>Medical Translator</h1>
-            <p class="subtitle">Please select your preferred language / Por favor seleccione su idioma</p>
+            <p class="subtitle">Please select your preferred language / Pumili ng wika</p>
             <div class="language-grid" id="lang-grid"></div>
         </div>
 
-        <!-- SCREEN 2: Dual Column Translation + Input -->
         <div id="screen-2" class="screen">
             <div class="header-row">
                 <button class="back-btn" onclick="switchScreen('screen-1')">← Back to Languages</button>
@@ -267,7 +265,6 @@
             </div>
         </div>
 
-        <!-- SCREEN 3: Dynamic Category Screen -->
         <div id="screen-3" class="screen">
             <div class="header-row">
                 <button class="back-btn" onclick="switchScreen('screen-2')">← Back to Questions</button>
@@ -275,7 +272,6 @@
             </div>
 
             <div class="drilldown-layout">
-                <!-- Left: Category Question Context -->
                 <div class="selection-display">
                     <h4>Active Question (English)</h4>
                     <p id="cat-eng-q" style="font-size: 1.15rem; font-weight: 600; color: #0c4a6e; margin-bottom: 12px;"></p>
@@ -284,266 +280,4 @@
                     <p id="cat-trans-q" style="font-size: 1.1rem; color: #334155;"></p>
 
                     <div id="response-result" class="response-result-box">
-                        <span style="font-size:0.75rem; text-transform:uppercase; color:#0284c7; font-weight:bold; display:block; margin-bottom:4px;">Captured Response:</span>
-                        <p id="result-text-en" style="font-weight:600; margin:0 0 4px 0;"></p>
-                        <p id="result-text-trans" style="font-size:0.95rem; color:#64748b; margin:0;"></p>
-                    </div>
-                </div>
-
-                <!-- Right: Dedicated Options for this Category -->
-                <div>
-                    <h3 style="margin-top:0; color: var(--primary-dark);">Select Patient Answer</h3>
-                    <div class="response-options" id="category-buttons-container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const languages = [
-            { code: 'es', name: 'Español (Spanish)' },
-            { code: 'zh', name: '中文 (Mandarin Chinese)' },
-            { code: 'hi', name: 'हिन्दी (Hindi)' },
-            { code: 'ar', name: 'العربية (Arabic)' },
-            { code: 'fr', name: 'Français (French)' },
-            { code: 'bn', name: 'বাংলা (Bengali)' },
-            { code: 'pt', name: 'Português (Portuguese)' },
-            { code: 'ru', name: 'Русский (Russian)' },
-            { code: 'ur', name: 'اردو (Urdu)' },
-            { code: 'id', name: 'Bahasa Indonesia (Indonesian)' }
-        ];
-
-        const categoriesData = [
-            {
-                id: 'symptoms',
-                label: 'Symptoms',
-                english: 'What specific symptoms are you experiencing today?',
-                translations: {
-                    es: '¿Qué síntomas específicos experimenta hoy?',
-                    zh: '您今天具体有哪些症状？',
-                    hi: 'आज आपको कौन से विशिष्ट लक्षण महसूस हो रहे हैं?',
-                    ar: 'ما هي الأعراض المحددة التي تشعر بها اليوم؟',
-                    fr: 'Quels symptômes spécifiques ressentez-vous aujourd\'hui ?',
-                    bn: 'আজ আপনার কী কী নির্দিষ্ট লক্ষণ দেখা দিচ্ছে?',
-                    pt: 'Quais sintomas específicos você está sentindo hoje?',
-                    ru: 'Какие конкретные симптомы вы испытываете сегодня?',
-                    ur: 'آج آپ کو کون سی مخصوص علامات محسوس ہو رہی ہیں?',
-                    id: 'Gejala spesifik apa yang Anda alami hari ini?'
-                },
-                responses: [
-                    { en: "Fever / Chills", trans: { es: "Fiebre / Escalofríos", zh: "发烧 / 发冷", hi: "बुखार / ठंड लगना", ar: "حمى / قشعريرة", fr: "Fièvre / Frissons", bn: "জ্বর / কাঁপুনি", pt: "Febre / Calafrios", ru: "Лихорадка / Озноб", ur: "بخار / سردی لگنا", id: "Demam / Menggigil" } },
-                    { en: "Shortness of breath", trans: { es: "Falta de aire", zh: "呼吸急促", hi: "सांस लेने में तकलीफ", ar: "ضيق في التنفس", fr: "Essoufflement", bn: "শ্বাসের সংক্ষিপ্ততা", pt: "Falta de ar", ru: "Одышка", ur: "سانس لینے میں دشواری", id: "Sesak napas" } },
-                    { en: "Dizziness / Vertigo", trans: { es: "Mareos / Vértigo", zh: "头晕 / 眩晕", hi: "चक्कर आना", ar: "دوار / دوخة", fr: "Vertiges / Étourdissements", bn: "মাথা ঘোরা", pt: "Tontura / Vertigem", ru: "Головокружение", ur: "چکر آنا", id: "Pusing / Vertigo" } },
-                    { en: "Nausea / Vomiting", trans: { es: "Náuseas / Vómitos", zh: "恶心 / 呕吐", hi: "मतली / उल्टी", ar: "غثيان / قيء", fr: "Nausées / Vomissements", bn: "বমি বমি ভাব / বমি", pt: "Náusea / Vômito", ru: "Тошнота / Рвота", ur: "متلی / قے", id: "Mual / Muntah" } }
-                ]
-            },
-            {
-                id: 'allergies',
-                label: 'Allergies',
-                english: 'Do you have any known drug or food allergies?',
-                translations: {
-                    es: '¿Tiene alguna alergia conocida a medicamentos o alimentos?',
-                    zh: '您是否有任何已知的药物或食物过敏？',
-                    hi: 'क्या आपको किसी दवा या भोजन से एलर्जी है?',
-                    ar: 'هل تعاني من أي حساسيات معروفة للأدوية أو الأطعمة؟',
-                    fr: 'Avez-vous des allergies connues aux médicaments ou aux aliments ?',
-                    bn: 'আপনার কি কোনো ওষুধ বা খাবারের অ্যালার্জি আছে?',
-                    pt: 'Você tem alguma alergia conhecida a medicamentos ou alimentos?',
-                    ru: 'Есть ли у вас известная аллергия на лекарства или еду?',
-                    ur: 'کیا آپ کو کسی دوا یا خوراک سے الرجی ہے؟',
-                    id: 'Apakah Anda memiliki alergi obat atau makanan yang diketahui?'
-                },
-                responses: [
-                    { en: "No known allergies (NKDA)", trans: { es: "Sin alergias conocidas", zh: "无已知过敏史", hi: "कोई ज्ञात एलर्जी नहीं", ar: "لا توجد حساسيات معروفة", fr: "Aucune allergie connue", bn: "কোনো পরিচিত অ্যালার্জি নেই", pt: "Sem alergias conhecidas", ru: "Нет известных аллергий", ur: "کوئی معلوم الرجی نہیں", id: "Tidak ada alergi yang diketahui" } },
-                    { en: "Penicillin allergy", trans: { es: "Alergia a la penicilina", zh: "青霉素过敏", hi: "पेनिसिलिन से एलर्जी", ar: "حساسية البنسلين", fr: "Allergie à la pénicilline", bn: "পেনিসিলিন অ্যালার্জি", pt: "Alergia à penicilina", ru: "Аллергия на пенициллин", ur: "پینسلین الرجی", id: "Alergi penisilin" } },
-                    { en: "Sulfa drugs allergy", trans: { es: "Alergia a las sulfas", zh: "磺胺类药物过敏", hi: "सल्फा दवाओं से एलर्जी", ar: "حساسية أدوية السلفا", fr: "Allergie aux sulfa", bn: "সালফা ড্রাগ অ্যালার্জি", pt: "Alergia a sulfa", ru: "Аллергия на сульфаниламиды", ur: "سلفا ادویات سے الرجی", id: "Alergi obat sulfa" } },
-                    { en: "Shellfish / Peanut allergy", trans: { es: "Alergia a mariscos / maní", zh: "海鲜/花生过敏", hi: "शेलफिश / मूंगफली से एलर्जी", ar: "حساسية محار / فول سوداني", fr: "Allergie aux fruits de mer / cacahuètes", bn: "সামুদ্রিক মাছ / বাদাম অ্যালার্জি", pt: "Alergia a frutos do mar / amendoim", ru: "Морепродукты / арахис", ur: "مونگ پھلی سے الرجی", id: "Alergi kerang / kacang tanah" } }
-                ]
-            },
-            {
-                id: 'medications',
-                label: 'Medications',
-                english: 'Are you currently taking any prescription or over-the-counter medications?',
-                translations: {
-                    es: '¿Está tomando actualmente algún medicamento recetado o de venta libre?',
-                    zh: '您目前正在服用任何处方药或非处方药吗？',
-                    hi: 'क्या आप वर्तमान में कोई प्रिस्क्रिप्शन या ओवर-द-काउंटर दवा ले रहे हैं?',
-                    ar: 'هل تتناول حالياً أي أدوية موصوفة أو أدوية بدون وصفة طبية؟',
-                    fr: 'Prenez-vous actuellement des médicaments sur ordonnance ou en vente libre ?',
-                    bn: 'আপনি কি বর্তমানে কোনো প্রেসক্রিপশন বা ওভার-দ্য-কাউন্টার ওষুধ খাচ্ছেন?',
-                    pt: 'Você está tomando atualmente algum medicamento prescrito ou de venda livre?',
-                    ru: 'Принимаете ли вы в настоящее время какие-либо лекарства?',
-                    ur: 'کیا آپ اس وقت کوئی نسخے والی یا عام دوا لے رہے ہیں؟',
-                    id: 'Apakah Anda sedang mengonsumsi obat resep atau obat bebas?'
-                },
-                responses: [
-                    { en: "No medications taken", trans: { es: "No tomo ningún medicamento", zh: "未服用任何药物", hi: "कोई दवा नहीं ले रहे", ar: "لا أتناول أي أدوية", fr: "Aucun médicament", bn: "কোনো ওষুধ খাচ্ছি না", pt: "Não tomo medicamentos", ru: "Ничего не принимаю", ur: "کوئی دوا نہیں لے رہا", id: "Tidak minum obat" } },
-                    { en: "Blood pressure / Heart pills", trans: { es: "Pastillas para la presión / corazón", zh: "降压药 / 心脏药", hi: "ब्लड प्रेशर / दिल की गोलियां", ar: "أدوية ضغط الدم / القلب", fr: "Médicaments pour la tension / cœur", bn: "রক্তচাপ / হৃদরোগের ওষুধ", pt: "Remédios para pressão / coração", ru: "Таблетки от давления / сердца", ur: "بلڈ پریشر کی گولیاں", id: "Obat tekanan darah / jantung" } },
-                    { en: "Diabetes medication / Insulin", trans: { es: "Medicamento para diabetes / Insulina", zh: "糖尿病药物 / 胰岛素", hi: "मधुमेह की दवा / इंसुलिन", ar: "أدوية السكري / الأنسولين", fr: "Médicament pour le diabète / Insuline", bn: "ডায়াবেটিসের ওষুধ / ইনসুলিন", pt: "Medicamento para diabetes / Insulina", ru: "Лекарства от диабета / Инсулин", ur: "ذیابیطس کی دوا / انسولین", id: "Obat diabetes / Insulin" } },
-                    { en: "Pain relievers / Ibuprofen", trans: { es: "Analgésicos / Ibuprofeno", zh: "止痛药 / 布洛芬", hi: "दर्द निवारक / इबुप्रोफेन", ar: "مسكنات الألم / إيبوبروفين", fr: "Analgésiques / Ibuprofène", bn: "ব্যথা উপশমকারী / আইবুপ্রোফেন", pt: "Analgésicos / Ibuprofeno", ru: "Обезболивающие / Ибупрофен", ur: "درد کش ادویات", id: "Pereda nyeri / Ibuprofen" } }
-                ]
-            },
-            {
-                id: 'past_medical_history',
-                label: 'Past Medical History',
-                english: 'Do you have any chronic medical conditions or previous surgeries?',
-                translations: {
-                    es: '¿Tiene alguna condición médica crónica o cirugías previas?',
-                    zh: '您是否有任何慢性病史或以往的手术史？',
-                    hi: 'क्या आपको कोई पुरानी चिकित्सीय स्थिति या पिछली सर्जरी हुई है?',
-                    ar: 'هل تعاني من أي حالات طبية مزمنة أو جراحات سابقة؟',
-                    fr: 'Avez-vous des conditions médicales chroniques ou des chirurgies antérieures ?',
-                    bn: 'আপনার কি কোনো দীর্ঘস্থায়ী স্বাস্থ্যগত সমস্যা বা পূর্বের সার্জারি আছে?',
-                    pt: 'Você tem alguma condição médica crônica ou cirurgias anteriores?',
-                    ru: 'Есть ли у вас хронические заболевания или операции в прошлом?',
-                    ur: 'کیا آپ کو کوئی پرانی بیماری یا پچھلی سرجری ہے؟',
-                    id: 'Apakah Anda memiliki kondisi medis kronis atau riwayat operasi sebelumnya?'
-                },
-                responses: [
-                    { en: "No significant history", trans: { es: "Sin historial médico significativo", zh: "无重大病史", hi: "कोई उल्लेखनीय इतिहास नहीं", ar: "لا يوجد تاريخ مرضي مهم", fr: "Pas d'antécédent significatif", bn: "উল্লেখযোগ্য কোনো ইতিহাস নেই", pt: "Sem histórico médico significativo", ru: "Нет значимого анамнеза", ur: "کوئی خاص سابقہ بیماری نہیں", id: "Tidak ada riwayat signifikan" } },
-                    { en: "High blood pressure (Hypertension)", trans: { es: "Presión arterial alta (Hipertensión)", zh: "高血压", hi: "उच्च रक्तचाप", ar: "ارتفاع ضغط الدم", fr: "Hypertension artérielle", bn: "উচ্চ রক্তচাপ", pt: "Pressão alta (Hipertensão)", ru: "Гипертония", ur: "ہائی بلڈ پریشر", id: "Darah tinggi (Hipertensi)" } },
-                    { en: "Diabetes", trans: { es: "Diabetes", zh: "糖尿病", hi: "मधुमेह", ar: "مرض السكري", fr: "Diabète", bn: "ডায়াবেটিস", pt: "Diabetes", ru: "Сахарный диабет", ur: "ذیابیطس", id: "Diabetes" } },
-                    { en: "Asthma / COPD", trans: { es: "Asma / EPOC", zh: "哮喘 / 慢阻肺", hi: "दमा / सीओपीडी", ar: "ربو / انسداد الرئة المزمن", fr: "Asthme / BPCO", bn: "হাঁপানি", pt: "Asma / DPOC", ru: "Астма / ХОБЛ", ur: "دمہ", id: "Asma / PPOK" } }
-                ]
-            },
-            {
-                id: 'last_intake',
-                label: 'Last Intake',
-                english: 'When was the last time you ate or drank anything?',
-                translations: {
-                    es: '¿Cuándo fue la última vez que comió o bebió algo?',
-                    zh: '您上一次吃东西或喝水是什么时候？',
-                    hi: 'आपने आखिरी बार कुछ कब खाया या पिया था?',
-                    ar: 'متى كانت آخر مرة أكلت أو شربت فيها شيئاً؟',
-                    fr: 'Quand avez-vous mangé ou bu quelque chose pour la dernière fois ?',
-                    bn: 'আপনি সর্বশেষ কখন কিছু খেয়েছেন বা পান করেছেন?',
-                    pt: 'Quando foi a última vez que você comeu ou bebeu algo?',
-                    ru: 'Когда вы в последний раз что-то ели или пили?',
-                    ur: 'آخری بار آپ نے کچھ کب کھایا یا پیا تھا؟',
-                    id: 'Kapan terakhir kali Anda makan atau minum sesuatu?'
-                },
-                responses: [
-                    { en: "Less than 2 hours ago", trans: { es: "Hace menos de 2 horas", zh: "不到2小时前", hi: "2 घंटे से कम समय पहले", ar: "منذ أقل من ساعتين", fr: "Il y a moins de 2 heures", bn: "২ ঘণ্টার কম সময় আগে", pt: "Há menos de 2 horas", ru: "Менее 2 часов назад", ur: "2 گھنٹے سے کم وقت پہلے", id: "Kurang dari 2 jam lalu" } },
-                    { en: "2 to 6 hours ago", trans: { es: "Hace 2 a 6 horas", zh: "2到6小时前", hi: "2 से 6 घंटे पहले", ar: "منذ ساعتين إلى 6 ساعات", fr: "Il y a 2 à 6 heures", bn: "২ থেকে ৬ ঘণ্টা আগে", pt: "Há 2 a 6 horas", ru: "От 2 до 6 часов назад", ur: "2 سے 6 گھنٹے پہلے", id: "2 sampai 6 jam lalu" } },
-                    { en: "More than 6 hours ago / Fasting", trans: { es: "Hace más de 6 horas / Ayunando", zh: "6个多小时前 / 禁食中", hi: "6 घंटे से अधिक समय पहले / उपवास", ar: "أكثر من 6 ساعات / صائم", fr: "Il y a plus de 6 heures / À jeun", bn: "৬ ঘণ্টার বেশি সময় আগে", pt: "Há mais de 6 horas / Em jejum", ru: "Более 6 часов назад / Натощак", ur: "6 گھنٹے سے زیادہ وقت پہلے", id: "Lebih dari 6 jam lalu / Berpuasa" } }
-                ]
-            },
-            {
-                id: 'events_leading',
-                label: 'Events Leading Up to This',
-                english: 'What were you doing right before these symptoms or event started?',
-                translations: {
-                    es: '¿Qué estaba haciendo justo antes de que empezaran estos síntomas o el evento?',
-                    zh: '这些症状或事件发生前您正在做什么？',
-                    hi: 'इन लक्षणों के शुरू होने से ठीक पहले आप क्या कर रहे थे?',
-                    ar: 'ماذا كنت تفعل قبل بدء هذه الأعراض أو الحدث مباشرة؟',
-                    fr: 'Que faisiez-vous juste avant le début de ces symptômes ou de cet événement ?',
-                    bn: 'এই লক্ষণগুলো শুরু হওয়ার ঠিক আগে আপনি কী করছিলেন?',
-                    pt: 'O que você estava fazendo logo antes desses sintomas ou evento começarem?',
-                    ru: 'Что вы делали прямо перед началом этих симптомов?',
-                    ur: 'ان علامات کے شروع ہونے سے ٹھیک پہلے آپ کیا کر رہے تھے?',
-                    id: 'Apa yang sedang Anda lakukan sebelum gejala atau kejadian ini dimulai?'
-                },
-                responses: [
-                    { en: "Resting / Sleeping normally", trans: { es: "Descansando / Durmiendo normalmente", zh: "正常休息 / 睡觉", hi: "आराम कर रहे थे / सामान्य रूप से सो रहे थे", ar: "أستريح / نائم بشكل طبيعي", fr: "Au repos / Je dormais normalement", bn: "বিশ্রাম নিচ্ছিলেন / ঘুমাচ্ছিলেন", pt: "Descansando / Dormindo normalmente", ru: "Отдыхал / спал", ur: "آرام کر رہا تھا", id: "Beristirahat / Tidur normal" } },
-                    { en: "Physical exertion / Working out", trans: { es: "Esfuerzo físico / Haciendo ejercicio", zh: "体力劳动 / 锻炼", hi: "शारीरिक श्रम / कसरत", ar: "جهد بدني / تمرين", fr: "Effort physique / Entraînement", bn: "শারীরিক পরিশ্রম করছিলেন", pt: "Esforço físico / Treinando", ru: "Физическая нагрузка / тренировка", ur: "جسمانی محنت کر رہا تھا", id: "Aktivitas fisik / Olahraga" } },
-                    { en: "Eating a meal", trans: { es: "Comiendo", zh: "正在吃饭", hi: "खाना खा रहे थे", ar: "تناول وجبة طعام", fr: "En train de manger un repas", bn: "খাবার খাচ্ছিলেন", pt: "Fazendo uma refeição", ru: "Прием пищи", ur: "खाना کھا رہا تھا", id: "Sedang makan" } },
-                    { en: "Sudden onset out of nowhere", trans: { es: "Aparición repentina de la nada", zh: "无缘无故突然发作", hi: "अचानक कहीं से भी शुरुआत", ar: "ظهور مفاجئ من العدم", fr: "Apparition soudaine sans raison apparente", bn: "হঠাৎ শুরু হয়েছে", pt: "Início repentino do nada", ru: "Внезапное начало из ниоткуда", ur: "اچانک بغیر کسی وجہ کے شروع ہوا", id: "Tiba-tiba muncul begitu saja" } }
-                ]
-            }
-        ];
-
-        let selectedLangCode = '';
-        let selectedLangName = '';
-
-        // Render Screen 1 Language Buttons on load
-        const grid = document.getElementById('lang-grid');
-        languages.forEach(lang => {
-            const btn = document.createElement('button');
-            btn.className = 'lang-btn';
-            btn.innerText = lang.name;
-            btn.onclick = () => selectLanguage(lang.code, lang.name);
-            grid.appendChild(btn);
-        });
-
-        function selectLanguage(code, fullName) {
-            selectedLangCode = code;
-            selectedLangName = fullName;
-            document.getElementById('current-lang-title').innerText = fullName;
-            document.getElementById('target-col-title').innerText = fullName.split(' ')[0];
-            
-            renderCategoryLists(categoriesData);
-            switchScreen('screen-2');
-        }
-
-        function switchScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-            document.getElementById(screenId).style.display = 'block';
-        }
-
-        function renderCategoryLists(dataArray) {
-            const engContainer = document.getElementById('english-content');
-            const transContainer = document.getElementById('translated-content');
-            engContainer.innerHTML = '';
-            transContainer.innerHTML = '';
-
-            dataArray.forEach(cat => {
-                const targetText = cat.translations[selectedLangCode] || cat.english;
-
-                const engDiv = document.createElement('div');
-                engDiv.className = 'sample-item';
-                engDiv.onclick = () => openCategoryScreen(cat);
-                engDiv.innerHTML = `
-                    <label>${cat.label} (Click to Open)</label>
-                    <p>${cat.english}</p>
-                `;
-                engContainer.appendChild(engDiv);
-
-                const transDiv = document.createElement('div');
-                transDiv.className = 'sample-item';
-                transDiv.onclick = () => openCategoryScreen(cat);
-                transDiv.innerHTML = `
-                    <label>${cat.label}</label>
-                    <p>${targetText}</p>
-                `;
-                transContainer.appendChild(transDiv);
-            });
-        }
-
-        function filterHistory(query) {
-            const q = query.toLowerCase();
-            const filtered = categoriesData.filter(item => 
-                item.english.toLowerCase().includes(q) || 
-                item.label.toLowerCase().includes(q)
-            );
-            renderCategoryLists(filtered);
-        }
-
-        function openCategoryScreen(cat) {
-            switchScreen('screen-3');
-            document.getElementById('category-title').innerText = cat.label;
-            document.getElementById('cat-eng-q').innerText = cat.english;
-            document.getElementById('cat-trans-q').innerText = cat.translations[selectedLangCode] || cat.english;
-            document.getElementById('cat-lang-label').innerText = selectedLangName.split(' ')[0];
-
-            document.getElementById('response-result').style.display = 'none';
-
-            const optionsContainer = document.getElementById('category-buttons-container');
-            optionsContainer.innerHTML = '';
-
-            cat.responses.forEach(resp => {
-                const buttonText = (resp.trans && resp.trans[selectedLangCode]) ? resp.trans[selectedLangCode] : resp.en;
-                const btn = document.createElement('button');
-                btn.className = 'response-btn';
-                btn.innerText = buttonText;
-                btn.onclick = () => {
-                    document.getElementById('result-text-en').innerText = resp.en;
-                    document.getElementById('result-text-trans').innerText = `(${buttonText})`;
-                    document.getElementById('response-result').style.display = 'block';
-                };
-                optionsContainer.appendChild(btn);
-            });
-        }
-    </script>
-</body>
-</html>
+                        <span style="font-size:0.75rem; text-transform:uppercase; color:#0284c7; font-weight:bold; display:block; margin-bottom
