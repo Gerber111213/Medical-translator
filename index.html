@@ -38,7 +38,7 @@
     }
 
     .app-shell {
-      max-width: 1360px;
+      max-width: 1380px;
       margin: 0 auto;
       padding: 16px;
     }
@@ -103,6 +103,12 @@
     .btn:hover {
       border-color: var(--primary);
       background: var(--bg-subtle);
+    }
+
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      border-radius: 6px;
     }
 
     .btn-primary {
@@ -240,12 +246,12 @@
 
     .workspace-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.95fr);
+      grid-template-columns: minmax(0, 1.5fr) minmax(350px, 1fr);
       gap: 18px;
       align-items: start;
     }
 
-    @media (max-width: 1020px) {
+    @media (max-width: 1040px) {
       .workspace-grid {
         grid-template-columns: 1fr;
       }
@@ -288,7 +294,7 @@
       }
     }
 
-    .search-input, .note-input, .pcr-textarea {
+    .search-input, .note-input {
       width: 100%;
       padding: 10px 13px;
       font-size: 0.95rem;
@@ -300,7 +306,7 @@
       font-family: inherit;
     }
 
-    .search-input:focus, .note-input:focus, .pcr-textarea:focus {
+    .search-input:focus, .note-input:focus {
       border-color: var(--primary);
     }
 
@@ -374,7 +380,7 @@
 
     .item-card p {
       margin: 0;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       color: var(--text-main);
     }
 
@@ -487,7 +493,7 @@
       background: var(--primary-soft);
     }
 
-    /* Live PCR Sidebar */
+    /* Organized PCR Readout Sidebar */
     .pcr-panel {
       background: var(--bg-subtle);
       border: 1.5px solid var(--border);
@@ -498,38 +504,55 @@
     }
 
     .pcr-panel h3 {
-      margin: 0 0 6px;
+      margin: 0 0 4px;
       color: var(--primary-dark);
-      font-size: 1.05rem;
+      font-size: 1.08rem;
     }
 
-    .pcr-list {
-      max-height: 290px;
-      overflow-y: auto;
-      margin: 10px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .pcr-entry {
+    .pcr-section-card {
       background: #ffffff;
       border: 1px solid var(--border-light);
-      border-left: 3px solid var(--primary);
-      border-radius: 6px;
-      padding: 8px 10px;
-      font-size: 0.85rem;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
     }
 
-    .pcr-entry strong {
+    .pcr-section-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary-dark);
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+
+    .pcr-row {
+      font-size: 0.86rem;
+      margin: 4px 0;
       color: var(--text-main);
     }
 
-    .pcr-textarea {
-      min-height: 155px;
-      font-size: 0.86rem;
-      line-height: 1.5;
-      background: #ffffff;
+    .rank-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 999px;
+      margin-right: 4px;
+    }
+
+    .rank-primary {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .rank-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
     }
 
     /* Screen 3 Drilldown */
@@ -563,31 +586,38 @@
     .response-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
     }
 
     .response-btn {
       background: #ffffff;
       border: 2px solid var(--border);
       border-radius: 8px;
-      padding: 12px 15px;
+      padding: 11px 14px;
       text-align: left;
       color: var(--text-main);
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .response-btn .resp-texts {
+      display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
 
     .response-btn .resp-patient {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 700;
       color: inherit;
     }
 
     .response-btn .resp-en {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       color: var(--text-muted);
     }
@@ -610,15 +640,29 @@
     .captured-box {
       margin-top: 14px;
       background: #ffffff;
-      border: 2px dashed var(--primary);
+      border: 2px solid var(--primary);
       border-radius: 8px;
       padding: 12px;
+    }
+
+    .picked-item-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .picked-item-row:last-child {
+      border-bottom: none;
     }
 
     .toast-msg {
       font-size: 0.82rem;
       color: var(--success);
-      font-weight: 600;
+      font-weight: 700;
       min-height: 18px;
       margin-top: 6px;
     }
@@ -632,7 +676,7 @@
         <span>Auto-Saved Locally (Refresh Protected)</span>
       </div>
       <div class="top-actions">
-        <button type="button" class="btn" onclick="copyPcrNarrative()">Copy PCR Summary</button>
+        <button type="button" class="btn btn-primary" onclick="copyStructuredPcr()">Copy Organized PCR</button>
         <button type="button" class="btn btn-danger" onclick="resetSession()">New Patient / Clear</button>
       </div>
     </div>
@@ -640,18 +684,18 @@
     <!-- SCREEN 1: LANGUAGE SELECTION -->
     <section id="screen-1" class="screen active card">
       <div class="hero-center">
-        <h1>Medical Translator &amp; Assessment Aid</h1>
-        <p>Select patient language to translate assessment prompts, explain care steps, capture responses in patient language, and build an English PCR</p>
+        <h1>Medical Translator &amp; PCR Aid</h1>
+        <p>Select patient language to ask targeted assessment questions, capture primary/secondary responses in their language, and build a scannable English PCR</p>
       </div>
       <div class="language-grid" id="lang-grid"></div>
     </section>
 
-    <!-- SCREEN 2: ASSESSMENT WORKSPACE + VISUALS + LIVE PCR -->
+    <!-- SCREEN 2: ASSESSMENT WORKSPACE + VISUALS + ORGANIZED PCR -->
     <section id="screen-2" class="screen card">
       <div class="header-row">
         <button type="button" class="btn" onclick="switchScreen('screen-1')">← Languages</button>
         <h2 id="current-lang-title" style="margin:0; color:var(--text-main);">Language</h2>
-        <button type="button" class="btn btn-primary" onclick="copyPcrNarrative()">Copy PCR Report</button>
+        <button type="button" class="btn btn-primary" onclick="copyStructuredPcr()">Copy Organized PCR</button>
       </div>
 
       <!-- Quick Bedside Patient Response Strip -->
@@ -674,7 +718,7 @@
               type="search"
               id="search-input"
               class="search-input"
-              placeholder="Search assessment prompts, care steps, or categories..."
+              placeholder="Search assessment questions, STOPEATS checks, care steps..."
               oninput="renderAssessmentLists()"
             />
             <button type="button" class="btn" onclick="clearSearch()">Clear Filter</button>
@@ -740,33 +784,28 @@
           </div>
         </div>
 
-        <!-- LIVE PCR & HANDOFF SIDEBAR -->
+        <!-- ORGANIZED PCR HANDOFF SIDEBAR -->
         <aside class="pcr-panel">
-          <h3>Live PCR &amp; Handoff Draft (English)</h3>
-          <p style="margin:0 0 8px; font-size:0.82rem; color:var(--text-muted);">
-            Populates in English automatically as the patient selects answers in their language.
+          <h3>Organized Provider PCR (English)</h3>
+          <p style="margin:0 0 10px; font-size:0.82rem; color:var(--text-muted);">
+            Grouped by assessment phase with Primary and Secondary answers clearly labeled.
           </p>
 
           <label for="custom-field-note" style="display:block; font-size:0.78rem; font-weight:700; color:var(--text-muted); margin-bottom:4px;">
-            PROVIDER / FIELD NOTE (VITALS, EXACT MEDS, TIMING)
+            ADD VITALS / FIELD NOTE
           </label>
-          <div style="display:flex; gap:6px; margin-bottom:10px;">
+          <div style="display:flex; gap:6px; margin-bottom:12px;">
             <input
               type="text"
               id="custom-field-note"
               class="note-input"
-              placeholder="e.g., BP 138/84, HR 96, onset ~09:15..."
+              placeholder="e.g., BGL 3.2 mmol/L, BP 138/84, SpO2 97%..."
               onkeydown="if(event.key==='Enter') addCustomNote()"
             />
             <button type="button" class="btn btn-primary" onclick="addCustomNote()">Add</button>
           </div>
 
-          <div class="pcr-list" id="pcr-entries-list"></div>
-
-          <label for="pcr-narrative" style="display:block; font-size:0.78rem; font-weight:700; color:var(--text-muted); margin:10px 0 4px;">
-            READABLE PCR SUMMARY (ENGLISH, EDITABLE)
-          </label>
-          <textarea id="pcr-narrative" class="pcr-textarea" oninput="saveState()"></textarea>
+          <div id="pcr-sections-container"></div>
           <div class="toast-msg" id="toast-msg"></div>
         </aside>
       </div>
@@ -789,16 +828,15 @@
           <p id="cat-eng-q" style="font-size:1.0rem; color:#0c4a6e; margin:0;"></p>
 
           <div id="response-result" class="captured-box" style="display:none;">
-            <span style="font-size:0.72rem; text-transform:uppercase; font-weight:700; color:var(--primary-dark); display:block; margin-bottom:4px;">
-              Logged to English History
+            <span style="font-size:0.74rem; text-transform:uppercase; font-weight:800; color:var(--primary-dark); display:block; margin-bottom:6px;">
+              Captured Selections (1st = Primary, 2nd+ = Secondary)
             </span>
-            <p id="result-text-en" style="margin:0 0 3px; font-weight:700; color:var(--text-main);"></p>
-            <p id="result-text-trans" style="margin:0; font-size:0.9rem; color:var(--text-muted);"></p>
+            <div id="picked-items-list"></div>
           </div>
         </div>
 
         <div>
-          <h3 style="margin:0 0 10px; color:var(--primary-dark);">Patient Selects Option (Logs in English)</h3>
+          <h3 style="margin:0 0 10px; color:var(--primary-dark);">Tap Options (Multiple Allowed)</h3>
           <div class="response-list" id="category-buttons-container"></div>
         </div>
       </div>
@@ -806,8 +844,17 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "med_translator_pcr_dual_opt_v1";
+    const STORAGE_KEY = "med_translator_pcr_structured_v1";
     const RTL_CODES = new Set(["ar", "ur", "fa"]);
+
+    const PHASE_LABELS = {
+      primary: "Primary Assessment",
+      sample: "SAMPLE History",
+      opqrst: "OPQRST Pain / Symptom",
+      stopeats: "STOPEATS (Altered / Neuro)",
+      headtotoe: "Head-to-Toe Exam",
+      care: "Care & Consent"
+    };
 
     const languages = [
       { code: "es", name: "Español (Spanish)" },
@@ -876,465 +923,432 @@
     ];
 
     const categoriesData = [
+      // PRIMARY
       {
         id: "primary_loc",
         phase: "primary",
-        label: "Primary · LOC & Alertness",
+        label: "LOC & Orientation",
         english: "Can you tell me your name, where you are, and what happened?",
         translations: {
           es: "¿Puede decirme su nombre, dónde está y qué pasó?",
           zh: "您能告诉我您的名字、您在哪里以及发生了什么吗？",
           fr: "Pouvez-vous me dire votre nom, où vous êtes et ce qui s'est passé ?",
-          tl: "Masasabi mo ba ang pangalan mo, nasaan ka, at anong nangyari?",
-          hi: "क्या आप अपना नाम, आप कहाँ हैं और क्या हुआ यह बता सकते हैं?",
           ar: "هل يمكنك إخباري باسمك وأين أنت وماذا حدث؟",
-          ur: "کیا آپ اپنا نام، آپ کہاں ہیں اور کیا ہوا بتا سکتے ہیں؟",
-          ru: "Можете назвать своё имя, где вы находитесь и что случилось?",
-          uk: "Чи можете назвати своє ім'я, де ви перебуваєте і що сталося?",
-          vi: "Bạn có thể cho tôi biết tên, bạn đang ở đâu và chuyện gì đã xảy ra không?"
+          ur: "کیا آپ اپنا نام، آپ کہاں ہیں اور کیا ہوا بتا سکتے ہیں؟"
         },
         responses: [
-          { en: "Alert & Oriented x4", trans: { es: "Alerta y orientado", zh: "意识清醒，定向力正常", fr: "Alerte et orienté", tl: "Gising at malinaw ang isip", ar: "واعٍ ومدرك تماماً" } },
-          { en: "Confused / Disoriented", trans: { es: "Confundido / Desorientado", zh: "意识模糊 / 定向障碍", fr: "Confus / Désorienté", tl: "Nalilito / Hindi tiyak", ar: "مشوش / غير مدرك" } },
-          { en: "Responds to voice / pain only", trans: { es: "Responde solo a voz o dolor", zh: "仅对声音或疼痛有反应", fr: "Répond seulement à la voix ou la douleur", tl: "Tumutugon lang sa boses o sakit", ar: "يستجيب للصوت أو الألم فقط" } }
+          { en: "Alert & Oriented x4", trans: { es: "Alerta y orientado", zh: "意识清醒，定向力正常", fr: "Alerte et orienté", ar: "واعٍ ومدرك" } },
+          { en: "Confused / Disoriented to time/place", trans: { es: "Confundido / Desorientado", zh: "意识模糊 / 定向障碍", fr: "Confus / Désorienté", ar: "مشوش / غير مدرك" } },
+          { en: "Drowsy / Slow to respond", trans: { es: "Somnoliento / Respuesta lenta", zh: "嗜睡 / 反应迟钝", fr: "Somnolent / Réponse lente", ar: "نعسان / بطيء الاستجابة" } },
+          { en: "Responds to voice or pain only", trans: { es: "Responde solo a voz o dolor", zh: "仅对声音或疼痛有反应", fr: "Répond à la voix ou douleur", ar: "يستجيب للصوت أو الألم فقط" } }
         ]
       },
       {
         id: "primary_abc",
         phase: "primary",
-        label: "Primary · Airway & Breathing",
-        english: "Are you having trouble breathing, choking, or chest tightness right now?",
+        label: "Airway, Breathing & Bleeding",
+        english: "Are you having trouble breathing, choking, chest tightness, or heavy bleeding?",
         translations: {
-          es: "¿Tiene dificultad para respirar, se está atragantando o siente opresión en el pecho?",
-          zh: "您现在是否呼吸困难、呛咳或胸闷？",
-          fr: "Avez-vous du mal à respirer, à avaler ou une sensation d'oppression thoracique ?",
-          tl: "Nahihirapan ka bang huminga, nasasamid, o naninikip ang dibdib ngayon?",
-          hi: "क्या आपको अभी सांस लेने में तकलीफ, घुटन या सीने में जकड़न हो रही है?",
-          ar: "هل تعاني الآن من صعوبة في التنفس أو اختناق أو ضيق في الصدر؟",
-          ur: "کیا آپ کو ابھی سانس لینے میں دشواری، دم گھٹنے یا سینے میں جکڑن ہو رہی ہے؟",
-          ru: "Вам сейчас трудно дышать, вы подавились или чувствуете стеснение в груди?",
-          uk: "Вам зараз важко дихати, ви вдавилися або відчуваєте стиснення у грудях?",
-          vi: "Hiện tại bạn có khó thở, bị nghẹn hay tức ngực không?"
+          es: "¿Tiene dificultad para respirar, se está atragantando, opresión en el pecho o sangrado fuerte?",
+          zh: "您现在是否呼吸困难、呛咳、胸闷或大量出血？",
+          fr: "Avez-vous du mal à respirer, un étouffement, une oppression thoracique ou un saignement important ?",
+          ar: "هل تعاني من صعوبة في التنفس أو اختناق أو ضيق في الصدر أو نزيف شديد؟"
         },
         responses: [
-          { en: "Airway patent, breathing comfortably", trans: { es: "Respira cómodamente", zh: "气道通畅，呼吸平稳", fr: "Respire confortablement", tl: "Malaya ang hinga", ar: "يتنفس براحة" } },
-          { en: "Shortness of breath / Dyspnea", trans: { es: "Falta de aire", zh: "呼吸急促", fr: "Essoufflement", tl: "Kinakapos sa paghinga", ar: "ضيق في التنفس" } },
-          { en: "Choking / Severe distress", trans: { es: "Atragantamiento / Angustia grave", zh: "呛咳 / 严重呼吸窘迫", fr: "Étouffement / Détresse sévère", tl: "Nasasamid / Matinding hirap", ar: "اختناق / ضائقة شديدة" } }
+          { en: "Airway patent, breathing normally", trans: { es: "Respira con normalidad", zh: "呼吸正常", fr: "Respire normalement", ar: "يتنفس بشكل طبيعي" } },
+          { en: "Shortness of breath / Dyspnea", trans: { es: "Falta de aire", zh: "呼吸急促", fr: "Essoufflement", ar: "ضيق في التنفس" } },
+          { en: "Chest tightness / Wheezing", trans: { es: "Opresión en el pecho / Sibilancias", zh: "胸闷 / 喘息", fr: "Oppression / Sifflements", ar: "ضيق في الصدر / صفير" } },
+          { en: "Active / Heavy bleeding", trans: { es: "Sangrado activo o abundante", zh: "活动性出血 / 大出血", fr: "Saignement actif / abondant", ar: "نزيف نشط أو غزير" } }
+        ]
+      },
+
+      // SAMPLE
+      {
+        id: "sample_s",
+        phase: "sample",
+        label: "S · Symptoms",
+        english: "What symptoms are you feeling right now?",
+        translations: {
+          es: "¿Qué síntomas siente en este momento?",
+          zh: "您现在有哪些症状？",
+          fr: "Quels symptômes ressentez-vous en ce moment ?",
+          ar: "ما الأعراض التي تشعر بها الآن؟"
+        },
+        responses: [
+          { en: "Pain / Ache", trans: { es: "Dolor / Molestia", zh: "疼痛 / 酸痛", fr: "Douleur", ar: "ألم" } },
+          { en: "Shortness of breath", trans: { es: "Falta de aire", zh: "呼吸急促", fr: "Essoufflement", ar: "ضيق التنفس" } },
+          { en: "Dizziness / Lightheadedness", trans: { es: "Mareos / Aturdimiento", zh: "头晕 / 头重脚轻", fr: "Vertiges / Étourdissements", ar: "دوار / دوخة" } },
+          { en: "Nausea / Vomiting", trans: { es: "Náuseas / Vómitos", zh: "恶心 / 呕吐", fr: "Nausées / Vomissements", ar: "غثيان / قيء" } },
+          { en: "Fever / Chills / Sweating", trans: { es: "Fiebre / Escalofríos / Sudoración", zh: "发烧 / 发冷 / 出汗", fr: "Fièvre / Frissons / Sueurs", ar: "حمى / قشعريرة / تعرق" } },
+          { en: "Weakness / Numbness", trans: { es: "Debilidad / Entumecimiento", zh: "无力 / 麻木", fr: "Faiblesse / Engourdissement", ar: "ضعف / خدر" } }
         ]
       },
       {
-        id: "symptoms",
+        id: "sample_a",
         phase: "sample",
-        label: "SAMPLE (S) · Symptoms",
-        english: "What specific symptoms are bothering you the most right now?",
+        label: "A · Allergies",
+        english: "Are you allergic to any medications, foods, stings, or materials?",
         translations: {
-          es: "¿Qué síntomas específicos le molestan más ahora mismo?",
-          zh: "目前哪种具体症状让您最难受？",
-          fr: "Quels symptômes spécifiques vous gênent le plus en ce moment ?",
-          tl: "Anong mga sintomas ang pinakanakakaabala sa iyo ngayon?",
-          hi: "अभी आपको कौन से लक्षण सबसे ज़्यादा परेशान कर रहे हैं?",
-          ar: "ما هي الأعراض المحددة التي تزعجك أكثر الآن؟",
-          ur: "اس وقت کون سی علامات آپ کو سب سے زیادہ تکلیف دے رہی ہیں؟",
-          ru: "Какие симптомы беспокоят вас больше всего прямо сейчас?",
-          uk: "Які симптоми турбують вас найбільше прямо зараз?",
-          vi: "Triệu chứng nào làm bạn khó chịu nhất ngay lúc này?"
+          es: "¿Es alérgico a algún medicamento, alimento, picadura o material?",
+          zh: "您是否对任何药物、食物、叮咬或材质过敏？",
+          fr: "Êtes-vous allergique à des médicaments, aliments, piqûres ou matières ?",
+          ar: "هل لديك حساسية تجاه أدوية أو أطعمة أو لدغات أو مواد؟"
         },
         responses: [
-          { en: "Fever / Chills", trans: { es: "Fiebre / Escalofríos", zh: "发烧 / 发冷", fr: "Fièvre / Frissons", tl: "Lagnat / Ginaw", ar: "حمى / قشعريرة" } },
-          { en: "Shortness of breath", trans: { es: "Falta de aire", zh: "呼吸急促", fr: "Essoufflement", tl: "Hirap huminga", ar: "ضيق التنفس" } },
-          { en: "Dizziness / Lightheadedness", trans: { es: "Mareos / Aturdimiento", zh: "头晕 / 头重脚轻", fr: "Vertiges / Étourdissements", tl: "Nahihilo", ar: "دوار / دوخة" } },
-          { en: "Nausea / Vomiting", trans: { es: "Náuseas / Vómitos", zh: "恶心 / 呕吐", fr: "Nausées / Vomissements", tl: "Nasusuka / Nagsusuka", ar: "غثيان / قيء" } },
-          { en: "Chest pain / Pressure", trans: { es: "Dolor / Presión en el pecho", zh: "胸痛 / 胸闷", fr: "Douleur / Pression thoracique", tl: "Sakit o paninikip sa dibdib", ar: "ألم أو ضغط في الصدر" } }
+          { en: "No known drug allergies (NKDA)", trans: { es: "Sin alergias conocidas", zh: "无已知药物过敏", fr: "Aucune allergie connue", ar: "لا توجد حساسيات معروفة" } },
+          { en: "Antibiotics / Penicillin / Sulfa", trans: { es: "Antibióticos / Penicilina / Sulfa", zh: "抗生素 / 青霉素 / 磺胺", fr: "Antibiotiques / Pénicilline / Sulfa", ar: "مضادات حيوية / بنسلين" } },
+          { en: "Peanuts / Tree nuts / Shellfish", trans: { es: "Maní / Frutos secos / Mariscos", zh: "花生 / 坚果 / 海鲜", fr: "Arachides / Fruits à coque / Fruits de mer", ar: "فول سوداني / مكسرات / محار" } },
+          { en: "Latex / Adhesive / Contrast", trans: { es: "Látex / Adhesivo / Contraste", zh: "乳胶 / 胶带 / 造影剂", fr: "Latex / Adhésif / Produit de contraste", ar: "لاتكس / لاصق" } },
+          { en: "Unsure / Unknown", trans: { es: "No está seguro", zh: "不确定", fr: "Incertain", ar: "غير متأكد" } }
         ]
       },
       {
-        id: "allergies",
+        id: "sample_m",
         phase: "sample",
-        label: "SAMPLE (A) · Allergies",
-        english: "Do you have any allergies to medications, food, latex, or anything else?",
+        label: "M · Medications",
+        english: "Which regular medications, inhalers, insulin, or blood thinners do you take?",
         translations: {
-          es: "¿Tiene alergia a medicamentos, alimentos, látex o algo más?",
-          zh: "您对药物、食物、乳胶或其他物质过敏吗？",
-          fr: "Avez-vous des allergies aux médicaments, aliments, latex ou autre ?",
-          tl: "May alerhiya ka ba sa gamot, pagkain, latex, o iba pa?",
-          hi: "क्या आपको दवा, भोजन, लेटेक्स या किसी चीज़ से एलर्जी है?",
-          ar: "هل لديك حساسية من الأدوية أو الطعام أو اللاتكس أو أي شيء آخر؟",
-          ur: "کیا آپ کو دوا، خوراک، لیٹیکس یا کسی اور چیز سے الرجی ہے؟",
-          ru: "Есть ли у вас аллергия на лекарства, еду, латекс или что-то ещё?",
-          uk: "Чи є у вас алергія на ліки, їжу, латекс або щось інше?",
-          vi: "Bạn có bị dị ứng với thuốc, thức ăn, mủ cao su hay thứ gì khác không?"
+          es: "¿Qué medicamentos habituales, inhaladores, insulina o anticoagulantes toma?",
+          zh: "您服用哪些常规药物、吸入剂、胰岛素或抗凝药？",
+          fr: "Quels médicaments réguliers, inhalateurs, insuline ou anticoagulants prenez-vous ?",
+          ar: "ما الأدوية المنتظمة أو البخاخات أو الأنسولين أو مميعات الدم التي تتناولها؟"
         },
         responses: [
-          { en: "No known allergies (NKDA)", trans: { es: "Sin alergias conocidas", zh: "无已知过敏", fr: "Aucune allergie connue", tl: "Walang kilalang alerhiya", ar: "لا توجد حساسيات معروفة" } },
-          { en: "Medication allergy", trans: { es: "Alergia a medicamentos", zh: "药物过敏", fr: "Allergie médicamenteuse", tl: "Alerhiya sa gamot", ar: "حساسية الأدوية" } },
-          { en: "Food allergy", trans: { es: "Alergia alimentaria", zh: "食物过敏", fr: "Allergie alimentaire", tl: "Alerhiya sa pagkain", ar: "حساسية الطعام" } },
-          { en: "Other / Unsure", trans: { es: "Otra / No está seguro", zh: "其他 / 不确定", fr: "Autre / Incertain", tl: "Iba pa / Hindi sigurado", ar: "أخرى / غير متأكد" } }
+          { en: "No regular medications", trans: { es: "Sin medicamentos habituales", zh: "无常规用药", fr: "Aucun traitement régulier", ar: "لا يتناول أدوية منتظمة" } },
+          { en: "Blood pressure / Heart medication", trans: { es: "Presión arterial / Corazón", zh: "血压 / 心脏药物", fr: "Tension / Cœur", ar: "أدوية الضغط / القلب" } },
+          { en: "Insulin / Oral diabetes meds", trans: { es: "Insulina / Diabetes", zh: "胰岛素 / 降糖药", fr: "Insuline / Diabète", ar: "أنسولين / أدوية السكري" } },
+          { en: "Blood thinners (anticoagulants/aspirin)", trans: { es: "Anticoagulantes / Aspirina", zh: "抗凝药 / 阿司匹林", fr: "Anticoagulants / Aspirine", ar: "مميعات الدم / أسبرين" } },
+          { en: "Inhaler / EpiPen / Pain meds", trans: { es: "Inhalador / EpiPen / Analgésicos", zh: "吸入剂 / 肾上腺素笔 / 止痛药", fr: "Inhalateur / EpiPen / Antalgiques", ar: "بخاخ / مسكنات" } }
         ]
       },
       {
-        id: "medications",
+        id: "sample_p",
         phase: "sample",
-        label: "SAMPLE (M) · Medications",
-        english: "What prescription, over-the-counter, or herbal medications do you take?",
+        label: "P · Past Medical History",
+        english: "Do you have a history of diabetes, seizures/epilepsy, heart/lung disease, or surgeries?",
         translations: {
-          es: "¿Qué medicamentos recetados, de venta libre o naturales toma?",
-          zh: "您服用哪些处方药、非处方药或草药？",
-          fr: "Quels médicaments sur ordonnance, en vente libre ou à base de plantes prenez-vous ?",
-          tl: "Anong mga reseta, OTC, o herbal na gamot ang iniinom mo?",
-          hi: "आप कौन सी प्रिस्क्रिप्शन, बिना पर्चे की या हर्बल दवा लेते हैं?",
-          ar: "ما هي الأدوية الموصوفة أو المتاحة بدون وصفة أو الأعشاب التي تتناولها؟",
-          ur: "آپ کون سی نسخے والی، عام یا جڑی بوٹیوں کی دوا لیتے ہیں؟",
-          ru: "Какие рецептурные, безрецептурные или растительные препараты вы принимаете?",
-          uk: "Які рецептурні, безрецептурні або рослинні препарати ви приймаєте?",
-          vi: "Bạn đang dùng thuốc kê đơn, thuốc không kê đơn hay thảo dược nào?"
+          es: "¿Tiene antecedentes de diabetes, convulsiones/epilepsia, enfermedad cardíaca/pulmonar o cirugías?",
+          zh: "您是否有糖尿病、癫痫/抽搐、心肺疾病或手术史？",
+          fr: "Avez-vous des antécédents de diabète, crises/épilepsie, maladie cardiaque/pulmonaire ou chirurgie ?",
+          ar: "هل لديك تاريخ من السكري أو الصرع/النوبات أو أمراض القلب أو الرئة أو العمليات؟"
         },
         responses: [
-          { en: "No medications taken", trans: { es: "No toma medicamentos", zh: "未服药", fr: "Aucun médicament", tl: "Walang iniinom na gamot", ar: "لا يتناول أدوية" } },
-          { en: "Blood pressure / Cardiac meds", trans: { es: "Presión arterial / Corazón", zh: "降压药 / 心脏药", fr: "Tension / Cœur", tl: "Gamot sa BP / puso", ar: "أدوية الضغط / القلب" } },
-          { en: "Diabetes / Insulin", trans: { es: "Diabetes / Insulina", zh: "糖尿病药 / 胰岛素", fr: "Diabète / Insuline", tl: "Gamot sa diabetes / insulin", ar: "السكري / الأنسولين" } },
-          { en: "Blood thinners / Inhaler / Analgesics", trans: { es: "Anticoagulantes / Inhalador / Analgésicos", zh: "抗凝药 / 吸入剂 / 止痛药", fr: "Anticoagulants / Inhalateur / Antalgiques", tl: "Pampalabnaw ng dugo / inhaler / pampawala ng sakit", ar: "مميعات الدم / بخاخ / مسكنات" } }
+          { en: "No significant past medical history", trans: { es: "Sin antecedentes relevantes", zh: "无明显既往史", fr: "Pas d'antécédent notable", ar: "لا يوجد تاريخ مرضي بارز" } },
+          { en: "Diabetes (Type 1 or Type 2)", trans: { es: "Diabetes (Tipo 1 o Tipo 2)", zh: "糖尿病（1型或2型）", fr: "Diabète (Type 1 ou 2)", ar: "السكري" } },
+          { en: "Seizures / Epilepsy", trans: { es: "Convulsiones / Epilepsia", zh: "癫痫 / 抽搐", fr: "Crises / Épilepsie", ar: "الصرع / النوبات" } },
+          { en: "Hypertension / Heart disease / Stroke", trans: { es: "Hipertensión / Cardiopatía / ACV", zh: "高血压 / 心脏病 / 中风", fr: "Hypertension / Cœur / AVC", ar: "الضغط / القلب / سكتة" } },
+          { en: "Asthma / COPD / Prior surgery", trans: { es: "Asma / EPOC / Cirugía previa", zh: "哮喘 / 慢阻肺 / 既往手术", fr: "Asthme / BPCO / Chirurgie", ar: "ربو / جراحة سابقة" } }
         ]
       },
       {
-        id: "past_medical_history",
+        id: "sample_l",
         phase: "sample",
-        label: "SAMPLE (P) · Past Medical History",
-        english: "Do you have any past medical conditions, heart/lung issues, or surgeries?",
+        label: "L · Last Oral Intake",
+        english: "When did you last eat or drink, and did you have alcohol or caffeine?",
         translations: {
-          es: "¿Tiene antecedentes médicos, problemas cardíacos/pulmonares o cirugías?",
-          zh: "您是否有既往病史、心肺疾病或手术史？",
-          fr: "Avez-vous des antécédents médicaux, cardiaques/pulmonaires ou des chirurgies ?",
-          tl: "May dati ka bang sakit, problema sa puso/baga, o operasyon?",
-          hi: "क्या आपको पहले से कोई बीमारी, दिल/फेफड़े की समस्या या सर्जरी हुई है?",
-          ar: "هل لديك تاريخ مرضي أو مشاكل في القلب أو الرئة أو عمليات جراحية؟",
-          ur: "کیا آپ کو پہلے کوئی بیماری، دل/پھیپھڑوں کا مسئلہ یا سرجری ہوئی ہے؟",
-          ru: "Есть ли у вас хронические болезни, проблемы с сердцем/лёгкими или операции?",
-          uk: "Чи є у вас хронічні хвороби, проблеми з серцем/легенями або операції?",
-          vi: "Bạn có tiền sử bệnh lý, vấn đề tim/phổi hay phẫu thuật nào không?"
+          es: "¿Cuándo comió o bebió por última vez y consumió alcohol o cafeína?",
+          zh: "您上次进食或饮水是什么时候，是否摄入了酒精或咖啡因？",
+          fr: "Quand avez-vous mangé ou bu pour la dernière fois, avec alcool ou caféine ?",
+          ar: "متى آخر مرة أكلت أو شربت وهل تناولت كحولاً أو كافيين؟"
         },
         responses: [
-          { en: "No significant PMH", trans: { es: "Sin antecedentes relevantes", zh: "无明显既往病史", fr: "Pas d'antécédent notable", tl: "Walang malalang sakit noon", ar: "لا يوجد تاريخ مرضي مهم" } },
-          { en: "Hypertension / Heart disease", trans: { es: "Hipertensión / Enfermedad cardíaca", zh: "高血压 / 心脏病", fr: "Hypertension / Cardiopathie", tl: "Alta presyon / sakit sa puso", ar: "ارتفاع الضغط / أمراض القلب" } },
-          { en: "Diabetes / Respiratory (Asthma/COPD)", trans: { es: "Diabetes / Respiratoria", zh: "糖尿病 / 呼吸系统疾病", fr: "Diabète / Respiratoire", tl: "Diabetes / hika", ar: "السكري / أمراض التنفس" } },
-          { en: "Prior surgery / Stroke / Seizures", trans: { es: "Cirugía / ACV / Convulsiones", zh: "手术史 / 中风 / 癫痫", fr: "Chirurgie / AVC / Convulsions", tl: "Operasyon / stroke / kombulsyon", ar: "جراحة / سكتة / نوبات" } }
+          { en: "Ate / drank less than 2 hours ago", trans: { es: "Hace menos de 2 horas", zh: "不到2小时前", fr: "Moins de 2 heures", ar: "أقل من ساعتين" } },
+          { en: "Ate / drank 2 to 6 hours ago", trans: { es: "Hace 2 a 6 horas", zh: "2到6小时前", fr: "2 à 6 heures", ar: "من ساعتين إلى 6 ساعات" } },
+          { en: "Nothing for more than 6 hours", trans: { es: "Hace más de 6 horas", zh: "6小时以上未进食", fr: "Plus de 6 heures", ar: "أكثر من 6 ساعات" } },
+          { en: "Recent alcohol / substance intake", trans: { es: "Consumo reciente de alcohol o sustancias", zh: "近期饮酒或摄入其他物质", fr: "Alcool ou substance récent", ar: "تناول كحول أو مواد مؤخراً" } }
         ]
       },
       {
-        id: "last_intake",
+        id: "sample_e",
         phase: "sample",
-        label: "SAMPLE (L) · Last Oral Intake",
-        english: "When did you last eat or drink anything, and what was it?",
-        translations: {
-          es: "¿Cuándo comió o bebió algo por última vez y qué fue?",
-          zh: "您上次吃东西或喝水是什么时候，吃了什么？",
-          fr: "Quand avez-vous mangé ou bu pour la dernière fois et quoi ?",
-          tl: "Kailan ka huling kumain o uminom, at ano iyon?",
-          hi: "आपने आखिरी बार कब और क्या खाया या पिया था?",
-          ar: "متى آخر مرة أكلت أو شربت فيها وماذا كان؟",
-          ur: "آپ نے آخری بار کب اور کیا کھایا یا پیا تھا؟",
-          ru: "Когда вы в последний раз ели или пили и что именно?",
-          uk: "Коли ви востаннє їли або пили і що саме?",
-          vi: "Lần cuối bạn ăn hoặc uống là khi nào và dùng gì?"
-        },
-        responses: [
-          { en: "Less than 2 hours ago", trans: { es: "Hace menos de 2 horas", zh: "不到2小时前", fr: "Il y a moins de 2 heures", tl: "Wala pang 2 oras", ar: "أقل من ساعتين" } },
-          { en: "2 to 6 hours ago", trans: { es: "Hace 2 a 6 horas", zh: "2到6小时前", fr: "Il y a 2 à 6 heures", tl: "2 hanggang 6 na oras", ar: "من ساعتين إلى 6 ساعات" } },
-          { en: "More than 6 hours ago", trans: { es: "Hace más de 6 horas", zh: "6小时以上前", fr: "Il y a plus de 6 heures", tl: "Mahigit 6 na oras", ar: "أكثر من 6 ساعات" } }
-        ]
-      },
-      {
-        id: "events_leading",
-        phase: "sample",
-        label: "SAMPLE (E) · Events Leading Up",
+        label: "E · Events Leading Up",
         english: "What were you doing right before this started?",
         translations: {
           es: "¿Qué estaba haciendo justo antes de que esto comenzara?",
           zh: "事情开始前您正在做什么？",
           fr: "Que faisiez-vous juste avant que cela commence ?",
-          tl: "Ano ang ginagawa mo bago ito nagsimula?",
-          hi: "यह शुरू होने से ठीक पहले आप क्या कर रहे थे?",
-          ar: "ماذا كنت تفعل قبل أن يبدأ هذا مباشرة؟",
-          ur: "یہ شروع ہونے سے ٹھیک پہلے آپ کیا کر رہے تھے؟",
-          ru: "Что вы делали прямо перед началом этого состояния?",
-          uk: "Що ви робили безпосередньо перед початком цього стану?",
-          vi: "Bạn đang làm gì ngay trước khi tình trạng này bắt đầu?"
+          ar: "ماذا كنت تفعل قبل بدء هذا مباشرة؟"
         },
         responses: [
-          { en: "Resting / Sleeping", trans: { es: "Descansando / Durmiendo", zh: "休息 / 睡觉", fr: "Repos / Sommeil", tl: "Nagpapahinga / natutulog", ar: "راحة / نوم" } },
-          { en: "Physical exertion / Activity", trans: { es: "Esfuerzo físico / Actividad", zh: "体力活动 / 运动", fr: "Effort physique / Activité", tl: "Pagod / pisikal na gawain", ar: "مجهود بدني / نشاط" } },
-          { en: "Sudden onset / Fall / Trauma", trans: { es: "Inicio repentino / Caída / Traumatismo", zh: "突发 / 跌倒 / 外伤", fr: "Début soudain / Chute / Traumatisme", tl: "Biglaan / nadulas / naaksidente", ar: "بداية مفاجئة / سقوط / إصابة" } }
+          { en: "Resting / Sitting / Sleeping", trans: { es: "Descansando / Sentado / Durmiendo", zh: "休息 / 坐着 / 睡觉", fr: "Repos / Assis / Sommeil", ar: "راحة / جلوس / نوم" } },
+          { en: "Physical work / Exercise / Heat/cold exposure", trans: { es: "Esfuerzo físico / Calor o frío", zh: "体力活动 / 运动 / 冷热暴露", fr: "Effort / Chaleur ou froid", ar: "مجهود / حرارة أو برودة" } },
+          { en: "Fall / Slip / Collision / Impact", trans: { es: "Caída / Resbalón / Golpe", zh: "跌倒 / 滑倒 / 撞击", fr: "Chute / Choc / Collision", ar: "سقوط / اصطدام" } },
+          { en: "Sudden onset without clear trigger", trans: { es: "Inicio repentino sin causa clara", zh: "突然发作，无明显诱因", fr: "Début soudain sans cause claire", ar: "بداية مفاجئة بدون سبب واضح" } }
         ]
       },
+
+      // OPQRST
       {
         id: "opqrst_o",
         phase: "opqrst",
-        label: "OPQRST (O) · Onset",
-        english: "Did the pain or symptom start suddenly or gradually?",
+        label: "O · Onset",
+        english: "How did the pain or symptom begin?",
         translations: {
-          es: "¿El dolor o síntoma comenzó de forma repentina o gradual?",
-          zh: "疼痛或症状是突然发作还是逐渐加重的？",
-          fr: "La douleur ou le symptôme a-t-il commencé soudainement ou progressivement ?",
-          tl: "Biglaan bang nagsimula ang sakit o sintomas, o unti-unti?",
-          hi: "क्या दर्द या लक्षण अचानक शुरू हुआ या धीरे-धीरे?",
-          ar: "هل بدأ الألم أو العرض فجأة أم تدريجياً؟",
-          ur: "کیا درد یا علامت اچانک شروع ہوئی یا آہستہ آہستہ؟",
-          ru: "Боль или симптом начались внезапно или постепенно?",
-          uk: "Біль або симптом почалися раптово чи поступово?",
-          vi: "Cơn đau hoặc triệu chứng bắt đầu đột ngột hay từ từ?"
+          es: "¿Cómo comenzó el dolor o síntoma?",
+          zh: "疼痛或症状是如何开始的？",
+          fr: "Comment la douleur ou le symptôme a-t-il commencé ?",
+          ar: "كيف بدأ الألم أو العرض؟"
         },
         responses: [
-          { en: "Sudden onset", trans: { es: "Inicio repentino", zh: "突然发作", fr: "Apparition soudaine", tl: "Biglaan", ar: "مفاجئ" } },
-          { en: "Gradual onset", trans: { es: "Inicio gradual", zh: "逐渐加重", fr: "Apparition progressive", tl: "Unti-unti", ar: "تدريجي" } }
+          { en: "Sudden (seconds to minutes)", trans: { es: "Repentino (segundos a minutos)", zh: "突发（数秒至数分钟）", fr: "Soudain", ar: "مفاجئ" } },
+          { en: "Gradual (hours to days)", trans: { es: "Gradual (horas a días)", zh: "逐渐加重（数小时至数天）", fr: "Progressif", ar: "تدريجي" } },
+          { en: "Triggered by specific movement or activity", trans: { es: "Desencadenado por movimiento o actividad", zh: "由特定动作或活动诱发", fr: "Déclenché par un mouvement", ar: "مرتبط بحركة أو نشاط" } }
         ]
       },
       {
         id: "opqrst_p",
         phase: "opqrst",
-        label: "OPQRST (P) · Provocation / Palliation",
-        english: "What makes it worse, and what makes it better?",
+        label: "P · Provocation / Palliation",
+        english: "What provokes the symptom or makes it feel better?",
         translations: {
-          es: "¿Qué lo empeora y qué lo mejora?",
-          zh: "什么会使症状加重，什么会缓解？",
-          fr: "Qu'est-ce qui l'aggrave et qu'est-ce qui le soulage ?",
-          tl: "Ano ang nagpapalala dito, at ano ang nakakabuti?",
-          hi: "किससे यह बढ़ता है और किससे आराम मिलता है?",
-          ar: "ما الذي يزيده وما الذي يخففه؟",
-          ur: "کس چیز سے یہ بڑھتا ہے اور کس چیز سے آرام ملتا ہے؟",
-          ru: "От чего становится хуже и от чего легче?",
-          uk: "Від чого стає гірше і від чого легше?",
-          vi: "Điều gì làm nặng thêm và điều gì làm bớt đi?"
+          es: "¿Qué provoca el síntoma o hace que se sienta mejor?",
+          zh: "什么会诱发症状，什么会让症状好转？",
+          fr: "Qu'est-ce qui provoque le symptôme ou le soulage ?",
+          ar: "ما الذي يثير العرض أو يجعله أفضل؟"
         },
         responses: [
-          { en: "Worse with movement / deep breath", trans: { es: "Empeora al moverse o respirar hondo", zh: "活动或深呼吸时加重", fr: "Aggravé par le mouvement ou la respiration", tl: "Lumalala kapag gumagalaw o humihinga nang malalim", ar: "يزداد مع الحركة أو التنفس العميق" } },
-          { en: "Worse with exertion", trans: { es: "Empeora con el esfuerzo", zh: "劳力时加重", fr: "Aggravé à l'effort", tl: "Lumalala kapag napapagod", ar: "يزداد مع المجهود" } },
-          { en: "Better with rest / position change", trans: { es: "Mejora con reposo o cambio de postura", zh: "休息或改变体位后缓解", fr: "Soulagé par le repos ou le changement de position", tl: "Gumaganda kapag nagpapahinga", ar: "يخف مع الراحة أو تغيير الوضع" } }
+          { en: "Worse on palpation / movement", trans: { es: "Empeora al tocar o moverse", zh: "按压或移动时加重", fr: "Aggravé au toucher ou mouvement", ar: "يزداد باللمس أو الحركة" } },
+          { en: "Worse with deep breath / cough", trans: { es: "Empeora al respirar hondo o toser", zh: "深呼吸或咳嗽时加重", fr: "Aggravé par respiration ou toux", ar: "يزداد بالتنفس العميق أو السعال" } },
+          { en: "Worse with exertion / standing", trans: { es: "Empeora con esfuerzo o al ponerse de pie", zh: "劳力或站立时加重", fr: "Aggravé à l'effort ou debout", ar: "يزداد بالمجهود أو الوقوف" } },
+          { en: "Relieved by rest / sitting / position", trans: { es: "Alivia con reposo o cambio de postura", zh: "休息或改变体位后缓解", fr: "Soulagé par repos ou position", ar: "يخف بالراحة أو تغيير الوضع" } }
         ]
       },
       {
         id: "opqrst_q",
         phase: "opqrst",
-        label: "OPQRST (Q) · Quality",
-        english: "How would you describe the feeling or pain?",
+        label: "Q · Quality",
+        english: "What does the pain or sensation feel like?",
         translations: {
-          es: "¿Cómo describiría la sensación o el dolor?",
-          zh: "您如何形容这种感觉或疼痛？",
-          fr: "Comment décririez-vous la sensation ou la douleur ?",
-          tl: "Paano mo ilalarawan ang pakiramdam o sakit?",
-          hi: "आप इस एहसास या दर्द का वर्णन कैसे करेंगे?",
-          ar: "كيف تصف هذا الشعور أو الألم؟",
-          ur: "آپ اس احساس یا درد کو کیسے بیان کریں گے؟",
-          ru: "Как бы вы описали это ощущение или боль?",
-          uk: "Як би ви описали це відчуття або біль?",
-          vi: "Bạn mô tả cảm giác hoặc cơn đau này như thế nào?"
+          es: "¿Cómo se siente el dolor o la sensación?",
+          zh: "疼痛或感觉是什么样的？",
+          fr: "Quel est le type de douleur ou sensation ?",
+          ar: "كيف يبدو شعور الألم أو العرض؟"
         },
         responses: [
-          { en: "Sharp / Stabbing", trans: { es: "Agudo / Punzante", zh: "锐痛 / 刺痛", fr: "Aigu / Lancinant", tl: "Matulis / parang sinasaksak", ar: "حاد / واخز" } },
-          { en: "Dull / Ache / Pressure", trans: { es: "Sordo / Molestia / Presión", zh: "钝痛 / 隐痛 / 压迫感", fr: "Sourd / Pression", tl: "Mahapdi / mabigat / naninikip", ar: "مبهم / ضغط" } },
-          { en: "Burning / Tightness", trans: { es: "Ardor / Opresión", zh: "烧灼感 / 紧缩感", fr: "Brûlure / Serrage", tl: "Mahapdi na parang nasusunog / masikip", ar: "حارق / انقباض" } }
+          { en: "Sharp / Stabbing / Piercing", trans: { es: "Agudo / Punzante", zh: "锐痛 / 刺痛", fr: "Aigu / Lancinant", ar: "حاد / واخز" } },
+          { en: "Dull / Aching / Throbbing", trans: { es: "Sordo / Pulsátil / Molestia", zh: "钝痛 / 跳痛 / 酸胀", fr: "Sourd / Pulsatile", ar: "مبهم / نابض" } },
+          { en: "Pressure / Heavy / Squeezing", trans: { es: "Presión / Pesadez / Opresión", zh: "压迫感 / 沉重感 / 紧缩感", fr: "Pression / Lourdeur / Serrage", ar: "ضغط / ثقل / انقباض" } },
+          { en: "Burning / Tingling / Pins & needles", trans: { es: "Ardor / Hormigueo", zh: "烧灼感 / 刺麻感", fr: "Brûlure / Fourmillements", ar: "حارق / وخز" } }
         ]
       },
       {
         id: "opqrst_r",
         phase: "opqrst",
-        label: "OPQRST (R) · Region / Radiation",
-        english: "Where is it located, and does it spread anywhere else?",
+        label: "R · Region / Radiation",
+        english: "Where is the primary spot, and does it radiate anywhere?",
         translations: {
-          es: "¿Dónde está localizado y se extiende a otra parte?",
-          zh: "疼痛在什么位置，是否放射到其他部位？",
-          fr: "Où est-ce situé et est-ce que cela irradie ailleurs ?",
-          tl: "Nasaan ito, at kumakalat ba sa ibang bahagi?",
-          hi: "यह कहाँ है, और क्या यह कहीं और फैलता है?",
-          ar: "أين يقع وهل ينتشر إلى مكان آخر؟",
-          ur: "یہ کہاں ہے اور کیا یہ کسی اور جگہ پھیلتا ہے؟",
-          ru: "Где это находится и отдаёт ли куда-нибудь?",
-          uk: "Де це розташовано і чи віддає кудись?",
-          vi: "Vị trí ở đâu và có lan sang chỗ khác không?"
+          es: "¿Dónde está el punto principal y se irradia a algún lugar?",
+          zh: "主要部位在哪里，是否向其他部位放射？",
+          fr: "Où est la zone principale et y a-t-il une irradiation ?",
+          ar: "أين المكان الأساسي وهل يمتد إلى أي مكان آخر؟"
         },
         responses: [
-          { en: "Localized to one spot", trans: { es: "Localizado en un punto", zh: "局限于某一处", fr: "Localisé à un point", tl: "Sa isang lugar lang", ar: "في مكان واحد" } },
-          { en: "Radiates to arm / jaw / back", trans: { es: "Irradia a brazo, mandíbula o espalda", zh: "放射至手臂、下颌或背部", fr: "Irradie vers le bras, la mâchoire ou le dos", tl: "Kumakalat sa braso, panga, o likod", ar: "يمتد إلى الذراع أو الفك أو الظهر" } }
+          { en: "Focal / Point tenderness", trans: { es: "Localizado en un punto", zh: "局部压痛", fr: "Localisé", ar: "موضعي في نقطة" } },
+          { en: "Radiates to left/right arm or shoulder", trans: { es: "Irradia a brazo u hombro", zh: "放射至左/右臂或肩部", fr: "Irradie vers bras ou épaule", ar: "يمتد إلى الذراع أو الكتف" } },
+          { en: "Radiates to jaw, neck, or back", trans: { es: "Irradia a mandíbula, cuello o espalda", zh: "放射至下颌、颈部或背部", fr: "Irradie vers mâchoire, cou ou dos", ar: "يمتد إلى الفك أو الرقبة أو الظهر" } },
+          { en: "Diffuse / Widespread", trans: { es: "Difuso / Generalizado", zh: "弥漫性 / 广泛", fr: "Diffus", ar: "منتشر" } }
         ]
       },
       {
         id: "opqrst_s",
         phase: "opqrst",
-        label: "OPQRST (S) · Severity (0-10)",
-        english: "On a scale from 0 to 10, how bad is it right now?",
+        label: "S · Severity",
+        english: "How severe is it (use the 0–10 scale or describe impact)?",
         translations: {
-          es: "En una escala del 0 al 10, ¿qué tan fuerte es ahora?",
-          zh: "按0到10分计算，现在有多痛？",
-          fr: "Sur une échelle de 0 à 10, quelle est l'intensité maintenant ?",
-          tl: "Sa antas na 0 hanggang 10, gaano kasakit ngayon?",
-          hi: "0 से 10 के पैमाने पर अभी यह कितना तीव्र है?",
-          ar: "على مقياس من 0 إلى 10، ما مدى شدته الآن؟",
-          ur: "0 سے 10 کے پیمانے پر ابھی یہ کتنا شدید ہے؟",
-          ru: "По шкале от 0 до 10 насколько это сильно сейчас?",
-          uk: "За шкалою від 0 до 10 наскільки це сильно зараз?",
-          vi: "Trên thang điểm từ 0 đến 10, hiện tại đau mức nào?"
+          es: "¿Qué tan severo es (en escala del 0 al 10)?",
+          zh: "严重程度如何（0–10分或对日常的影响）？",
+          fr: "Quelle est l'intensité (échelle de 0 à 10) ?",
+          ar: "ما مدى شدته (على مقياس من 0 إلى 10)؟"
         },
         responses: [
-          { en: "Mild (1-3 / 10)", trans: { es: "Leve (1-3 / 10)", zh: "轻度 (1-3 / 10)", fr: "Léger (1-3 / 10)", tl: "Banayad (1-3 / 10)", ar: "خفيف (1-3 / 10)" } },
-          { en: "Moderate (4-6 / 10)", trans: { es: "Moderado (4-6 / 10)", zh: "中度 (4-6 / 10)", fr: "Modéré (4-6 / 10)", tl: "Katamtaman (4-6 / 10)", ar: "متوسط (4-6 / 10)" } },
-          { en: "Severe (7-10 / 10)", trans: { es: "Severo (7-10 / 10)", zh: "重度 (7-10 / 10)", fr: "Sévère (7-10 / 10)", tl: "Matindi (7-10 / 10)", ar: "شديد (7-10 / 10)" } }
+          { en: "Mild (1–3/10)", trans: { es: "Leve (1–3/10)", zh: "轻度 (1–3/10)", fr: "Léger (1–3/10)", ar: "خفيف (1–3/10)" } },
+          { en: "Moderate (4–6/10)", trans: { es: "Moderado (4–6/10)", zh: "中度 (4–6/10)", fr: "Modéré (4–6/10)", ar: "متوسط (4–6/10)" } },
+          { en: "Severe (7–10/10)", trans: { es: "Severo (7–10/10)", zh: "重度 (7–10/10)", fr: "Sévère (7–10/10)", ar: "شديد (7–10/10)" } },
+          { en: "Worse than baseline / unbearable", trans: { es: "Peor de lo habitual / insoportable", zh: "比平时更重 / 难以忍受", fr: "Pire que d'habitude", ar: "أسوأ من المعتاد / لا يُحتمل" } }
         ]
       },
       {
         id: "opqrst_t",
         phase: "opqrst",
-        label: "OPQRST (T) · Time",
-        english: "How long ago did this start, and is it constant or coming and going?",
+        label: "T · Time & Pattern",
+        english: "When did it start, and is it constant or intermittent?",
         translations: {
-          es: "¿Hace cuánto empezó y es constante o va y viene?",
-          zh: "这是什么时候开始的，是持续存在还是时有时无？",
-          fr: "Depuis quand cela a-t-il commencé et est-ce constant ou intermittent ?",
-          tl: "Gaano na katagal itong nagsimula, at tuloy-tuloy ba o pabalik-balik?",
-          hi: "यह कब शुरू हुआ था, और क्या यह लगातार है या आता-जाता है?",
-          ar: "منذ متى بدأ هذا وهل هو مستمر أم متقطع؟",
-          ur: "یہ کب شروع ہوا تھا اور کیا یہ مسلسل ہے یا آتا جاتا ہے؟",
-          ru: "Давно ли это началось и бывает ли постоянно или периодически?",
-          uk: "Давно це почалося і чи буває постійно чи періодично?",
-          vi: "Tình trạng này bắt đầu từ bao lâu và liên tục hay ngắt quãng?"
+          es: "¿Cuándo empezó y es constante o intermitente?",
+          zh: "什么时候开始的，是持续存在还是间歇性的？",
+          fr: "Quand cela a-t-il commencé et est-ce constant ou intermittent ?",
+          ar: "متى بدأ وهل هو مستمر أم متقطع؟"
         },
         responses: [
-          { en: "Started within last hour, constant", trans: { es: "Empezó en la última hora, constante", zh: "1小时内开始，持续存在", fr: "Début dans la dernière heure, constant", tl: "Sa loob ng 1 oras, tuloy-tuloy", ar: "بدأ خلال الساعة الأخيرة، مستمر" } },
-          { en: "Started hours/days ago", trans: { es: "Empezó hace horas o días", zh: "数小时或数天前开始", fr: "Début il y a des heures ou des jours", tl: "Ilang oras o araw na", ar: "بدأ منذ ساعات أو أيام" } },
-          { en: "Intermittent (comes and goes)", trans: { es: "Intermitente (va y viene)", zh: "间歇性（时有时无）", fr: "Intermittent", tl: "Pabalik-balik", ar: "متقطع" } }
+          { en: "Constant since onset", trans: { es: "Constante desde el inicio", zh: "自发作以来持续存在", fr: "Constant depuis le début", ar: "مستمر منذ البداية" } },
+          { en: "Intermittent / Waves", trans: { es: "Intermitente / Por oleadas", zh: "间歇性 / 阵发性", fr: "Intermittent", ar: "متقطع / على شكل موجات" } },
+          { en: "Progressively worsening", trans: { es: "Empeorando progresivamente", zh: "进行性加重", fr: "En augmentation progressive", ar: "يزداد سوءاً تدريجياً" } }
+        ]
+      },
+
+      // STOPEATS (Altered / Neuro Targeted Checks)
+      {
+        id: "stopeats_s_t",
+        phase: "stopeats",
+        label: "STOPEATS · Sugars & Temperature",
+        english: "Have you had blood sugar swings/shakiness, or fever, heat, or cold exposure?",
+        translations: {
+          es: "¿Ha tenido cambios de azúcar/temblores, o fiebre, calor o frío extremo?",
+          zh: "您是否有血糖波动/发抖，或发烧、高温或寒冷暴露？",
+          fr: "Avez-vous eu des variations de sucre/tremblements, ou fièvre, chaleur ou froid ?",
+          ar: "هل حدثت تقلبات في السكر أو رجفة، أو حمى أو تعرض للحرارة أو البرودة؟"
+        },
+        responses: [
+          { en: "Low/high blood sugar symptoms (shaky, sweaty, thirsty)", trans: { es: "Síntomas de azúcar alta/baja", zh: "低/高血糖症状（发抖、出汗、口渴）", fr: "Symptômes glycémie", ar: "أعراض انخفاض أو ارتفاع السكر" } },
+          { en: "Fever / Chills / Infection signs", trans: { es: "Fiebre / Escalofríos", zh: "发烧 / 发冷 / 感染迹象", fr: "Fièvre / Frissons", ar: "حمى / قشعريرة" } },
+          { en: "Heat exhaustion / Cold exposure", trans: { es: "Golpe de calor / Exposición al frío", zh: "中暑/热衰竭 或 失温/受冷", fr: "Chaleur ou exposition au froid", ar: "إجهاد حراري أو تعرض للبرد" } },
+          { en: "Sugars & temperature negative/normal", trans: { es: "Sin alteración aparente", zh: "血糖和体温无明显异常", fr: "Pas d'anomalie signalée", ar: "لا توجد أعراض واضحة" } }
         ]
       },
       {
-        id: "stopeats_t_o",
+        id: "stopeats_o_p",
         phase: "stopeats",
-        label: "STOPEATS · Thoughts, OTC & Social",
-        english: "Any stress/triggers, over-the-counter meds, or someone who should be notified?",
+        label: "STOPEATS · Oxygen & Pressure",
+        english: "Any low oxygen/shortness of breath, or blood pressure/head pressure/dizziness?",
         translations: {
-          es: "¿Algún estrés/detonante, medicamentos sin receta o alguien a quien avisar?",
-          zh: "是否有压力/诱因、非处方药或需要通知的家人/联系人？",
-          fr: "Y a-t-il du stress/déclencheurs, des médicaments en vente libre ou un proche à prévenir ?",
-          tl: "May stress/trigger ba, OTC na gamot, o kamag-anak na dapat tawagan?",
-          hi: "क्या कोई तनाव/कारण, बिना पर्चे की दवा या सूचित करने के लिए कोई परिचित है?",
-          ar: "هل هناك توتر أو محفزات أو أدوية بدون وصفة أو شخص يجب إبلاغه؟",
-          ur: "کیا کوئی دباؤ/وجہ، عام دوا یا اطلاع دینے کے لیے کوئی عزیز ہے؟",
-          ru: "Есть ли стресс/триггеры, безрецептурные лекарства или кому нужно сообщить?",
-          uk: "Чи є стрес/тригери, безрецептурні ліки або кому потрібно повідомити?",
-          vi: "Có căng thẳng/yếu tố kích hoạt, thuốc không kê đơn hay người thân cần liên hệ không?"
+          es: "¿Falta de oxígeno/aire, o presión arterial/cabeza/mareos?",
+          zh: "是否有缺氧/气促，或血压/头部胀痛/头晕？",
+          fr: "Manque d'oxygène/essoufflement, ou tension/pression crânienne/vertiges ?",
+          ar: "هل هناك نقص أكسجين أو ضيق نفس، أو ضغط الدم أو ضغط في الرأس أو دوخة؟"
         },
         responses: [
-          { en: "High stress / anxiety / trigger noted", trans: { es: "Estrés alto / ansiedad / detonante", zh: "高压力 / 焦虑 / 诱因", fr: "Stress / anxiété / déclencheur", tl: "May stress o pagkabalisa", ar: "توتر أو قلق" } },
-          { en: "OTC meds / supplements used", trans: { es: "Medicamentos de venta libre / suplementos", zh: "使用了非处方药或补充剂", fr: "Médicaments en vente libre / suppléments", tl: "Uminom ng OTC o supplement", ar: "تناول أدوية بدون وصفة" } },
-          { en: "Emergency contact available", trans: { es: "Contacto de emergencia disponible", zh: "有紧急联系人", fr: "Contact d'urgence disponible", tl: "May emergency contact", ar: "يوجد جهة اتصال للطوارئ" } }
+          { en: "Shortness of breath / Hypoxia signs", trans: { es: "Falta de aire / Posible hipoxia", zh: "气促 / 缺氧表现", fr: "Essoufflement / Hypoxie", ar: "ضيق نفس / نقص أكسجين" } },
+          { en: "Dizziness / Orthostatic lightheadedness", trans: { es: "Mareos al incorporarse", zh: "头晕 / 体位性头重脚轻", fr: "Vertiges / Étourdissements", ar: "دوار / دوخة عند الوقوف" } },
+          { en: "Severe headache / High BP symptoms", trans: { es: "Dolor de cabeza intenso / Presión alta", zh: "剧烈头痛 / 高血压症状", fr: "Céphalée / Pression", ar: "صداع شديد / ضغط مرتفع" } },
+          { en: "No oxygen or pressure complaints", trans: { es: "Sin molestias de oxígeno o presión", zh: "无缺氧或血压不适", fr: "Aucune gêne signalée", ar: "لا توجد شكاوى" } }
         ]
       },
+      {
+        id: "stopeats_e_a",
+        phase: "stopeats",
+        label: "STOPEATS · Epilepsy/Electricity & Alcohol/Altitude",
+        english: "Are you epileptic or had a seizure/shock? Any alcohol, altitude, or substances?",
+        translations: {
+          es: "¿Es epiléptico o tuvo convulsión/descarga? ¿Alcohol, altitud o sustancias?",
+          zh: "您是否患有癫痫或有过抽搐/电击？是否有饮酒、高海拔或药物/物质？",
+          fr: "Êtes-vous épileptique ou avez-vous eu une convulsion/choc ? Alcool, altitude ou substances ?",
+          ar: "هل تعاني من الصرع أو نوبة أو صدمة كهربائية؟ هل هناك كحول أو ارتفاع أو مواد؟"
+        },
+        responses: [
+          { en: "Epileptic / History of seizures", trans: { es: "Epiléptico / Antecedente de convulsiones", zh: "癫痫 / 有抽搐史", fr: "Épileptique / Convulsions", ar: "مصاب بالصرع أو تاريخ نوبات" } },
+          { en: "Recent seizure or electrical exposure", trans: { es: "Convulsión reciente o descarga eléctrica", zh: "近期抽搐或电击暴露", fr: "Convulsion ou choc récent", ar: "نوبة حديثة أو صدمة كهربائية" } },
+          { en: "Alcohol / Medications / Substances", trans: { es: "Alcohol / Medicamentos / Sustancias", zh: "酒精 / 药物 / 其他物质", fr: "Alcool / Médicaments / Substances", ar: "كحول أو أدوية أو مواد" } },
+          { en: "High altitude / Environment factor", trans: { es: "Altitud o factor ambiental", zh: "高海拔或环境因素", fr: "Altitude ou environnement", ar: "ارتفاع أو عامل بيئي" } },
+          { en: "None of these reported", trans: { es: "Ninguno reportado", zh: "均无", fr: "Aucun signalé", ar: "لا يوجد" } }
+        ]
+      },
+      {
+        id: "stopeats_t_s",
+        phase: "stopeats",
+        label: "STOPEATS · Trauma & Stroke/Sepsis/Stings",
+        english: "Any head/body trauma, stroke signs (face/arm/speech), infection, or sting/bite?",
+        translations: {
+          es: "¿Traumatismo, signos de ACV (cara/brazo/habla), infección o picadura?",
+          zh: "是否有头部/身体外伤、中风迹象（面部/手臂/言语）、感染或虫蛇叮咬？",
+          fr: "Traumatisme, signes d'AVC (visage/bras/parole), infection ou piqûre ?",
+          ar: "هل هناك إصابة أو علامات جلطة (وجه/ذراع/نطق) أو عدوى أو لدغة؟"
+        },
+        responses: [
+          { en: "Head hit / Fall / Trauma", trans: { es: "Golpe en cabeza / Caída / Traumatismo", zh: "头部撞击 / 跌倒 / 外伤", fr: "Choc tête / Chute / Traumatisme", ar: "إصابة رأس / سقوط" } },
+          { en: "Focal neurological / Stroke signs", trans: { es: "Signos neurológicos / Posible ACV", zh: "局灶神经症状 / 中风迹象", fr: "Signes neurologiques / AVC", ar: "أعراض عصبية / علامات جلطة" } },
+          { en: "Suspected infection / Sepsis signs", trans: { es: "Posible infección", zh: "疑似感染", fr: "Infection suspectée", ar: "اشتباه عدوى" } },
+          { en: "Insect sting / Animal bite / Envenomation", trans: { es: "Picadura / Mordedura", zh: "虫咬 / 动物咬伤 / 蜇伤", fr: "Piqûre / Morsure", ar: "لدغة حشرة أو عضة حيوان" } }
+        ]
+      },
+
+      // HEAD-TO-TOE
       {
         id: "htt_head_neck",
         phase: "headtotoe",
-        label: "Head-to-Toe · Head, Face & Neck",
-        english: "Do you have any headache, vision changes, facial numbness, or neck pain?",
+        label: "Head, Face & Neck",
+        english: "Any headache, vision/speech change, facial droop/numbness, or neck pain/tenderness?",
         translations: {
-          es: "¿Tiene dolor de cabeza, cambios en la visión, entumecimiento facial o dolor de cuello?",
-          zh: "您是否头痛、视力改变、面部麻木或颈部疼痛？",
-          fr: "Avez-vous des maux de tête, troubles de la vision, engourdissement facial ou douleur au cou ?",
-          tl: "May sakit ka ba sa ulo, malabong paningin, pamamanhid sa mukha, o pananakit ng leeg?",
-          hi: "क्या आपको सिरदर्द, देखने में बदलाव, चेहरे में सुन्नपन या गर्दन में दर्द है?",
-          ar: "هل تعاني من صداع أو تغير في الرؤية أو خدر في الوجه أو ألم في الرقبة؟",
-          ur: "کیا آپ کو سر درد، نظر میں تبدیلی، چہرے میں سن پن یا گردن میں درد ہے؟",
-          ru: "Есть ли головная боль, изменение зрения, онемение лица или боль в шее?",
-          uk: "Чи є головний біль, зміна зору, оніміння обличчя або біль у шиї?",
-          vi: "Bạn có bị đau đầu, thay đổi thị lực, tê mặt hay đau cổ không?"
+          es: "¿Dolor de cabeza, cambio de visión/habla, debilidad facial o dolor de cuello?",
+          zh: "是否有头痛、视力/言语改变、面部歪斜/麻木或颈部疼痛/压痛？",
+          fr: "Céphalée, trouble vision/parole, faiblesse faciale ou douleur cervicale ?",
+          ar: "هل هناك صداع أو تغير في الرؤية أو النطق أو ضعف في الوجه أو ألم في الرقبة؟"
         },
         responses: [
-          { en: "No head, vision, or neck complaints", trans: { es: "Sin molestias en cabeza, visión o cuello", zh: "头部、视力和颈部无不适", fr: "Aucune gêne tête, vision ou cou", tl: "Walang reklamo sa ulo, mata, o leeg", ar: "لا توجد شكوى في الرأس أو النظر أو الرقبة" } },
-          { en: "Headache / Dizziness / Vision change", trans: { es: "Dolor de cabeza / Mareos / Visión", zh: "头痛 / 头晕 / 视力变化", fr: "Maux de tête / Vertiges / Vision", tl: "Sakit ng ulo / hilo / paningin", ar: "صداع / دوخة / تغير النظر" } },
-          { en: "Neck pain / Stiffness / Trauma", trans: { es: "Dolor o rigidez de cuello / Traumatismo", zh: "颈部疼痛 / 僵硬 / 外伤", fr: "Douleur ou raideur cervicale / Traumatisme", tl: "Sakit o paninigas ng leeg", ar: "ألم أو تيبس الرقبة" } }
+          { en: "Head, face & neck normal / pain-free", trans: { es: "Normal / Sin dolor", zh: "正常 / 无痛", fr: "Normal / Sans douleur", ar: "طبيعي / بدون ألم" } },
+          { en: "Headache / Vision or speech change", trans: { es: "Cefalea / Visión o habla", zh: "头痛 / 视力或言语改变", fr: "Céphalée / Vision ou parole", ar: "صداع / تغير الرؤية أو النطق" } },
+          { en: "Facial asymmetry / Numbness", trans: { es: "Asimetría o entumecimiento facial", zh: "面部不对称 / 麻木", fr: "Asymétrie ou engourdissement facial", ar: "عدم تماثل أو خدر في الوجه" } },
+          { en: "Neck pain / Midline tenderness", trans: { es: "Dolor o sensibilidad en el cuello", zh: "颈部疼痛 / 压痛", fr: "Douleur ou sensibilité cervicale", ar: "ألم أو إيلام في الرقبة" } }
         ]
       },
       {
-        id: "htt_chest_abd",
+        id: "htt_chest_abd_pelvis",
         phase: "headtotoe",
-        label: "Head-to-Toe · Chest, Abdomen & Pelvis",
-        english: "Any pain or tenderness in your chest, belly, back, or groin/pelvis?",
+        label: "Chest, Abdomen & Pelvis",
+        english: "Any chest pain/instability, abdominal pain/rigidity, back pain, or pelvic pain?",
         translations: {
-          es: "¿Algún dolor o sensibilidad en el pecho, abdomen, espalda o pelvis?",
-          zh: "胸部、腹部、背部或骨盆/腹股沟是否有疼痛或压痛？",
-          fr: "Avez-vous une douleur ou sensibilité au thorax, ventre, dos ou bassin ?",
-          tl: "May sakit ba sa dibdib, tiyan, likod, o balakang/puson?",
-          hi: "क्या सीने, पेट, पीठ या श्रोणि में कोई दर्द या कोमलता है?",
-          ar: "هل هناك ألم أو إيلام في الصدر أو البطن أو الظهر أو الحوض؟",
-          ur: "کیا سینے، پیٹ، کمر یا کولہے میں کوئی درد ہے؟",
-          ru: "Есть ли боль или болезненность в груди, животе, спине или тазу?",
-          uk: "Чи є біль або болючість у грудях, животі, спині чи тазу?",
-          vi: "Có đau hay nhức ở ngực, bụng, lưng hay vùng chậu không?"
+          es: "¿Dolor en pecho, abdomen, espalda o pelvis?",
+          zh: "是否有胸痛、腹痛/腹肌紧张、背痛或骨盆痛？",
+          fr: "Douleur thoracique, abdominale, dorsale ou pelvienne ?",
+          ar: "هل هناك ألم في الصدر أو البطن أو الظهر أو الحوض؟"
         },
         responses: [
-          { en: "Chest / Abdomen / Pelvis unremarkable", trans: { es: "Sin hallazgos en pecho, abdomen o pelvis", zh: "胸、腹、骨盆无明显异常", fr: "Thorax, abdomen et bassin sans particularité", tl: "Walang masakit sa dibdib, tiyan, o balakang", ar: "الصدر والبطن والحوض طبيعي" } },
-          { en: "Chest pain or breathing discomfort", trans: { es: "Dolor torácico o molestia al respirar", zh: "胸痛或呼吸不适", fr: "Douleur thoracique ou gêne respiratoire", tl: "Sakit sa dibdib o hirap huminga", ar: "ألم في الصدر أو ضيق تنفس" } },
-          { en: "Abdominal / Back / Pelvic pain", trans: { es: "Dolor abdominal, de espalda o pélvico", zh: "腹痛、背痛或骨盆痛", fr: "Douleur abdominale, dorsale ou pelvienne", tl: "Sakit sa tiyan, likod, o balakang", ar: "ألم في البطن أو الظهر أو الحوض" } }
+          { en: "Chest, abdomen & pelvis unremarkable", trans: { es: "Sin hallazgos anormales", zh: "胸、腹、骨盆无明显异常", fr: "Sans anomalie", ar: "طبيعي" } },
+          { en: "Chest pain / Tenderness / Crepitus", trans: { es: "Dolor o sensibilidad torácica", zh: "胸痛 / 压痛", fr: "Douleur ou sensibilité thoracique", ar: "ألم أو إيلام في الصدر" } },
+          { en: "Abdominal pain / Tenderness / Distension", trans: { es: "Dolor o distensión abdominal", zh: "腹痛 / 压痛 / 腹胀", fr: "Douleur ou sensibilité abdominale", ar: "ألم أو انتفاخ في البطن" } },
+          { en: "Back / Flank / Pelvic pain", trans: { es: "Dolor de espalda, costado o pelvis", zh: "背部 / 侧腹部 / 骨盆疼痛", fr: "Douleur dorsale ou pelvienne", ar: "ألم في الظهر أو الخاصرة أو الحوض" } }
         ]
       },
       {
         id: "htt_extremities",
         phase: "headtotoe",
-        label: "Head-to-Toe · Extremities (Arms & Legs)",
-        english: "Can you move all arms and legs normally, and do you feel normal sensation?",
+        label: "Extremities (PMS & Injuries)",
+        english: "Can you move all arms and legs, feel normal touch, and are there any injuries?",
         translations: {
-          es: "¿Puede mover todos los brazos y piernas normalmente y siente sensibilidad normal?",
-          zh: "您能否正常活动所有四肢，感觉是否正常？",
-          fr: "Pouvez-vous bouger tous vos membres normalement et ressentez-vous une sensibilité normale ?",
-          tl: "Naigagalaw mo ba nang normal ang mga braso at binti, at normal ba ang pakiramdam?",
-          hi: "क्या आप अपने सभी हाथ-पैर सामान्य रूप से हिला सकते हैं और संवेदना सामान्य है?",
-          ar: "هل يمكنك تحريك جميع الذراعين والساقين بشكل طبيعي وهل الإحساس طبيعي؟",
-          ur: "کیا آپ اپنے تمام ہاتھ پاؤں عام طور پر ہلا سکتے ہیں اور احساس معمول کے مطابق ہے؟",
-          ru: "Можете ли вы нормально двигать руками и ногами и чувствуете ли прикосновения?",
-          uk: "Чи можете ви нормально рухати руками і ногами та відчуваєте дотики?",
-          vi: "Bạn có cử động tay chân bình thường và cảm giác bình thường không?"
+          es: "¿Puede mover brazos y piernas, sentir tacto normal y hay lesiones?",
+          zh: "您能否活动四肢、感觉正常，是否有外伤？",
+          fr: "Bougez-vous les membres, ressentez-vous le toucher, y a-t-il des blessures ?",
+          ar: "هل يمكنك تحريك الأطراف والشعور باللمس وهل توجد إصابات؟"
         },
         responses: [
-          { en: "Full movement & normal sensation", trans: { es: "Movimiento completo y sensibilidad normal", zh: "活动自如，感觉正常", fr: "Mobilité complète et sensibilité normale", tl: "Normal ang galaw at pakiramdam", ar: "حركة كاملة وإحساس طبيعي" } },
-          { en: "Weakness / Numbness / Tingling", trans: { es: "Debilidad / Entumecimiento / Hormigueo", zh: "无力 / 麻木 / 刺痛", fr: "Faiblesse / Engourdissement / Picotements", tl: "Panghihina / pamamanhid / pamimintig", ar: "ضعف / خدر / وخز" } },
-          { en: "Limb pain / Injury / Deformity", trans: { es: "Dolor o lesión en extremidad", zh: "肢体疼痛 / 受伤 / 畸形", fr: "Douleur ou blessure d'un membre", tl: "Sakit o pinsala sa kamay/paa", ar: "ألم أو إصابة في الطرف" } }
+          { en: "Full motor & normal sensation bilaterally", trans: { es: "Fuerza y sensibilidad normales", zh: "双侧肌力和感觉正常", fr: "Motricité et sensibilité normales", ar: "حركة وإحساس طبيعيان" } },
+          { en: "Unilateral weakness / Drift", trans: { es: "Debilidad de un lado", zh: "单侧无力 / 肢体下落", fr: "Faiblesse unilatérale", ar: "ضعف في جانب واحد" } },
+          { en: "Numbness / Tingling / Cold limb", trans: { es: "Entumecimiento / Hormigueo / Frialdad", zh: "麻木 / 刺痛 / 肢体发凉", fr: "Engourdissement / Picotements", ar: "خدر أو وخز أو برودة" } },
+          { en: "Pain / Deformity / Open wound / Swelling", trans: { es: "Dolor / Deformidad / Herida / Hinchazón", zh: "疼痛 / 畸形 / 开放性伤口 / 肿胀", fr: "Douleur / Déformation / Plaie", ar: "ألم أو تشوه أو جرح أو تورم" } }
         ]
       },
+
+      // CARE & CONSENT
       {
         id: "care_vitals_o2",
         phase: "care",
-        label: "Care & Consent · Vitals & Oxygen",
-        english: "I am going to check your blood pressure/pulse and give you oxygen to help your breathing. Is that okay?",
+        label: "Vitals, Oxygen & Interventions",
+        english: "May I check your vitals/blood sugar, apply oxygen, and start needed treatment?",
         translations: {
-          es: "Le voy a tomar la presión y el pulso y darle oxígeno para ayudarle a respirar. ¿Está bien?",
-          zh: "我将为您测量血压和脉搏，并给您吸氧以帮助呼吸，可以吗？",
-          fr: "Je vais prendre votre tension et votre pouls et vous donner de l'oxygène pour aider à respirer. Ça vous va ?",
-          tl: "Kukunin ko ang BP at pulse mo at bibigyan ka ng oxygen para makahinga nang maayos. Ayos lang ba?",
-          hi: "मैं आपका बीपी/पल्स जाँचूँगा और सांस लेने में मदद के लिए ऑक्सीजन दूँगा। क्या यह ठीक है?",
-          ar: "سأقيس ضغط الدم والنبض وأعطيك أكسجيناً لمساعدتك على التنفس، هل هذا مناسب؟",
-          ur: "میں آپ کا بلڈ پریشر اور نبض چیک کروں گا اور سانس کے لیے آکسیجن دوں گا، کیا یہ ٹھیک ہے؟",
-          ru: "Я измерю давление и пульс и дам кислород для дыхания. Вы не против?",
-          uk: "Я виміряю тиск і пульс та дам кисень для дихання. Ви не проти?",
-          vi: "Tôi sẽ đo huyết áp/mạch và cho bạn thở oxy để dễ thở hơn. Có được không?"
+          es: "¿Puedo revisar signos vitales/azúcar, dar oxígeno e iniciar tratamiento?",
+          zh: "我可以为您测量生命体征/血糖、吸氧并开始必要治疗吗？",
+          fr: "Puis-je vérifier constantes/glycémie, donner de l'oxygène et débuter les soins ?",
+          ar: "هل يمكنني فحص العلامات الحيوية أو السكر وإعطاء الأكسجين وبدء العلاج؟"
         },
         responses: [
-          { en: "Consented to vitals & oxygen", trans: { es: "Acepta signos vitales y oxígeno", zh: "同意测量生命体征和吸氧", fr: "Accepte constantes et oxygène", tl: "Pumayag sa BP/pulse at oxygen", ar: "وافق على العلامات الحيوية والأكسجين" } },
-          { en: "Declined / Requested pause", trans: { es: "Rechazó / Pidió pausa", zh: "拒绝 / 要求暂停", fr: "Refusé / Pause demandée", tl: "Tumanggi / huminto muna", ar: "رفض / طلب التوقف" } }
+          { en: "Consented to assessment & treatment", trans: { es: "Aceptó evaluación y tratamiento", zh: "同意评估和治疗", fr: "Consentement aux soins", ar: "وافق على التقييم والعلاج" } },
+          { en: "Consented to oxygen / vitals only", trans: { es: "Aceptó solo signos vitales u oxígeno", zh: "仅同意生命体征或吸氧", fr: "Consentement vitaux/oxygène", ar: "وافق على العلامات أو الأكسجين فقط" } },
+          { en: "Hesitant / Needs reassurance", trans: { es: "Dudoso / Requiere tranquilidad", zh: "犹豫 / 需要安抚", fr: "Hésitant / Réassurance", ar: "متردد / يحتاج إلى طمأنة" } }
         ]
       },
       {
-        id: "care_stretcher_transport",
+        id: "care_transport",
         phase: "care",
-        label: "Care & Consent · Movement & Transport",
-        english: "We are going to help you onto the stretcher and transport you to the hospital for further care.",
+        label: "Stretcher & Transport",
+        english: "We are moving you to the stretcher and transporting you to hospital. Are you ready?",
         translations: {
-          es: "Le vamos a ayudar a pasar a la camilla y trasladarle al hospital para mayor atención.",
-          zh: "我们将协助您上担架并送往医院接受进一步治疗。",
-          fr: "Nous allons vous aider à passer sur le brancard et vous transporter à l'hôpital.",
-          tl: "Tutulungan ka naming humiga sa stretcher at dadalhin sa ospital.",
-          hi: "हम आपको स्ट्रेचर पर ले जाने और आगे के इलाज के लिए अस्पताल ले जाने में मदद करेंगे।",
-          ar: "سنساعدك للانتقال إلى الحمالة ونقلك إلى المستشفى لمزيد من الرعاية.",
-          ur: "ہم آپ کو اسٹریچر پر لانے اور مزید علاج کے لیے ہسپتال لے جانے میں مدد کریں گے۔",
-          ru: "Мы поможем вам лечь на носилки и доставим вас в больницу.",
-          uk: "Ми допоможемо вам лягти на ноші та доставимо вас до лікарні.",
-          vi: "Chúng tôi sẽ hỗ trợ bạn lên cáng và đưa đến bệnh viện để chăm sóc thêm."
+          es: "Le pasamos a la camilla y trasladamos al hospital. ¿Está listo?",
+          zh: "我们准备送您上担架并转运至医院，您准备好了吗？",
+          fr: "Nous vous installons sur le brancard pour l'hôpital. Êtes-vous prêt ?",
+          ar: "سننقلك إلى الحمالة وإلى المستشفى، هل أنت مستعد؟"
         },
         responses: [
-          { en: "Agreed to stretcher & transport", trans: { es: "Acepta camilla y traslado", zh: "同意上担架并转运", fr: "Accepte brancard et transport", tl: "Pumayag sa stretcher at paghatid", ar: "وافق على الحمالة والنقل" } },
-          { en: "Pain during movement noted", trans: { es: "Dolor al moverse", zh: "移动时疼痛", fr: "Douleur lors du déplacement", tl: "Masakit kapag iginagalaw", ar: "ألم أثناء الحركة" } }
+          { en: "Consented to transfer & transport", trans: { es: "Aceptó traslado", zh: "同意转移和转运", fr: "Accord pour transfert/transport", ar: "وافق على النقل" } },
+          { en: "Pain / discomfort during transfer", trans: { es: "Molestia al moverse", zh: "转移时疼痛或不适", fr: "Gêne lors du transfert", ar: "ألم أو انزعاج أثناء النقل" } },
+          { en: "Refused transport / Questions raised", trans: { es: "Rechazó traslado / Preguntas", zh: "拒绝转运 / 有疑问", fr: "Refus de transport / Questions", ar: "رفض النقل / لديه أسئلة" } }
         ]
       }
     ];
@@ -1343,12 +1357,11 @@
       langCode: "es",
       langName: "Español (Spanish)",
       phase: "all",
-      answers: {},
+      answers: {}, // categoryId -> array of { en, trans } (index 0 = Primary, index 1+ = Secondary)
       painScore: null,
       bodyParts: [],
       allergies: [],
-      customNotes: [],
-      pcrText: ""
+      customNotes: []
     };
 
     function loadState() {
@@ -1372,65 +1385,141 @@
       } catch (e) {}
     }
 
-    function buildPcrNarrative() {
-      const parts = [];
-      parts.push(`Patient Language: ${state.langName || "English"}`);
-
-      if (state.painScore !== null) parts.push(`Pain Severity: ${state.painScore}/10`);
-      if (state.bodyParts.length) parts.push(`Body Sites: ${state.bodyParts.join(", ")}`);
-      if (state.allergies.length) parts.push(`Allergies: ${state.allergies.join(", ")}`);
-
-      const ansValues = Object.values(state.answers);
-      if (ansValues.length) {
-        parts.push(`Findings: ${ansValues.map((a) => `${a.label}: ${a.en}`).join("; ")}.`);
-      }
-
-      if (state.customNotes.length) {
-        parts.push(`Field Notes: ${state.customNotes.join(" | ")}.`);
-      }
-
-      return parts.join(" — ");
+    function getCategoryAnswers(catId) {
+      const val = state.answers[catId];
+      if (!val) return [];
+      return Array.isArray(val) ? val : [val];
     }
 
-    function refreshPcrSidebar(syncTextarea = true) {
-      const listEl = document.getElementById("pcr-entries-list");
-      const rows = [];
+    function formatRankedList(items) {
+      return items
+        .map((item, idx) => (idx === 0 ? `Primary: ${item.en}` : `Secondary: ${item.en}`))
+        .join(" | ");
+    }
 
+    function buildStructuredPlainText() {
+      const lines = [];
+      lines.push(`PATIENT PCR SUMMARY (${state.langName || "English"})`);
+      lines.push("----------------------------------------");
+
+      Object.entries(PHASE_LABELS).forEach(([phaseKey, phaseTitle]) => {
+        const phaseCats = categoriesData.filter((c) => c.phase === phaseKey);
+        const phaseLines = [];
+        phaseCats.forEach((cat) => {
+          const picks = getCategoryAnswers(cat.id);
+          if (picks.length) {
+            phaseLines.push(`  • ${cat.label}: ${formatRankedList(picks)}`);
+          }
+        });
+        if (phaseLines.length) {
+          lines.push(`[${phaseTitle}]`);
+          lines.push(...phaseLines);
+        }
+      });
+
+      const visLines = [];
+      if (state.painScore !== null) visLines.push(`  • Pain Scale: ${state.painScore} / 10`);
+      if (state.bodyParts.length) visLines.push(`  • Body Sites: ${state.bodyParts.join(", ")}`);
+      if (state.allergies.length) visLines.push(`  • Allergies: ${state.allergies.join(", ")}`);
+      state.customNotes.forEach((n) => visLines.push(`  • Note: ${n}`));
+
+      if (visLines.length) {
+        lines.push("[Visuals, Vitals & Field Notes]");
+        lines.push(...visLines);
+      }
+
+      return lines.join("\n");
+    }
+
+    function renderOrganizedPcr() {
+      const container = document.getElementById("pcr-sections-container");
+      const cards = [];
+
+      // Language header card
+      cards.push(`
+        <div class="pcr-section-card">
+          <div class="pcr-section-title">Patient Language</div>
+          <div class="pcr-row">${state.langName || "English"}</div>
+        </div>
+      `);
+
+      // Group answered prompts by phase
+      Object.entries(PHASE_LABELS).forEach(([phaseKey, phaseTitle]) => {
+        const phaseCats = categoriesData.filter((c) => c.phase === phaseKey);
+        const rows = [];
+
+        phaseCats.forEach((cat) => {
+          const picks = getCategoryAnswers(cat.id);
+          if (!picks.length) return;
+
+          const formattedPicks = picks
+            .map((p, idx) => {
+              const badgeClass = idx === 0 ? "rank-primary" : "rank-secondary";
+              const badgeText = idx === 0 ? "Primary" : "Secondary";
+              return `<span class="rank-badge ${badgeClass}">${badgeText}</span>${p.en}`;
+            })
+            .join(" &nbsp;·&nbsp; ");
+
+          rows.push(`<div class="pcr-row"><strong>${cat.label}:</strong> ${formattedPicks}</div>`);
+        });
+
+        if (rows.length) {
+          cards.push(`
+            <div class="pcr-section-card">
+              <div class="pcr-section-title">${phaseTitle}</div>
+              ${rows.join("")}
+            </div>
+          `);
+        }
+      });
+
+      // Visuals & Field Notes card
+      const extraRows = [];
       if (state.painScore !== null) {
-        rows.push(`<div class="pcr-entry"><strong>Pain Scale:</strong> ${state.painScore} / 10</div>`);
+        extraRows.push(`<div class="pcr-row"><strong>Pain Scale:</strong> ${state.painScore} / 10</div>`);
       }
       if (state.bodyParts.length) {
-        rows.push(`<div class="pcr-entry"><strong>Body Sites:</strong> ${state.bodyParts.join(", ")}</div>`);
+        extraRows.push(`<div class="pcr-row"><strong>Body Sites:</strong> ${state.bodyParts.join(", ")}</div>`);
       }
       if (state.allergies.length) {
-        rows.push(`<div class="pcr-entry"><strong>Allergies:</strong> ${state.allergies.join(", ")}</div>`);
+        extraRows.push(`<div class="pcr-row"><strong>Allergies:</strong> ${state.allergies.join(", ")}</div>`);
       }
-
-      Object.values(state.answers).forEach((ans) => {
-        rows.push(`<div class="pcr-entry"><strong>${ans.label}:</strong> ${ans.en}</div>`);
-      });
-
       state.customNotes.forEach((note, idx) => {
-        rows.push(`<div class="pcr-entry"><strong>Note ${idx + 1}:</strong> ${note}</div>`);
+        extraRows.push(`<div class="pcr-row"><strong>Note ${idx + 1}:</strong> ${note}</div>`);
       });
 
-      listEl.innerHTML =
-        rows.join("") ||
-        `<div style="font-size:0.84rem; color:var(--text-muted); padding:8px;">No findings captured yet. Tap any prompt, quick response, or visual aid.</div>`;
-
-      if (syncTextarea) {
-        state.pcrText = buildPcrNarrative();
-        document.getElementById("pcr-narrative").value = state.pcrText;
-        saveState();
+      if (extraRows.length) {
+        cards.push(`
+          <div class="pcr-section-card">
+            <div class="pcr-section-title">Visuals, Vitals &amp; Notes</div>
+            ${extraRows.join("")}
+          </div>
+        `);
+      } else if (cards.length === 1) {
+        cards.push(`
+          <div class="pcr-section-card">
+            <div class="pcr-row" style="color:var(--text-muted);">No assessment findings recorded yet. Tap any question or visual aid to begin.</div>
+          </div>
+        `);
       }
+
+      container.innerHTML = cards.join("");
+      saveState();
+    }
+
+    function copyStructuredPcr() {
+      const text = buildStructuredPlainText();
+      navigator.clipboard?.writeText(text).catch(() => {});
+      const toast = document.getElementById("toast-msg");
+      toast.innerText = "Organized PCR copied to clipboard.";
+      setTimeout(() => (toast.innerText = ""), 2500);
     }
 
     function logQuickAck(ack) {
-      const note = `Patient indicated: ${ack.en}`;
-      state.customNotes.push(note);
-      refreshPcrSidebar(true);
+      state.customNotes.push(`Quick reply: ${ack.en}`);
+      renderOrganizedPcr();
       const toast = document.getElementById("toast-msg");
-      toast.innerText = `Logged in English: ${ack.en}`;
+      toast.innerText = `Logged: ${ack.en}`;
       setTimeout(() => (toast.innerText = ""), 2000);
     }
 
@@ -1458,16 +1547,7 @@
       if (!val) return;
       state.customNotes.push(val);
       input.value = "";
-      refreshPcrSidebar(true);
-    }
-
-    function copyPcrNarrative() {
-      const ta = document.getElementById("pcr-narrative");
-      const text = ta.value || buildPcrNarrative();
-      navigator.clipboard?.writeText(text).catch(() => {});
-      const toast = document.getElementById("toast-msg");
-      toast.innerText = "English PCR summary copied to clipboard.";
-      setTimeout(() => (toast.innerText = ""), 2500);
+      renderOrganizedPcr();
     }
 
     function resetSession() {
@@ -1481,13 +1561,12 @@
         painScore: null,
         bodyParts: [],
         allergies: [],
-        customNotes: [],
-        pcrText: ""
+        customNotes: []
       };
       renderAckStrip();
       renderVisuals();
       renderAssessmentLists();
-      refreshPcrSidebar(true);
+      renderOrganizedPcr();
     }
 
     function switchScreen(id) {
@@ -1507,7 +1586,7 @@
 
       renderAckStrip();
       renderAssessmentLists();
-      refreshPcrSidebar(false);
+      renderOrganizedPcr();
       switchScreen("screen-2");
     }
 
@@ -1546,24 +1625,29 @@
       transContainer.innerHTML = "";
 
       filtered.forEach((cat) => {
-        const captured = state.answers[cat.id];
+        const picks = getCategoryAnswers(cat.id);
+        const hasPicks = picks.length > 0;
         const targetPrompt = cat.translations[state.langCode] || cat.english;
 
         const engCard = document.createElement("div");
-        engCard.className = `item-card ${captured ? "answered" : ""}`;
+        engCard.className = `item-card ${hasPicks ? "answered" : ""}`;
         engCard.onclick = () => openCategoryScreen(cat);
         engCard.innerHTML = `
           <div class="item-meta">
             <span>${cat.label}</span>
-            ${captured ? `<span class="captured-tag">Captured</span>` : `<span>Tap</span>`}
+            ${hasPicks ? `<span class="captured-tag">${picks.length} Selected</span>` : `<span>Tap</span>`}
           </div>
           <p>${cat.english}</p>
-          ${captured ? `<div style="margin-top:6px; font-size:0.84rem; font-weight:600; color:var(--success);">→ ${captured.en}</div>` : ""}
+          ${
+            hasPicks
+              ? `<div style="margin-top:6px; font-size:0.82rem; font-weight:600; color:var(--success);">→ ${formatRankedList(picks)}</div>`
+              : ""
+          }
         `;
         engContainer.appendChild(engCard);
 
         const transCard = document.createElement("div");
-        transCard.className = `item-card ${captured ? "answered" : ""}`;
+        transCard.className = `item-card ${hasPicks ? "answered" : ""}`;
         transCard.onclick = () => openCategoryScreen(cat);
         transCard.innerHTML = `
           <div class="item-meta">
@@ -1573,6 +1657,30 @@
         `;
         transContainer.appendChild(transCard);
       });
+    }
+
+    function promoteToPrimary(catId, idx) {
+      const picks = getCategoryAnswers(catId);
+      if (idx > 0 && idx < picks.length) {
+        const [item] = picks.splice(idx, 1);
+        picks.unshift(item);
+        state.answers[catId] = picks;
+        renderOrganizedPcr();
+        renderAssessmentLists();
+        const cat = categoriesData.find((c) => c.id === catId);
+        if (cat) openCategoryScreen(cat);
+      }
+    }
+
+    function removePick(catId, idx) {
+      const picks = getCategoryAnswers(catId);
+      picks.splice(idx, 1);
+      if (picks.length) state.answers[catId] = picks;
+      else delete state.answers[catId];
+      renderOrganizedPcr();
+      renderAssessmentLists();
+      const cat = categoriesData.find((c) => c.id === catId);
+      if (cat) openCategoryScreen(cat);
     }
 
     function openCategoryScreen(cat) {
@@ -1586,40 +1694,70 @@
 
       document.getElementById("cat-lang-label").innerText = state.langName.split(" ")[0];
 
-      const existing = state.answers[cat.id];
+      const picks = getCategoryAnswers(cat.id);
       const resultBox = document.getElementById("response-result");
-      if (existing) {
+      const pickedListEl = document.getElementById("picked-items-list");
+
+      if (picks.length) {
         resultBox.style.display = "block";
-        document.getElementById("result-text-en").innerText = existing.en;
-        document.getElementById("result-text-trans").innerText = existing.trans ? `Selected in patient language: ${existing.trans}` : "";
+        pickedListEl.innerHTML = picks
+          .map((item, idx) => {
+            const isPrimary = idx === 0;
+            return `
+              <div class="picked-item-row">
+                <div>
+                  <span class="rank-badge ${isPrimary ? "rank-primary" : "rank-secondary"}">${isPrimary ? "Primary" : "Secondary"}</span>
+                  <strong>${item.en}</strong>
+                  <div style="font-size:0.82rem; color:var(--text-muted);">${item.trans}</div>
+                </div>
+                <div style="display:flex; gap:5px;">
+                  ${!isPrimary ? `<button type="button" class="btn btn-sm" onclick="promoteToPrimary('${cat.id}', ${idx})">Make Primary</button>` : ""}
+                  <button type="button" class="btn btn-sm btn-danger" onclick="removePick('${cat.id}', ${idx})">Remove</button>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
       } else {
         resultBox.style.display = "none";
       }
 
       const container = document.getElementById("category-buttons-container");
       container.innerHTML = "";
-
       const isRtl = RTL_CODES.has(state.langCode);
 
       cat.responses.forEach((resp) => {
         const patientText = (resp.trans && resp.trans[state.langCode]) || resp.en;
+        const pickedIdx = picks.findIndex((p) => p.en === resp.en);
+        const isPicked = pickedIdx >= 0;
+
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = `response-btn ${existing && existing.en === resp.en ? "picked" : ""}`;
+        btn.className = `response-btn ${isPicked ? "picked" : ""}`;
         btn.innerHTML = `
-          <span class="resp-patient" dir="${isRtl ? "rtl" : "ltr"}">${patientText}</span>
-          <span class="resp-en">${resp.en}</span>
+          <span class="resp-texts">
+            <span class="resp-patient" dir="${isRtl ? "rtl" : "ltr"}">${patientText}</span>
+            <span class="resp-en">${resp.en}</span>
+          </span>
+          <span>
+            ${
+              isPicked
+                ? `<span class="rank-badge ${pickedIdx === 0 ? "rank-primary" : "rank-secondary"}">${pickedIdx === 0 ? "Primary" : "Secondary"}</span>`
+                : `<span style="font-size:0.78rem; font-weight:700; color:var(--primary-dark);">+ Select</span>`
+            }
+          </span>
         `;
         btn.onclick = () => {
-          state.answers[cat.id] = {
-            label: cat.label,
-            en: resp.en,
-            trans: patientText
-          };
-          resultBox.style.display = "block";
-          document.getElementById("result-text-en").innerText = resp.en;
-          document.getElementById("result-text-trans").innerText = `Selected in patient language: ${patientText}`;
-          refreshPcrSidebar(true);
+          const current = getCategoryAnswers(cat.id);
+          if (isPicked) {
+            current.splice(pickedIdx, 1);
+          } else {
+            current.push({ en: resp.en, trans: patientText });
+          }
+          if (current.length) state.answers[cat.id] = current;
+          else delete state.answers[cat.id];
+
+          renderOrganizedPcr();
           renderAssessmentLists();
           openCategoryScreen(cat);
         };
@@ -1630,7 +1768,7 @@
     function setPainScore(score) {
       state.painScore = state.painScore === score ? null : score;
       renderVisuals();
-      refreshPcrSidebar(true);
+      renderOrganizedPcr();
     }
 
     function toggleBodyPart(partName) {
@@ -1638,7 +1776,7 @@
       if (idx >= 0) state.bodyParts.splice(idx, 1);
       else state.bodyParts.push(partName);
       renderVisuals();
-      refreshPcrSidebar(true);
+      renderOrganizedPcr();
     }
 
     function toggleAllergy(label) {
@@ -1646,7 +1784,7 @@
       if (idx >= 0) state.allergies.splice(idx, 1);
       else state.allergies.push(label);
       renderVisuals();
-      refreshPcrSidebar(true);
+      renderOrganizedPcr();
     }
 
     function renderVisuals() {
@@ -1732,8 +1870,7 @@
       renderAckStrip();
       renderVisuals();
       renderAssessmentLists();
-      refreshPcrSidebar(false);
-      document.getElementById("pcr-narrative").value = state.pcrText || buildPcrNarrative();
+      renderOrganizedPcr();
     }
 
     init();
