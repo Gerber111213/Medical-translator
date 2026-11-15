@@ -685,7 +685,7 @@
     <section id="screen-1" class="screen active card">
       <div class="hero-center">
         <h1>Medical Translator &amp; PCR Aid</h1>
-        <p>Select patient language to ask targeted assessment questions, capture primary/secondary responses in their language, and build a scannable English PCR</p>
+        <p>Select patient language to ask targeted assessment questions, explain treatments, capture primary/secondary responses in their language, and build a scannable English PCR</p>
       </div>
       <div class="language-grid" id="lang-grid"></div>
     </section>
@@ -718,7 +718,7 @@
               type="search"
               id="search-input"
               class="search-input"
-              placeholder="Search assessment questions, STOPEATS checks, care steps..."
+              placeholder="Search assessment questions, STOPEATS checks, treatment statements..."
               oninput="renderAssessmentLists()"
             />
             <button type="button" class="btn" onclick="clearSearch()">Clear Filter</button>
@@ -799,7 +799,7 @@
               type="text"
               id="custom-field-note"
               class="note-input"
-              placeholder="e.g., BGL 3.2 mmol/L, BP 138/84, SpO2 97%..."
+              placeholder="e.g., A&Ox4, GCS 15, BGL 3.2 mmol/L, BP 138/84..."
               onkeydown="if(event.key==='Enter') addCustomNote()"
             />
             <button type="button" class="btn btn-primary" onclick="addCustomNote()">Add</button>
@@ -844,7 +844,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "med_translator_pcr_structured_v1";
+    const STORAGE_KEY = "med_translator_pcr_treatments_v1";
     const RTL_CODES = new Set(["ar", "ur", "fa"]);
 
     const PHASE_LABELS = {
@@ -853,7 +853,7 @@
       opqrst: "OPQRST Pain / Symptom",
       stopeats: "STOPEATS (Altered / Neuro)",
       headtotoe: "Head-to-Toe Exam",
-      care: "Care & Consent"
+      care: "Care, Treatments & Consent"
     };
 
     const languages = [
@@ -923,42 +923,26 @@
     ];
 
     const categoriesData = [
-      // PRIMARY
-      {
-        id: "primary_loc",
-        phase: "primary",
-        label: "LOC & Orientation",
-        english: "Can you tell me your name, where you are, and what happened?",
-        translations: {
-          es: "¿Puede decirme su nombre, dónde está y qué pasó?",
-          zh: "您能告诉我您的名字、您在哪里以及发生了什么吗？",
-          fr: "Pouvez-vous me dire votre nom, où vous êtes et ce qui s'est passé ?",
-          ar: "هل يمكنك إخباري باسمك وأين أنت وماذا حدث؟",
-          ur: "کیا آپ اپنا نام، آپ کہاں ہیں اور کیا ہوا بتا سکتے ہیں؟"
-        },
-        responses: [
-          { en: "Alert & Oriented x4", trans: { es: "Alerta y orientado", zh: "意识清醒，定向力正常", fr: "Alerte et orienté", ar: "واعٍ ومدرك" } },
-          { en: "Confused / Disoriented to time/place", trans: { es: "Confundido / Desorientado", zh: "意识模糊 / 定向障碍", fr: "Confus / Désorienté", ar: "مشوش / غير مدرك" } },
-          { en: "Drowsy / Slow to respond", trans: { es: "Somnoliento / Respuesta lenta", zh: "嗜睡 / 反应迟钝", fr: "Somnolent / Réponse lente", ar: "نعسان / بطيء الاستجابة" } },
-          { en: "Responds to voice or pain only", trans: { es: "Responde solo a voz o dolor", zh: "仅对声音或疼痛有反应", fr: "Répond à la voix ou douleur", ar: "يستجيب للصوت أو الألم فقط" } }
-        ]
-      },
+      // PRIMARY (Airway, Breathing & Bleeding only)
       {
         id: "primary_abc",
         phase: "primary",
         label: "Airway, Breathing & Bleeding",
-        english: "Are you having trouble breathing, choking, chest tightness, or heavy bleeding?",
+        english: "Are you having trouble breathing, choking, chest tightness, or bleeding right now?",
         translations: {
-          es: "¿Tiene dificultad para respirar, se está atragantando, opresión en el pecho o sangrado fuerte?",
-          zh: "您现在是否呼吸困难、呛咳、胸闷或大量出血？",
-          fr: "Avez-vous du mal à respirer, un étouffement, une oppression thoracique ou un saignement important ?",
-          ar: "هل تعاني من صعوبة في التنفس أو اختناق أو ضيق في الصدر أو نزيف شديد؟"
+          es: "¿Tiene dificultad para respirar, se está atragantando, opresión en el pecho o sangrado ahora?",
+          zh: "您现在是否呼吸困难、呛咳、胸闷或出血？",
+          fr: "Avez-vous du mal à respirer, un étouffement, une oppression thoracique ou un saignement ?",
+          ar: "هل تعاني الآن من صعوبة في التنفس أو اختناق أو ضيق في الصدر أو نزيف؟"
         },
         responses: [
-          { en: "Airway patent, breathing normally", trans: { es: "Respira con normalidad", zh: "呼吸正常", fr: "Respire normalement", ar: "يتنفس بشكل طبيعي" } },
+          { en: "Airway clear, breathing comfortably", trans: { es: "Respira cómodamente", zh: "气道通畅，呼吸平稳", fr: "Respire confortablement", ar: "يتنفس براحة" } },
           { en: "Shortness of breath / Dyspnea", trans: { es: "Falta de aire", zh: "呼吸急促", fr: "Essoufflement", ar: "ضيق في التنفس" } },
           { en: "Chest tightness / Wheezing", trans: { es: "Opresión en el pecho / Sibilancias", zh: "胸闷 / 喘息", fr: "Oppression / Sifflements", ar: "ضيق في الصدر / صفير" } },
-          { en: "Active / Heavy bleeding", trans: { es: "Sangrado activo o abundante", zh: "活动性出血 / 大出血", fr: "Saignement actif / abondant", ar: "نزيف نشط أو غزير" } }
+          { en: "Active / Heavy bleeding", trans: { es: "Sangrado activo o abundante", zh: "活动性出血 / 大出血", fr: "Saignement actif / abondant", ar: "نزيف نشط أو غزير" } },
+          { en: "Cannot speak in full sentences", trans: { es: "No puede hablar frases completas", zh: "无法说完整句子", fr: "Phrases courtes difficiles", ar: "لا يستطيع الكلام بجمل كاملة" } },
+          { en: "Choking / Throat feeling tight", trans: { es: "Atragantamiento / Garganta cerrada", zh: "呛咳 / 咽喉发紧", fr: "Étouffement / Gorge serrée", ar: "اختناق أو ضيق في الحلق" } },
+          { en: "Minor bleeding / Controlled", trans: { es: "Sangrado leve / Controlado", zh: "轻微出血 / 已控制", fr: "Saignement léger / contrôlé", ar: "نزيف بسيط أو مسيطر عليه" } }
         ]
       },
 
@@ -980,7 +964,10 @@
           { en: "Dizziness / Lightheadedness", trans: { es: "Mareos / Aturdimiento", zh: "头晕 / 头重脚轻", fr: "Vertiges / Étourdissements", ar: "دوار / دوخة" } },
           { en: "Nausea / Vomiting", trans: { es: "Náuseas / Vómitos", zh: "恶心 / 呕吐", fr: "Nausées / Vomissements", ar: "غثيان / قيء" } },
           { en: "Fever / Chills / Sweating", trans: { es: "Fiebre / Escalofríos / Sudoración", zh: "发烧 / 发冷 / 出汗", fr: "Fièvre / Frissons / Sueurs", ar: "حمى / قشعريرة / تعرق" } },
-          { en: "Weakness / Numbness", trans: { es: "Debilidad / Entumecimiento", zh: "无力 / 麻木", fr: "Faiblesse / Engourdissement", ar: "ضعف / خدر" } }
+          { en: "Weakness / Numbness", trans: { es: "Debilidad / Entumecimiento", zh: "无力 / 麻木", fr: "Faiblesse / Engourdissement", ar: "ضعف / خدر" } },
+          { en: "Palpitations / Racing heart", trans: { es: "Palpitaciones / Latidos rápidos", zh: "心悸 / 心跳加快", fr: "Palpitations / Cœur rapide", ar: "خفقان أو تسارع القلب" } },
+          { en: "Cough / Congestion", trans: { es: "Tos / Congestión", zh: "咳嗽 / 充血或鼻塞", fr: "Toux / Congestion", ar: "سعال أو احتقان" } },
+          { en: "Fainting / Near-syncope", trans: { es: "Desmayo / Casi desmayo", zh: "晕厥 / 差点晕倒", fr: "Malaise / Évanouissement", ar: "إغماء أو شعور بالإغماء" } }
         ]
       },
       {
@@ -999,7 +986,10 @@
           { en: "Antibiotics / Penicillin / Sulfa", trans: { es: "Antibióticos / Penicilina / Sulfa", zh: "抗生素 / 青霉素 / 磺胺", fr: "Antibiotiques / Pénicilline / Sulfa", ar: "مضادات حيوية / بنسلين" } },
           { en: "Peanuts / Tree nuts / Shellfish", trans: { es: "Maní / Frutos secos / Mariscos", zh: "花生 / 坚果 / 海鲜", fr: "Arachides / Fruits à coque / Fruits de mer", ar: "فول سوداني / مكسرات / محار" } },
           { en: "Latex / Adhesive / Contrast", trans: { es: "Látex / Adhesivo / Contraste", zh: "乳胶 / 胶带 / 造影剂", fr: "Latex / Adhésif / Produit de contraste", ar: "لاتكس / لاصق" } },
-          { en: "Unsure / Unknown", trans: { es: "No está seguro", zh: "不确定", fr: "Incertain", ar: "غير متأكد" } }
+          { en: "Unsure / Unknown", trans: { es: "No está seguro", zh: "不确定", fr: "Incertain", ar: "غير متأكد" } },
+          { en: "Insect stings / Bee or wasp", trans: { es: "Picadura de insecto / Abeja o avispa", zh: "昆虫叮咬 / 蜜蜂或黄蜂", fr: "Piqûres d'insectes / Guêpe", ar: "لدغات الحشرات أو النحل" } },
+          { en: "NSAIDs / Aspirin / Pain meds", trans: { es: "Antiinflamatorios / Aspirina", zh: "非甾体抗炎药 / 阿司匹林 / 止痛药", fr: "Anti-inflammatoires / Aspirine", ar: "مسكنات أو أسبرين" } },
+          { en: "Dairy / Eggs / Gluten", trans: { es: "Lácteos / Huevos / Gluten", zh: "乳制品 / 鸡蛋 / 麸质", fr: "Produits laitiers / Œufs / Gluten", ar: "ألبان أو بيض أو جلوتين" } }
         ]
       },
       {
@@ -1018,7 +1008,10 @@
           { en: "Blood pressure / Heart medication", trans: { es: "Presión arterial / Corazón", zh: "血压 / 心脏药物", fr: "Tension / Cœur", ar: "أدوية الضغط / القلب" } },
           { en: "Insulin / Oral diabetes meds", trans: { es: "Insulina / Diabetes", zh: "胰岛素 / 降糖药", fr: "Insuline / Diabète", ar: "أنسولين / أدوية السكري" } },
           { en: "Blood thinners (anticoagulants/aspirin)", trans: { es: "Anticoagulantes / Aspirina", zh: "抗凝药 / 阿司匹林", fr: "Anticoagulants / Aspirine", ar: "مميعات الدم / أسبرين" } },
-          { en: "Inhaler / EpiPen / Pain meds", trans: { es: "Inhalador / EpiPen / Analgésicos", zh: "吸入剂 / 肾上腺素笔 / 止痛药", fr: "Inhalateur / EpiPen / Antalgiques", ar: "بخاخ / مسكنات" } }
+          { en: "Inhaler / EpiPen / Pain meds", trans: { es: "Inhalador / EpiPen / Analgésicos", zh: "吸入剂 / 肾上腺素笔 / 止痛药", fr: "Inhalateur / EpiPen / Antalgiques", ar: "بخاخ / مسكنات" } },
+          { en: "Anti-seizure medication", trans: { es: "Medicamento anticonvulsivo", zh: "抗癫痫药物", fr: "Antiépileptique", ar: "دواء مضاد للصرع" } },
+          { en: "Cholesterol / Thyroid / Daily vitamins", trans: { es: "Colesterol / Tiroides / Vitaminas", zh: "降脂药 / 甲状腺药 / 维生素", fr: "Cholestérol / Thyroïde / Vitamines", ar: "كوليسترول أو غدة درقية" } },
+          { en: "Took extra or missed a dose recently", trans: { es: "Dosis extra u omitida recientemente", zh: "近期多服或漏服药物", fr: "Dose oubliée ou supplémentaire", ar: "تناول جرعة زائدة أو نسيان جرعة" } }
         ]
       },
       {
@@ -1037,7 +1030,10 @@
           { en: "Diabetes (Type 1 or Type 2)", trans: { es: "Diabetes (Tipo 1 o Tipo 2)", zh: "糖尿病（1型或2型）", fr: "Diabète (Type 1 ou 2)", ar: "السكري" } },
           { en: "Seizures / Epilepsy", trans: { es: "Convulsiones / Epilepsia", zh: "癫痫 / 抽搐", fr: "Crises / Épilepsie", ar: "الصرع / النوبات" } },
           { en: "Hypertension / Heart disease / Stroke", trans: { es: "Hipertensión / Cardiopatía / ACV", zh: "高血压 / 心脏病 / 中风", fr: "Hypertension / Cœur / AVC", ar: "الضغط / القلب / سكتة" } },
-          { en: "Asthma / COPD / Prior surgery", trans: { es: "Asma / EPOC / Cirugía previa", zh: "哮喘 / 慢阻肺 / 既往手术", fr: "Asthme / BPCO / Chirurgie", ar: "ربو / جراحة سابقة" } }
+          { en: "Asthma / COPD / Prior surgery", trans: { es: "Asma / EPOC / Cirugía previa", zh: "哮喘 / 慢阻肺 / 既往手术", fr: "Asthme / BPCO / Chirurgie", ar: "ربو / جراحة سابقة" } },
+          { en: "Kidney / Liver / Thyroid disorder", trans: { es: "Enfermedad renal, hepática o tiroidea", zh: "肾脏 / 肝脏 / 甲状腺疾病", fr: "Trouble rénal, hépatique ou thyroïdien", ar: "مشكلة في الكلى أو الكبد أو الغدة" } },
+          { en: "Recent hospital stay or infection", trans: { es: "Hospitalización o infección reciente", zh: "近期住院或感染", fr: "Hospitalisation ou infection récente", ar: "دخول مستشفى أو عدوى مؤخراً" } },
+          { en: "Could be pregnant", trans: { es: "Posible embarazo", zh: "可能怀孕", fr: "Grossesse possible", ar: "احتمال وجود حمل" } }
         ]
       },
       {
@@ -1055,7 +1051,10 @@
           { en: "Ate / drank less than 2 hours ago", trans: { es: "Hace menos de 2 horas", zh: "不到2小时前", fr: "Moins de 2 heures", ar: "أقل من ساعتين" } },
           { en: "Ate / drank 2 to 6 hours ago", trans: { es: "Hace 2 a 6 horas", zh: "2到6小时前", fr: "2 à 6 heures", ar: "من ساعتين إلى 6 ساعات" } },
           { en: "Nothing for more than 6 hours", trans: { es: "Hace más de 6 horas", zh: "6小时以上未进食", fr: "Plus de 6 heures", ar: "أكثر من 6 ساعات" } },
-          { en: "Recent alcohol / substance intake", trans: { es: "Consumo reciente de alcohol o sustancias", zh: "近期饮酒或摄入其他物质", fr: "Alcool ou substance récent", ar: "تناول كحول أو مواد مؤخراً" } }
+          { en: "Recent alcohol / substance intake", trans: { es: "Consumo reciente de alcohol o sustancias", zh: "近期饮酒或摄入其他物质", fr: "Alcool ou substance récent", ar: "تناول كحول أو مواد مؤخراً" } },
+          { en: "Poor intake / Unable to keep fluids down", trans: { es: "Poca ingesta / Vomita líquidos", zh: "进食少 / 无法进食饮水", fr: "Faible prise / Garde mal les liquides", ar: "قلة الأكل أو عدم الاحتفاظ بالسوائل" } },
+          { en: "High caffeine / Energy drink / Dehydrated", trans: { es: "Cafeína / Bebida energética / Deshidratado", zh: "高咖啡因 / 功能饮料 / 脱水", fr: "Caféine / Déshydratation", ar: "كافيين أو جفاف" } },
+          { en: "Small snack / Juice / Sugary intake", trans: { es: "Refrigerio / Jugo / Azúcar", zh: "少量零食 / 果汁 / 含糖食物", fr: "Collation / Jus / Sucre", ar: "وجبة خفيفة أو عصير أو سكر" } }
         ]
       },
       {
@@ -1073,7 +1072,10 @@
           { en: "Resting / Sitting / Sleeping", trans: { es: "Descansando / Sentado / Durmiendo", zh: "休息 / 坐着 / 睡觉", fr: "Repos / Assis / Sommeil", ar: "راحة / جلوس / نوم" } },
           { en: "Physical work / Exercise / Heat/cold exposure", trans: { es: "Esfuerzo físico / Calor o frío", zh: "体力活动 / 运动 / 冷热暴露", fr: "Effort / Chaleur ou froid", ar: "مجهود / حرارة أو برودة" } },
           { en: "Fall / Slip / Collision / Impact", trans: { es: "Caída / Resbalón / Golpe", zh: "跌倒 / 滑倒 / 撞击", fr: "Chute / Choc / Collision", ar: "سقوط / اصطدام" } },
-          { en: "Sudden onset without clear trigger", trans: { es: "Inicio repentino sin causa clara", zh: "突然发作，无明显诱因", fr: "Début soudain sans cause claire", ar: "بداية مفاجئة بدون سبب واضح" } }
+          { en: "Sudden onset without clear trigger", trans: { es: "Inicio repentino sin causa clara", zh: "突然发作，无明显诱因", fr: "Début soudain sans cause claire", ar: "بداية مفاجئة بدون سبب واضح" } },
+          { en: "Standing up quickly / Changing position", trans: { es: "Ponerse de pie rápido / Cambio de postura", zh: "快速站起 / 改变体位", fr: "Lever rapide / Changement de position", ar: "الوقوف بسرعة أو تغيير الوضع" } },
+          { en: "Emotional stress / Argument / Shock", trans: { es: "Estrés emocional / Susto", zh: "情绪压力 / 惊吓", fr: "Stress émotionnel / Choc", ar: "توتر نفسي أو صدمة" } },
+          { en: "Eating / Swallowing / Coughing fit", trans: { es: "Comiendo / Tragando / Tos fuerte", zh: "进食 / 吞咽 / 剧烈咳嗽", fr: "En mangeant / Quinte de toux", ar: "أثناء الأكل أو البلع أو السعال" } }
         ]
       },
 
@@ -1092,7 +1094,10 @@
         responses: [
           { en: "Sudden (seconds to minutes)", trans: { es: "Repentino (segundos a minutos)", zh: "突发（数秒至数分钟）", fr: "Soudain", ar: "مفاجئ" } },
           { en: "Gradual (hours to days)", trans: { es: "Gradual (horas a días)", zh: "逐渐加重（数小时至数天）", fr: "Progressif", ar: "تدريجي" } },
-          { en: "Triggered by specific movement or activity", trans: { es: "Desencadenado por movimiento o actividad", zh: "由特定动作或活动诱发", fr: "Déclenché par un mouvement", ar: "مرتبط بحركة أو نشاط" } }
+          { en: "Triggered by specific movement or activity", trans: { es: "Desencadenado por movimiento o actividad", zh: "由特定动作或活动诱发", fr: "Déclenché par un mouvement", ar: "مرتبط بحركة أو نشاط" } },
+          { en: "Woke up with it", trans: { es: "Despertó con el síntoma", zh: "醒来时就已出现", fr: "Présent au réveil", ar: "ظهر عند الاستيقاظ" } },
+          { en: "Started after meal or medication", trans: { es: "Después de comer o tomar medicamento", zh: "进食或服药后开始", fr: "Après repas ou médicament", ar: "بدأ بعد الأكل أو الدواء" } },
+          { en: "Started after injury or strain", trans: { es: "Después de lesión o esfuerzo", zh: "受伤或拉伤后开始", fr: "Après blessure ou effort", ar: "بدأ بعد إصابة أو إجهاد" } }
         ]
       },
       {
@@ -1110,7 +1115,10 @@
           { en: "Worse on palpation / movement", trans: { es: "Empeora al tocar o moverse", zh: "按压或移动时加重", fr: "Aggravé au toucher ou mouvement", ar: "يزداد باللمس أو الحركة" } },
           { en: "Worse with deep breath / cough", trans: { es: "Empeora al respirar hondo o toser", zh: "深呼吸或咳嗽时加重", fr: "Aggravé par respiration ou toux", ar: "يزداد بالتنفس العميق أو السعال" } },
           { en: "Worse with exertion / standing", trans: { es: "Empeora con esfuerzo o al ponerse de pie", zh: "劳力或站立时加重", fr: "Aggravé à l'effort ou debout", ar: "يزداد بالمجهود أو الوقوف" } },
-          { en: "Relieved by rest / sitting / position", trans: { es: "Alivia con reposo o cambio de postura", zh: "休息或改变体位后缓解", fr: "Soulagé par repos ou position", ar: "يخف بالراحة أو تغيير الوضع" } }
+          { en: "Relieved by rest / sitting / position", trans: { es: "Alivia con reposo o cambio de postura", zh: "休息或改变体位后缓解", fr: "Soulagé par repos ou position", ar: "يخف بالراحة أو تغيير الوضع" } },
+          { en: "Nothing makes it better yet", trans: { es: "Nada lo ha mejorado aún", zh: "目前尚无缓解方式", fr: "Rien ne soulage encore", ar: "لا شيء يخففه حتى الآن" } },
+          { en: "Worse lying flat", trans: { es: "Empeora acostado plano", zh: "平躺时加重", fr: "Aggravé allongé à plat", ar: "يزداد عند الاستلقاء" } },
+          { en: "Better with heat, ice, or medication", trans: { es: "Mejora con calor, frío o medicamento", zh: "热敷、冷敷或服药后好转", fr: "Mieux avec chaleur, froid ou médicament", ar: "يتحسن بالكمادات أو الدواء" } }
         ]
       },
       {
@@ -1128,7 +1136,10 @@
           { en: "Sharp / Stabbing / Piercing", trans: { es: "Agudo / Punzante", zh: "锐痛 / 刺痛", fr: "Aigu / Lancinant", ar: "حاد / واخز" } },
           { en: "Dull / Aching / Throbbing", trans: { es: "Sordo / Pulsátil / Molestia", zh: "钝痛 / 跳痛 / 酸胀", fr: "Sourd / Pulsatile", ar: "مبهم / نابض" } },
           { en: "Pressure / Heavy / Squeezing", trans: { es: "Presión / Pesadez / Opresión", zh: "压迫感 / 沉重感 / 紧缩感", fr: "Pression / Lourdeur / Serrage", ar: "ضغط / ثقل / انقباض" } },
-          { en: "Burning / Tingling / Pins & needles", trans: { es: "Ardor / Hormigueo", zh: "烧灼感 / 刺麻感", fr: "Brûlure / Fourmillements", ar: "حارق / وخز" } }
+          { en: "Burning / Tingling / Pins & needles", trans: { es: "Ardor / Hormigueo", zh: "烧灼感 / 刺麻感", fr: "Brûlure / Fourmillements", ar: "حارق / وخز" } },
+          { en: "Cramping / Colicky", trans: { es: "Cólico / Calambre", zh: "绞痛 / 痉挛痛", fr: "Crampes / Coliques", ar: "مغص أو تشنج" } },
+          { en: "Tearing / Ripping", trans: { es: "Desgarro", zh: "撕裂样痛", fr: "Déchirement", ar: "تمزق" } },
+          { en: "Fullness / Tightness", trans: { es: "Sensación de llenura o tirantez", zh: "胀满感 / 紧绷感", fr: "Sensation de plénitude ou tiraillement", ar: "امتلاء أو شد" } }
         ]
       },
       {
@@ -1146,7 +1157,10 @@
           { en: "Focal / Point tenderness", trans: { es: "Localizado en un punto", zh: "局部压痛", fr: "Localisé", ar: "موضعي في نقطة" } },
           { en: "Radiates to left/right arm or shoulder", trans: { es: "Irradia a brazo u hombro", zh: "放射至左/右臂或肩部", fr: "Irradie vers bras ou épaule", ar: "يمتد إلى الذراع أو الكتف" } },
           { en: "Radiates to jaw, neck, or back", trans: { es: "Irradia a mandíbula, cuello o espalda", zh: "放射至下颌、颈部或背部", fr: "Irradie vers mâchoire, cou ou dos", ar: "يمتد إلى الفك أو الرقبة أو الظهر" } },
-          { en: "Diffuse / Widespread", trans: { es: "Difuso / Generalizado", zh: "弥漫性 / 广泛", fr: "Diffus", ar: "منتشر" } }
+          { en: "Diffuse / Widespread", trans: { es: "Difuso / Generalizado", zh: "弥漫性 / 广泛", fr: "Diffus", ar: "منتشر" } },
+          { en: "Radiates to groin / flank / leg", trans: { es: "Irradia a ingle, costado o pierna", zh: "放射至腹股沟、侧腹或腿部", fr: "Irradie vers aine, flanc ou jambe", ar: "يمتد إلى الأربية أو الخاصرة أو الساق" } },
+          { en: "Shifted location since onset", trans: { es: "Cambió de lugar desde el inicio", zh: "自发作以来位置发生转移", fr: "A changé de place", ar: "تغير مكانه منذ البداية" } },
+          { en: "Bilateral / Both sides", trans: { es: "En ambos lados", zh: "双侧 / 左右两侧", fr: "Des deux côtés", ar: "على الجانبين" } }
         ]
       },
       {
@@ -1164,7 +1178,10 @@
           { en: "Mild (1–3/10)", trans: { es: "Leve (1–3/10)", zh: "轻度 (1–3/10)", fr: "Léger (1–3/10)", ar: "خفيف (1–3/10)" } },
           { en: "Moderate (4–6/10)", trans: { es: "Moderado (4–6/10)", zh: "中度 (4–6/10)", fr: "Modéré (4–6/10)", ar: "متوسط (4–6/10)" } },
           { en: "Severe (7–10/10)", trans: { es: "Severo (7–10/10)", zh: "重度 (7–10/10)", fr: "Sévère (7–10/10)", ar: "شديد (7–10/10)" } },
-          { en: "Worse than baseline / unbearable", trans: { es: "Peor de lo habitual / insoportable", zh: "比平时更重 / 难以忍受", fr: "Pire que d'habitude", ar: "أسوأ من المعتاد / لا يُحتمل" } }
+          { en: "Worse than baseline / unbearable", trans: { es: "Peor de lo habitual / insoportable", zh: "比平时更重 / 难以忍受", fr: "Pire que d'habitude", ar: "أسوأ من المعتاد / لا يُحتمل" } },
+          { en: "Limits movement or breathing", trans: { es: "Limita moverse o respirar", zh: "限制活动或呼吸", fr: "Limite mouvement ou respiration", ar: "يعيق الحركة أو التنفس" } },
+          { en: "Prevents sleeping or resting", trans: { es: "Impide dormir o descansar", zh: "影响睡眠或休息", fr: "Empêche de dormir", ar: "يمنع النوم أو الراحة" } },
+          { en: "Fluctuates depending on activity", trans: { es: "Varía según la actividad", zh: "随活动程度波动", fr: "Variable selon l'activité", ar: "يتفاوت حسب النشاط" } }
         ]
       },
       {
@@ -1181,7 +1198,11 @@
         responses: [
           { en: "Constant since onset", trans: { es: "Constante desde el inicio", zh: "自发作以来持续存在", fr: "Constant depuis le début", ar: "مستمر منذ البداية" } },
           { en: "Intermittent / Waves", trans: { es: "Intermitente / Por oleadas", zh: "间歇性 / 阵发性", fr: "Intermittent", ar: "متقطع / على شكل موجات" } },
-          { en: "Progressively worsening", trans: { es: "Empeorando progresivamente", zh: "进行性加重", fr: "En augmentation progressive", ar: "يزداد سوءاً تدريجياً" } }
+          { en: "Progressively worsening", trans: { es: "Empeorando progresivamente", zh: "进行性加重", fr: "En augmentation progressive", ar: "يزداد سوءاً تدريجياً" } },
+          { en: "Started within the last hour", trans: { es: "Empezó en la última hora", zh: "1小时内开始", fr: "Dans la dernière heure", ar: "بدأ خلال الساعة الأخيرة" } },
+          { en: "Started several hours ago today", trans: { es: "Empezó hace varias horas hoy", zh: "今天数小时前开始", fr: "Il y a plusieurs heures", ar: "بدأ منذ عدة ساعات اليوم" } },
+          { en: "Recurring over days or weeks", trans: { es: "Recurrente durante días o semanas", zh: "数天或数周内反复发作", fr: "Récurrent depuis jours/semaines", ar: "متكرر منذ أيام أو أسابيع" } },
+          { en: "Improving right now", trans: { es: "Mejorando ahora mismo", zh: "目前正在好转", fr: "En amélioration", ar: "في تحسن الآن" } }
         ]
       },
 
@@ -1201,7 +1222,10 @@
           { en: "Low/high blood sugar symptoms (shaky, sweaty, thirsty)", trans: { es: "Síntomas de azúcar alta/baja", zh: "低/高血糖症状（发抖、出汗、口渴）", fr: "Symptômes glycémie", ar: "أعراض انخفاض أو ارتفاع السكر" } },
           { en: "Fever / Chills / Infection signs", trans: { es: "Fiebre / Escalofríos", zh: "发烧 / 发冷 / 感染迹象", fr: "Fièvre / Frissons", ar: "حمى / قشعريرة" } },
           { en: "Heat exhaustion / Cold exposure", trans: { es: "Golpe de calor / Exposición al frío", zh: "中暑/热衰竭 或 失温/受冷", fr: "Chaleur ou exposition au froid", ar: "إجهاد حراري أو تعرض للبرد" } },
-          { en: "Sugars & temperature negative/normal", trans: { es: "Sin alteración aparente", zh: "血糖和体温无明显异常", fr: "Pas d'anomalie signalée", ar: "لا توجد أعراض واضحة" } }
+          { en: "Sugars & temperature negative/normal", trans: { es: "Sin alteración aparente", zh: "血糖和体温无明显异常", fr: "Pas d'anomalie signalée", ar: "لا توجد أعراض واضحة" } },
+          { en: "Skipped meals / Late insulin or meds", trans: { es: "Se saltó comidas / Retraso de insulina", zh: "漏餐 / 延迟使用胰岛素或药物", fr: "Repas sauté / Insuline retardée", ar: "تخطي وجبات أو تأخر الأنسولين" } },
+          { en: "Feeling unusually hot or flushed", trans: { es: "Sensación de mucho calor o rubor", zh: "感觉异常发热或潮红", fr: "Chaleur intense / Rougeur", ar: "شعور بحرارة شديدة أو احمرار" } },
+          { en: "Shivering / Cold extremities", trans: { es: "Escalofríos / Extremidades frías", zh: "寒战 / 四肢发凉", fr: "Frissons / Extrémités froides", ar: "ارتعاش أو برودة الأطراف" } }
         ]
       },
       {
@@ -1219,7 +1243,10 @@
           { en: "Shortness of breath / Hypoxia signs", trans: { es: "Falta de aire / Posible hipoxia", zh: "气促 / 缺氧表现", fr: "Essoufflement / Hypoxie", ar: "ضيق نفس / نقص أكسجين" } },
           { en: "Dizziness / Orthostatic lightheadedness", trans: { es: "Mareos al incorporarse", zh: "头晕 / 体位性头重脚轻", fr: "Vertiges / Étourdissements", ar: "دوار / دوخة عند الوقوف" } },
           { en: "Severe headache / High BP symptoms", trans: { es: "Dolor de cabeza intenso / Presión alta", zh: "剧烈头痛 / 高血压症状", fr: "Céphalée / Pression", ar: "صداع شديد / ضغط مرتفع" } },
-          { en: "No oxygen or pressure complaints", trans: { es: "Sin molestias de oxígeno o presión", zh: "无缺氧或血压不适", fr: "Aucune gêne signalée", ar: "لا توجد شكاوى" } }
+          { en: "No oxygen or pressure complaints", trans: { es: "Sin molestias de oxígeno o presión", zh: "无缺氧或血压不适", fr: "Aucune gêne signalée", ar: "لا توجد شكاوى" } },
+          { en: "Room feels stuffy / Poor ventilation", trans: { es: "Ambiente encerrado o poca ventilación", zh: "环境闷热或通风不良", fr: "Air confiné / Mauvaise ventilation", ar: "مكان مكتوم أو قلة تهوية" } },
+          { en: "Spinning sensation (vertigo)", trans: { es: "Sensación de que todo gira (vértigo)", zh: "天旋地转感（眩晕）", fr: "Sensation de rotation (vertige)", ar: "شعور بدوران المكان" } },
+          { en: "Pulsing pressure in head or temples", trans: { es: "Presión pulsátil en cabeza o sienes", zh: "头部或太阳穴搏动性胀痛", fr: "Pression battante dans la tête", ar: "ضغط نابض في الرأس أو الصدغ" } }
         ]
       },
       {
@@ -1238,7 +1265,10 @@
           { en: "Recent seizure or electrical exposure", trans: { es: "Convulsión reciente o descarga eléctrica", zh: "近期抽搐或电击暴露", fr: "Convulsion ou choc récent", ar: "نوبة حديثة أو صدمة كهربائية" } },
           { en: "Alcohol / Medications / Substances", trans: { es: "Alcohol / Medicamentos / Sustancias", zh: "酒精 / 药物 / 其他物质", fr: "Alcool / Médicaments / Substances", ar: "كحول أو أدوية أو مواد" } },
           { en: "High altitude / Environment factor", trans: { es: "Altitud o factor ambiental", zh: "高海拔或环境因素", fr: "Altitude ou environnement", ar: "ارتفاع أو عامل بيئي" } },
-          { en: "None of these reported", trans: { es: "Ninguno reportado", zh: "均无", fr: "Aucun signalé", ar: "لا يوجد" } }
+          { en: "None of these reported", trans: { es: "Ninguno reportado", zh: "均无", fr: "Aucun signalé", ar: "لا يوجد" } },
+          { en: "Aura or warning before spell", trans: { es: "Aviso o sensación previa", zh: "发作前有先兆或预警感", fr: "Signe avant-coureur", ar: "إحساس تحذيري قبل الحالة" } },
+          { en: "Bitten tongue / Post-ictal fatigue", trans: { es: "Mordedura de lengua / Cansancio posterior", zh: "咬伤舌头 / 发作后疲乏", fr: "Langue mordue / Fatigue post-crise", ar: "عض اللسان أو إرهاق بعد النوبة" } },
+          { en: "Carbon monoxide / Fumes / Smoke exposure", trans: { es: "Exposición a humo, gases o monóxido", zh: "烟雾、废气或一氧化碳暴露", fr: "Fumées, gaz ou monoxyde de carbone", ar: "تعرض لدخان أو غازات أو أول أكسيد الكربون" } }
         ]
       },
       {
@@ -1256,7 +1286,10 @@
           { en: "Head hit / Fall / Trauma", trans: { es: "Golpe en cabeza / Caída / Traumatismo", zh: "头部撞击 / 跌倒 / 外伤", fr: "Choc tête / Chute / Traumatisme", ar: "إصابة رأس / سقوط" } },
           { en: "Focal neurological / Stroke signs", trans: { es: "Signos neurológicos / Posible ACV", zh: "局灶神经症状 / 中风迹象", fr: "Signes neurologiques / AVC", ar: "أعراض عصبية / علامات جلطة" } },
           { en: "Suspected infection / Sepsis signs", trans: { es: "Posible infección", zh: "疑似感染", fr: "Infection suspectée", ar: "اشتباه عدوى" } },
-          { en: "Insect sting / Animal bite / Envenomation", trans: { es: "Picadura / Mordedura", zh: "虫咬 / 动物咬伤 / 蜇伤", fr: "Piqûre / Morsure", ar: "لدغة حشرة أو عضة حيوان" } }
+          { en: "Insect sting / Animal bite / Envenomation", trans: { es: "Picadura / Mordedura", zh: "虫咬 / 动物咬伤 / 蜇伤", fr: "Piqûre / Morsure", ar: "لدغة حشرة أو عضة حيوان" } },
+          { en: "Slurred speech / Trouble finding words", trans: { es: "Habla arrastrada o dificultad para hablar", zh: "口齿不清或表达困难", fr: "Parole pâteuse ou difficile", ar: "ثقل في الكلام أو صعوبة النطق" } },
+          { en: "Redness, warmth, or pus at wound/site", trans: { es: "Enrojecimiento, calor o pus", zh: "伤口或局部红肿、发热或化脓", fr: "Rougeur, chaleur ou pus", ar: "احمرار أو حرارة أو صديد" } },
+          { en: "Hives / Rash / Swelling after sting/bite", trans: { es: "Ronchas, sarpullido o hinchazón", zh: "叮咬后出现荨麻疹、皮疹或肿胀", fr: "Urticaire, éruption ou gonflement", ar: "طفح جلدي أو تورم بعد اللدغة" } }
         ]
       },
 
@@ -1276,7 +1309,10 @@
           { en: "Head, face & neck normal / pain-free", trans: { es: "Normal / Sin dolor", zh: "正常 / 无痛", fr: "Normal / Sans douleur", ar: "طبيعي / بدون ألم" } },
           { en: "Headache / Vision or speech change", trans: { es: "Cefalea / Visión o habla", zh: "头痛 / 视力或言语改变", fr: "Céphalée / Vision ou parole", ar: "صداع / تغير الرؤية أو النطق" } },
           { en: "Facial asymmetry / Numbness", trans: { es: "Asimetría o entumecimiento facial", zh: "面部不对称 / 麻木", fr: "Asymétrie ou engourdissement facial", ar: "عدم تماثل أو خدر في الوجه" } },
-          { en: "Neck pain / Midline tenderness", trans: { es: "Dolor o sensibilidad en el cuello", zh: "颈部疼痛 / 压痛", fr: "Douleur ou sensibilité cervicale", ar: "ألم أو إيلام في الرقبة" } }
+          { en: "Neck pain / Midline tenderness", trans: { es: "Dolor o sensibilidad en el cuello", zh: "颈部疼痛 / 压痛", fr: "Douleur ou sensibilité cervicale", ar: "ألم أو إيلام في الرقبة" } },
+          { en: "Blurry or double vision", trans: { es: "Visión borrosa o doble", zh: "视力模糊或复视", fr: "Vision floue ou double", ar: "زغللة أو ازدواجية الرؤية" } },
+          { en: "Ear pain, ringing, or fluid/blood", trans: { es: "Dolor, zumbido o secreción en oído", zh: "耳痛、耳鸣或流液/出血", fr: "Douleur, bourdonnement ou écoulement oreille", ar: "ألم أو طنين أو إفراز في الأذن" } },
+          { en: "Stiff neck / Pain turning head", trans: { es: "Cuello rígido o dolor al girar", zh: "脖子僵硬或转头疼痛", fr: "Raideur ou douleur en tournant la tête", ar: "تيبس الرقبة أو ألم عند الالتفاف" } }
         ]
       },
       {
@@ -1294,7 +1330,10 @@
           { en: "Chest, abdomen & pelvis unremarkable", trans: { es: "Sin hallazgos anormales", zh: "胸、腹、骨盆无明显异常", fr: "Sans anomalie", ar: "طبيعي" } },
           { en: "Chest pain / Tenderness / Crepitus", trans: { es: "Dolor o sensibilidad torácica", zh: "胸痛 / 压痛", fr: "Douleur ou sensibilité thoracique", ar: "ألم أو إيلام في الصدر" } },
           { en: "Abdominal pain / Tenderness / Distension", trans: { es: "Dolor o distensión abdominal", zh: "腹痛 / 压痛 / 腹胀", fr: "Douleur ou sensibilité abdominale", ar: "ألم أو انتفاخ في البطن" } },
-          { en: "Back / Flank / Pelvic pain", trans: { es: "Dolor de espalda, costado o pelvis", zh: "背部 / 侧腹部 / 骨盆疼痛", fr: "Douleur dorsale ou pelvienne", ar: "ألم في الظهر أو الخاصرة أو الحوض" } }
+          { en: "Back / Flank / Pelvic pain", trans: { es: "Dolor de espalda, costado o pelvis", zh: "背部 / 侧腹部 / 骨盆疼痛", fr: "Douleur dorsale ou pelvienne", ar: "ألم في الظهر أو الخاصرة أو الحوض" } },
+          { en: "Upper abdomen / Epigastric discomfort", trans: { es: "Molestia en parte alta del abdomen", zh: "上腹部/胃部不适", fr: "Gêne haut de l'abdomen", ar: "ألم أعلى البطن" } },
+          { en: "Lower abdomen / Groin pain", trans: { es: "Dolor en abdomen bajo o ingle", zh: "下腹部或腹股沟疼痛", fr: "Douleur bas-ventre ou aine", ar: "ألم أسفل البطن أو الأربية" } },
+          { en: "Pain worse with deep inspiration", trans: { es: "Dolor al respirar profundo", zh: "深吸气时疼痛加重", fr: "Douleur à l'inspiration profonde", ar: "ألم يزداد مع الشهيق العميق" } }
         ]
       },
       {
@@ -1312,43 +1351,120 @@
           { en: "Full motor & normal sensation bilaterally", trans: { es: "Fuerza y sensibilidad normales", zh: "双侧肌力和感觉正常", fr: "Motricité et sensibilité normales", ar: "حركة وإحساس طبيعيان" } },
           { en: "Unilateral weakness / Drift", trans: { es: "Debilidad de un lado", zh: "单侧无力 / 肢体下落", fr: "Faiblesse unilatérale", ar: "ضعف في جانب واحد" } },
           { en: "Numbness / Tingling / Cold limb", trans: { es: "Entumecimiento / Hormigueo / Frialdad", zh: "麻木 / 刺痛 / 肢体发凉", fr: "Engourdissement / Picotements", ar: "خدر أو وخز أو برودة" } },
-          { en: "Pain / Deformity / Open wound / Swelling", trans: { es: "Dolor / Deformidad / Herida / Hinchazón", zh: "疼痛 / 畸形 / 开放性伤口 / 肿胀", fr: "Douleur / Déformation / Plaie", ar: "ألم أو تشوه أو جرح أو تورم" } }
+          { en: "Pain / Deformity / Open wound / Swelling", trans: { es: "Dolor / Deformidad / Herida / Hinchazón", zh: "疼痛 / 畸形 / 开放性伤口 / 肿胀", fr: "Douleur / Déformation / Plaie", ar: "ألم أو تشوه أو جرح أو تورم" } },
+          { en: "Cannot bear weight on leg/foot", trans: { es: "No puede apoyar pierna o pie", zh: "腿部或足部无法承重", fr: "Appui impossible sur jambe/pied", ar: "لا يستطيع التحميل على الساق أو القدم" } },
+          { en: "Reduced grip strength or arm lift", trans: { es: "Menor fuerza al apretar o levantar brazo", zh: "握力下降或抬臂困难", fr: "Baisse de force main ou bras", ar: "ضعف القبضة أو رفع الذراع" } },
+          { en: "Joint stiffness or bruising", trans: { es: "Rigidez articular o moretón", zh: "关节僵硬或淤青", fr: "Raideur articulaire ou ecchymose", ar: "تيبس المفاصل أو كدمة" } }
         ]
       },
 
-      // CARE & CONSENT
+      // CARE, TREATMENTS & CONSENT
+      {
+        id: "care_iv_line",
+        phase: "care",
+        label: "Treatment · Start an IV",
+        english: "I need to start an IV on you to give fluids or medication if needed. Is that okay?",
+        translations: {
+          es: "Necesito colocarle una vía intravenosa (IV) para líquidos o medicamentos si hace falta. ¿Está bien?",
+          zh: "我需要为您建立静脉输液（IV），以便在需要时输液或给药，可以吗？",
+          fr: "Je dois vous poser une perfusion (IV) pour des liquides ou médicaments si besoin. Ça vous va ?",
+          ar: "أحتاج إلى تركيب قسطرة وريدية (IV) لإعطاء سوائل أو دواء عند الحاجة، هل هذا مناسب؟"
+        },
+        responses: [
+          { en: "Consented to IV placement", trans: { es: "Aceptó la vía IV", zh: "同意建立静脉输液", fr: "Accepte la pose de perfusion", ar: "وافق على تركيب القسطرة الوريدية" } },
+          { en: "Prefers left or right arm/hand", trans: { es: "Prefiere brazo o mano izquierda/derecha", zh: "希望选左臂/右臂或手背", fr: "Préfère bras ou main gauche/droite", ar: "يفضل الذراع أو اليد اليسرى أو اليمنى" } },
+          { en: "Nervous about needles / Wants warning", trans: { es: "Nervioso por agujas / Quiere aviso", zh: "怕扎针 / 希望提前提示", fr: "Craint les piqûres / Veut être prévenu", ar: "متوتر من الإبر ويريد تنبيهاً مسبقاً" } },
+          { en: "Declined or requested pause for IV", trans: { es: "Rechazó o pidió pausa para la IV", zh: "拒绝或要求暂缓静脉输液", fr: "Refus ou pause pour la perfusion", ar: "رفض أو طلب تأجيل القسطرة الوريدية" } }
+        ]
+      },
+      {
+        id: "care_ecg_stickers",
+        phase: "care",
+        label: "Treatment · Heart Rhythm Stickers (ECG)",
+        english: "I need to put stickers on your chest to look at your heart rhythm.",
+        translations: {
+          es: "Necesito ponerle pegatinas (electrodos) en el pecho para revisar el ritmo de su corazón.",
+          zh: "我需要在您的胸部贴上电极贴片来监测您的心律。",
+          fr: "Je dois placer des électrodes autocollantes sur votre poitrine pour surveiller votre rythme cardiaque.",
+          ar: "أحتاج إلى وضع لاصقات على صدرك لمراقبة نظم القلب."
+        },
+        responses: [
+          { en: "Consented to chest ECG electrodes", trans: { es: "Aceptó los electrodos en el pecho", zh: "同意贴胸部心电电极片", fr: "Accepte les électrodes thoraciques", ar: "وافق على وضع لاصقات تخطيط القلب" } },
+          { en: "Requested privacy / Sheet coverage", trans: { es: "Pidió privacidad o cubrirse", zh: "要求注意隐私或用被单遮盖", fr: "Demande d'intimité ou couverture", ar: "طلب الخصوصية أو التغطية" } },
+          { en: "Skin sensitive or chest tender", trans: { es: "Piel sensible o pecho dolorido", zh: "皮肤敏感或胸部有压痛", fr: "Peau sensible ou thorax douloureux", ar: "بشرة حساسة أو ألم في الصدر" } },
+          { en: "Declined ECG stickers", trans: { es: "Rechazó las pegatinas del pecho", zh: "拒绝贴心电电极片", fr: "Refus des électrodes", ar: "رفض وضع اللاصقات" } }
+        ]
+      },
+      {
+        id: "care_med_injection",
+        phase: "care",
+        label: "Treatment · Medication Injection (Needle)",
+        english: "I need to give you a needle with medication to help treat what you are experiencing.",
+        translations: {
+          es: "Necesito aplicarle una inyección con medicamento para ayudar a tratar lo que siente.",
+          zh: "我需要为您注射药物来缓解您目前的情况。",
+          fr: "Je dois vous faire une injection de médicament pour traiter vos symptômes.",
+          ar: "أحتاج إلى إعطائك حقنة دواء للمساعدة في علاج حالتك."
+        },
+        responses: [
+          { en: "Consented to medication injection", trans: { es: "Aceptó la inyección", zh: "同意注射药物", fr: "Accepte l'injection", ar: "وافق على حقنة الدواء" } },
+          { en: "Asked what medication is being given", trans: { es: "Preguntó qué medicamento es", zh: "询问注射的是什么药物", fr: "A demandé quel médicament", ar: "سأل عن نوع الدواء" } },
+          { en: "Reported drug allergy to check first", trans: { es: "Indicó alergia a revisar primero", zh: "提示需先核对药物过敏", fr: "Allergie médicamenteuse à vérifier", ar: "أفاد بوجود حساسية للتحقق أولاً" } },
+          { en: "Declined or hesitated on injection", trans: { es: "Rechazó o dudó ante la inyección", zh: "拒绝或对注射有顾虑", fr: "Refus ou hésitation pour l'injection", ar: "رفض أو تردد بخصوص الحقنة" } }
+        ]
+      },
+      {
+        id: "care_pain_meds",
+        phase: "care",
+        label: "Treatment · Pain Medication",
+        english: "I am going to give you pain medication to help ease your pain.",
+        translations: {
+          es: "Le voy a administrar medicamento para el dolor para ayudar a aliviarlo.",
+          zh: "我将给您使用止痛药来帮助减轻您的疼痛。",
+          fr: "Je vais vous administrer un médicament contre la douleur pour vous soulager.",
+          ar: "سأعطيك دواءً مسكناً للألم للمساعدة في تخفيفه."
+        },
+        responses: [
+          { en: "Accepted pain medication", trans: { es: "Aceptó medicamento para el dolor", zh: "同意使用止痛药", fr: "Accepte l'antalgique", ar: "وافق على مسكن الألم" } },
+          { en: "Wants pain medication now", trans: { es: "Desea medicamento para el dolor ahora", zh: "希望现在就使用止痛药", fr: "Souhaite un antalgique maintenant", ar: "يرغب في مسكن الألم الآن" } },
+          { en: "Declined pain medication for now", trans: { es: "Rechazó medicamento por ahora", zh: "暂不需要止痛药", fr: "Refuse l'antalgique pour l'instant", ar: "رفض مسكن الألم حالياً" } },
+          { en: "Asked about side effects / Drowsiness", trans: { es: "Preguntó por efectos o somnolencia", zh: "询问副作用或是否嗜睡", fr: "Questions sur effets ou somnolence", ar: "سأل عن الآثار الجانبية أو النعاس" } }
+        ]
+      },
       {
         id: "care_vitals_o2",
         phase: "care",
-        label: "Vitals, Oxygen & Interventions",
-        english: "May I check your vitals/blood sugar, apply oxygen, and start needed treatment?",
+        label: "Treatment · Vitals & Oxygen",
+        english: "May I check your blood pressure/pulse/blood sugar and give you oxygen if needed?",
         translations: {
-          es: "¿Puedo revisar signos vitales/azúcar, dar oxígeno e iniciar tratamiento?",
-          zh: "我可以为您测量生命体征/血糖、吸氧并开始必要治疗吗？",
-          fr: "Puis-je vérifier constantes/glycémie, donner de l'oxygène et débuter les soins ?",
-          ar: "هل يمكنني فحص العلامات الحيوية أو السكر وإعطاء الأكسجين وبدء العلاج؟"
+          es: "¿Puedo tomar su presión, pulso o azúcar y darle oxígeno si hace falta?",
+          zh: "我可以为您测量血压、脉搏或血糖，并在需要时给您吸氧吗？",
+          fr: "Puis-je prendre tension, pouls ou glycémie et vous donner de l'oxygène si besoin ?",
+          ar: "هل يمكنني فحص الضغط أو النبض أو السكر وإعطاؤك أكسجيناً عند الحاجة؟"
         },
         responses: [
-          { en: "Consented to assessment & treatment", trans: { es: "Aceptó evaluación y tratamiento", zh: "同意评估和治疗", fr: "Consentement aux soins", ar: "وافق على التقييم والعلاج" } },
-          { en: "Consented to oxygen / vitals only", trans: { es: "Aceptó solo signos vitales u oxígeno", zh: "仅同意生命体征或吸氧", fr: "Consentement vitaux/oxygène", ar: "وافق على العلامات أو الأكسجين فقط" } },
-          { en: "Hesitant / Needs reassurance", trans: { es: "Dudoso / Requiere tranquilidad", zh: "犹豫 / 需要安抚", fr: "Hésitant / Réassurance", ar: "متردد / يحتاج إلى طمأنة" } }
+          { en: "Consented to vitals & oxygen", trans: { es: "Aceptó signos vitales y oxígeno", zh: "同意测量生命体征和吸氧", fr: "Accepte constantes et oxygène", ar: "وافق على العلامات الحيوية والأكسجين" } },
+          { en: "Consented to vitals only", trans: { es: "Aceptó solo signos vitales", zh: "仅同意测量生命体征", fr: "Accepte seulement les constantes", ar: "وافق على العلامات الحيوية فقط" } },
+          { en: "Mask feels tight / Wants cannula or pause", trans: { es: "Mascarilla apretada / Pide pausa", zh: "面罩感闷或希望暂停调整", fr: "Masque gênant / Demande pause", ar: "الكمامة ضيقة أو يطلب توقفاً مؤقتاً" } },
+          { en: "Declined vitals or oxygen", trans: { es: "Rechazó signos vitales u oxígeno", zh: "拒绝测量生命体征或吸氧", fr: "Refus constantes ou oxygène", ar: "رفض العلامات الحيوية أو الأكسجين" } }
         ]
       },
       {
         id: "care_transport",
         phase: "care",
-        label: "Stretcher & Transport",
-        english: "We are moving you to the stretcher and transporting you to hospital. Are you ready?",
+        label: "Treatment · Stretcher & Transport",
+        english: "We are going to help you onto the stretcher and transport you to the hospital. Is that okay?",
         translations: {
-          es: "Le pasamos a la camilla y trasladamos al hospital. ¿Está listo?",
-          zh: "我们准备送您上担架并转运至医院，您准备好了吗？",
-          fr: "Nous vous installons sur le brancard pour l'hôpital. Êtes-vous prêt ?",
-          ar: "سننقلك إلى الحمالة وإلى المستشفى، هل أنت مستعد؟"
+          es: "Le vamos a ayudar a pasar a la camilla y llevarle al hospital. ¿Está bien?",
+          zh: "我们将协助您上担架并送您去医院，可以吗？",
+          fr: "Nous allons vous aider à passer sur le brancard et vous transporter à l'hôpital. Ça vous va ?",
+          ar: "سنساعدك للانتقال إلى الحمالة ونقلك إلى المستشفى، هل هذا مناسب؟"
         },
         responses: [
-          { en: "Consented to transfer & transport", trans: { es: "Aceptó traslado", zh: "同意转移和转运", fr: "Accord pour transfert/transport", ar: "وافق على النقل" } },
-          { en: "Pain / discomfort during transfer", trans: { es: "Molestia al moverse", zh: "转移时疼痛或不适", fr: "Gêne lors du transfert", ar: "ألم أو انزعاج أثناء النقل" } },
-          { en: "Refused transport / Questions raised", trans: { es: "Rechazó traslado / Preguntas", zh: "拒绝转运 / 有疑问", fr: "Refus de transport / Questions", ar: "رفض النقل / لديه أسئلة" } }
+          { en: "Consented to stretcher & transport", trans: { es: "Aceptó camilla y traslado", zh: "同意上担架并转运", fr: "Accepte brancard et transport", ar: "وافق على الحمالة والنقل" } },
+          { en: "Pain or discomfort when moving", trans: { es: "Dolor o molestia al moverse", zh: "移动时疼痛或不适", fr: "Douleur ou gêne au déplacement", ar: "ألم أو انزعاج عند الحركة" } },
+          { en: "Wants belongings / Family brought along", trans: { es: "Quiere llevar pertenencias o familia", zh: "希望带上随身物品或通知家属", fr: "Souhaite affaires ou proche", ar: "يرغب في أخذ الأغراض أو إبلاغ العائلة" } },
+          { en: "Refused transport / Wants more info", trans: { es: "Rechazó traslado / Quiere información", zh: "拒绝转运或想了解更多", fr: "Refus transport / Questions", ar: "رفض النقل أو يطلب توضيحاً" } }
         ]
       }
     ];
@@ -1357,7 +1473,7 @@
       langCode: "es",
       langName: "Español (Spanish)",
       phase: "all",
-      answers: {}, // categoryId -> array of { en, trans } (index 0 = Primary, index 1+ = Secondary)
+      answers: {},
       painScore: null,
       bodyParts: [],
       allergies: [],
@@ -1435,7 +1551,6 @@
       const container = document.getElementById("pcr-sections-container");
       const cards = [];
 
-      // Language header card
       cards.push(`
         <div class="pcr-section-card">
           <div class="pcr-section-title">Patient Language</div>
@@ -1443,7 +1558,6 @@
         </div>
       `);
 
-      // Group answered prompts by phase
       Object.entries(PHASE_LABELS).forEach(([phaseKey, phaseTitle]) => {
         const phaseCats = categoriesData.filter((c) => c.phase === phaseKey);
         const rows = [];
@@ -1473,7 +1587,6 @@
         }
       });
 
-      // Visuals & Field Notes card
       const extraRows = [];
       if (state.painScore !== null) {
         extraRows.push(`<div class="pcr-row"><strong>Pain Scale:</strong> ${state.painScore} / 10</div>`);
