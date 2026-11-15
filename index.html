@@ -216,12 +216,26 @@
       color: var(--text-main);
       cursor: pointer;
       transition: all 0.14s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .ack-btn .ack-en-sub {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-muted);
     }
 
     .ack-btn:hover {
       background: var(--primary);
       border-color: var(--primary);
       color: #ffffff;
+    }
+
+    .ack-btn:hover .ack-en-sub {
+      color: #e0f2fe;
     }
 
     .workspace-grid {
@@ -556,12 +570,26 @@
       background: #ffffff;
       border: 2px solid var(--border);
       border-radius: 8px;
-      padding: 13px 15px;
+      padding: 12px 15px;
       text-align: left;
-      font-size: 1rem;
       color: var(--text-main);
       cursor: pointer;
       transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .response-btn .resp-patient {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .response-btn .resp-en {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
     }
 
     .response-btn:hover {
@@ -570,10 +598,13 @@
       color: #ffffff;
     }
 
+    .response-btn:hover .resp-en {
+      color: #e0f2fe;
+    }
+
     .response-btn.picked {
       border-color: var(--success);
       background: #f0fdfa;
-      font-weight: 600;
     }
 
     .captured-box {
@@ -610,7 +641,7 @@
     <section id="screen-1" class="screen active card">
       <div class="hero-center">
         <h1>Medical Translator &amp; Assessment Aid</h1>
-        <p>Select patient language to translate assessment prompts, explain care steps, capture responses, and build a live PCR</p>
+        <p>Select patient language to translate assessment prompts, explain care steps, capture responses in patient language, and build an English PCR</p>
       </div>
       <div class="language-grid" id="lang-grid"></div>
     </section>
@@ -711,9 +742,9 @@
 
         <!-- LIVE PCR & HANDOFF SIDEBAR -->
         <aside class="pcr-panel">
-          <h3>Live PCR &amp; Handoff Draft</h3>
+          <h3>Live PCR &amp; Handoff Draft (English)</h3>
           <p style="margin:0 0 8px; font-size:0.82rem; color:var(--text-muted);">
-            Updates automatically as you capture answers or add field notes.
+            Populates in English automatically as the patient selects answers in their language.
           </p>
 
           <label for="custom-field-note" style="display:block; font-size:0.78rem; font-weight:700; color:var(--text-muted); margin-bottom:4px;">
@@ -733,7 +764,7 @@
           <div class="pcr-list" id="pcr-entries-list"></div>
 
           <label for="pcr-narrative" style="display:block; font-size:0.78rem; font-weight:700; color:var(--text-muted); margin:10px 0 4px;">
-            READABLE PCR SUMMARY (EDITABLE)
+            READABLE PCR SUMMARY (ENGLISH, EDITABLE)
           </label>
           <textarea id="pcr-narrative" class="pcr-textarea" oninput="saveState()"></textarea>
           <div class="toast-msg" id="toast-msg"></div>
@@ -751,15 +782,15 @@
 
       <div class="drilldown-grid">
         <div class="active-q-box">
-          <h4>English Prompt</h4>
-          <p id="cat-eng-q" style="font-size:1.12rem; font-weight:700; color:#0c4a6e; margin:0 0 12px;"></p>
-
           <h4>Patient Language Prompt (<span id="cat-lang-label">Target</span>)</h4>
-          <p id="cat-trans-q" style="font-size:1.05rem; color:var(--text-main); margin:0;"></p>
+          <p id="cat-trans-q" style="font-size:1.15rem; font-weight:700; color:var(--text-main); margin:0 0 12px;"></p>
+
+          <h4>English Prompt (Provider)</h4>
+          <p id="cat-eng-q" style="font-size:1.0rem; color:#0c4a6e; margin:0;"></p>
 
           <div id="response-result" class="captured-box" style="display:none;">
             <span style="font-size:0.72rem; text-transform:uppercase; font-weight:700; color:var(--primary-dark); display:block; margin-bottom:4px;">
-              Saved to PCR
+              Logged to English History
             </span>
             <p id="result-text-en" style="margin:0 0 3px; font-weight:700; color:var(--text-main);"></p>
             <p id="result-text-trans" style="margin:0; font-size:0.9rem; color:var(--text-muted);"></p>
@@ -767,7 +798,7 @@
         </div>
 
         <div>
-          <h3 style="margin:0 0 10px; color:var(--primary-dark);">Select Patient Response</h3>
+          <h3 style="margin:0 0 10px; color:var(--primary-dark);">Patient Selects Option (Logs in English)</h3>
           <div class="response-list" id="category-buttons-container"></div>
         </div>
       </div>
@@ -775,7 +806,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "med_translator_pcr_full_v1";
+    const STORAGE_KEY = "med_translator_pcr_dual_opt_v1";
     const RTL_CODES = new Set(["ar", "ur", "fa"]);
 
     const languages = [
@@ -845,7 +876,6 @@
     ];
 
     const categoriesData = [
-      // PRIMARY
       {
         id: "primary_loc",
         phase: "primary",
@@ -892,8 +922,6 @@
           { en: "Choking / Severe distress", trans: { es: "Atragantamiento / Angustia grave", zh: "呛咳 / 严重呼吸窘迫", fr: "Étouffement / Détresse sévère", tl: "Nasasamid / Matinding hirap", ar: "اختناق / ضائقة شديدة" } }
         ]
       },
-
-      // SAMPLE
       {
         id: "symptoms",
         phase: "sample",
@@ -1037,8 +1065,6 @@
           { en: "Sudden onset / Fall / Trauma", trans: { es: "Inicio repentino / Caída / Traumatismo", zh: "突发 / 跌倒 / 外伤", fr: "Début soudain / Chute / Traumatisme", tl: "Biglaan / nadulas / naaksidente", ar: "بداية مفاجئة / سقوط / إصابة" } }
         ]
       },
-
-      // OPQRST
       {
         id: "opqrst_o",
         phase: "opqrst",
@@ -1175,8 +1201,6 @@
           { en: "Intermittent (comes and goes)", trans: { es: "Intermitente (va y viene)", zh: "间歇性（时有时无）", fr: "Intermittent", tl: "Pabalik-balik", ar: "متقطع" } }
         ]
       },
-
-      // STOPEATS
       {
         id: "stopeats_t_o",
         phase: "stopeats",
@@ -1200,8 +1224,6 @@
           { en: "Emergency contact available", trans: { es: "Contacto de emergencia disponible", zh: "有紧急联系人", fr: "Contact d'urgence disponible", tl: "May emergency contact", ar: "يوجد جهة اتصال للطوارئ" } }
         ]
       },
-
-      // HEAD-TO-TOE
       {
         id: "htt_head_neck",
         phase: "headtotoe",
@@ -1271,8 +1293,6 @@
           { en: "Limb pain / Injury / Deformity", trans: { es: "Dolor o lesión en extremidad", zh: "肢体疼痛 / 受伤 / 畸形", fr: "Douleur ou blessure d'un membre", tl: "Sakit o pinsala sa kamay/paa", ar: "ألم أو إصابة في الطرف" } }
         ]
       },
-
-      // BEDSIDE CARE & CONSENT
       {
         id: "care_vitals_o2",
         phase: "care",
@@ -1354,7 +1374,7 @@
 
     function buildPcrNarrative() {
       const parts = [];
-      parts.push(`Language: ${state.langName || "English"}`);
+      parts.push(`Patient Language: ${state.langName || "English"}`);
 
       if (state.painScore !== null) parts.push(`Pain Severity: ${state.painScore}/10`);
       if (state.bodyParts.length) parts.push(`Body Sites: ${state.bodyParts.join(", ")}`);
@@ -1406,12 +1426,11 @@
     }
 
     function logQuickAck(ack) {
-      const label = (ack.trans && ack.trans[state.langCode]) || ack.en;
-      const note = `Patient indicated "${ack.en}" (${label})`;
+      const note = `Patient indicated: ${ack.en}`;
       state.customNotes.push(note);
       refreshPcrSidebar(true);
       const toast = document.getElementById("toast-msg");
-      toast.innerText = `Logged: ${ack.en}`;
+      toast.innerText = `Logged in English: ${ack.en}`;
       setTimeout(() => (toast.innerText = ""), 2000);
     }
 
@@ -1420,12 +1439,14 @@
       const isRtl = RTL_CODES.has(state.langCode);
       strip.innerHTML = "";
       QUICK_ACKS.forEach((ack) => {
-        const label = (ack.trans && ack.trans[state.langCode]) || ack.en;
+        const patientLabel = (ack.trans && ack.trans[state.langCode]) || ack.en;
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "ack-btn";
-        btn.dir = isRtl ? "rtl" : "ltr";
-        btn.innerText = `${label} (${ack.en})`;
+        btn.innerHTML = `
+          <span dir="${isRtl ? "rtl" : "ltr"}">${patientLabel}</span>
+          <span class="ack-en-sub">${ack.en}</span>
+        `;
         btn.onclick = () => logQuickAck(ack);
         strip.appendChild(btn);
       });
@@ -1445,7 +1466,7 @@
       const text = ta.value || buildPcrNarrative();
       navigator.clipboard?.writeText(text).catch(() => {});
       const toast = document.getElementById("toast-msg");
-      toast.innerText = "PCR summary copied to clipboard.";
+      toast.innerText = "English PCR summary copied to clipboard.";
       setTimeout(() => (toast.innerText = ""), 2500);
     }
 
@@ -1570,7 +1591,7 @@
       if (existing) {
         resultBox.style.display = "block";
         document.getElementById("result-text-en").innerText = existing.en;
-        document.getElementById("result-text-trans").innerText = existing.trans ? `(${existing.trans})` : "";
+        document.getElementById("result-text-trans").innerText = existing.trans ? `Selected in patient language: ${existing.trans}` : "";
       } else {
         resultBox.style.display = "none";
       }
@@ -1578,22 +1599,26 @@
       const container = document.getElementById("category-buttons-container");
       container.innerHTML = "";
 
+      const isRtl = RTL_CODES.has(state.langCode);
+
       cat.responses.forEach((resp) => {
-        const transLabel = (resp.trans && resp.trans[state.langCode]) || resp.en;
+        const patientText = (resp.trans && resp.trans[state.langCode]) || resp.en;
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = `response-btn ${existing && existing.en === resp.en ? "picked" : ""}`;
-        btn.dir = RTL_CODES.has(state.langCode) ? "rtl" : "ltr";
-        btn.innerText = transLabel;
+        btn.innerHTML = `
+          <span class="resp-patient" dir="${isRtl ? "rtl" : "ltr"}">${patientText}</span>
+          <span class="resp-en">${resp.en}</span>
+        `;
         btn.onclick = () => {
           state.answers[cat.id] = {
             label: cat.label,
             en: resp.en,
-            trans: transLabel
+            trans: patientText
           };
           resultBox.style.display = "block";
           document.getElementById("result-text-en").innerText = resp.en;
-          document.getElementById("result-text-trans").innerText = `(${transLabel})`;
+          document.getElementById("result-text-trans").innerText = `Selected in patient language: ${patientText}`;
           refreshPcrSidebar(true);
           renderAssessmentLists();
           openCategoryScreen(cat);
